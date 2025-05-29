@@ -64,5 +64,27 @@ This is a card game project with HTML, CSS, and JavaScript components.
 - [x] Push code to GitHub: https://github.com/donghaozhang/fight-the-landlord-game
 - [x] Verify repository is public and accessible
 
+### 11. ✅ Complete card image renaming system
+- [x] Use images.json mapping to rename all 113 long-named images to short names
+- [x] Implement systematic renaming: suits (s,h,c,d) + ranks (a,2-9,t,j,q,k) + jokers (jr,jb)
+- [x] Map long descriptive names to appropriate card positions
+- [x] Update JavaScript to use only short names for all cards
+- [x] Create PowerShell script for bulk renaming operation
+- [x] Verify all 54 playing cards (52 standard + 2 jokers) have unique short names
+- [x] Test game functionality with complete short-named deck
+
 ## File Structure
-```
+
+## Upcoming GitHub Features
+- 🔗 **Repository Ready**: .gitignore setup to exclude large image files
+- 📄 **JSON Mapping**: Complete image name mapping for external hosting
+- 📖 **Documentation**: Professional README.md for repository
+- 🚀 **Deployment Ready**: Code-only repository with image references
+
+## Upcoming Card System Features
+- 🃏 **Complete Short Names**: Systematic renaming of all 113 remaining images
+- 📋 **JSON-Driven Mapping**: Use images.json as reference for card assignments
+- 🔄 **Bulk Renaming**: PowerShell automation for efficient processing
+- 🎯 **54-Card Standard**: Full deck with proper card hierarchy (52 + 2 jokers)
+- 🧩 **Smart Assignment**: Long descriptive names mapped to appropriate card positions
+- ⚡ **Optimized Loading**: Faster image references with short naming system

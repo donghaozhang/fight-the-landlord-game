@@ -24,54 +24,75 @@ class DouDiZhuGame {
     // Initialize card image mapping with short names
     initializeCardImages() {
         const cardImages = {};
-        const suits = ['spade', 'heart', 'club', 'diamond'];
-        const ranks = ['3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k', 'a', '2'];
         
-        // Available short-named images
-        const shortImages = [
-            'ht.png',  // hearts 10
-            'cq.png',  // clubs queen
-            'st.png',  // spades 10
-            'ha.png',  // hearts ace
-            'hq.png',  // hearts queen
-            'jr.png',  // red joker
-            'jb.png'   // black joker
-        ];
+        // Based on actual files available in the images folder
+        const actualMapping = {
+            // Spades (using actual available files)
+            'spade_a': 'sa.png',
+            'spade_2': 's2.png',
+            'spade_3': 's3.png',
+            'spade_4': 's4.png',
+            'spade_5': 's5.png',
+            'spade_6': 's6.png',
+            'spade_7': 's7.png',
+            'spade_8': 's8.png',
+            'spade_9': 's9.png',
+            'spade_10': 'st.png',
+            'spade_j': 'sj.png',
+            'spade_q': 'sq.png',
+            'spade_k': 'sk.png',
+            
+            // Hearts (using actual available files)
+            'heart_a': 'ha.png',
+            'heart_2': 'h2.png',
+            'heart_3': 'h3.png',
+            'heart_4': 'h4.png',
+            'heart_5': 'h5.png',
+            'heart_6': 'h6.png',
+            'heart_7': 'h7.png',
+            'heart_8': 'h8.png',
+            'heart_9': 'h9.png',
+            'heart_10': 'ht.png',
+            'heart_j': 'hj.png',
+            'heart_q': 'hq.png',
+            'heart_k': 'hk.png',
+            
+            // Clubs (using actual available files)
+            'club_a': 'ca.png',
+            'club_2': 'c2.png',
+            'club_3': 'c3.png',
+            'club_4': 'c4.png',
+            'club_5': 'c5.png',
+            'club_6': 'c6.png',  // Added based on file listing
+            'club_7': 'c7.png',
+            'club_8': 'c8.png',
+            'club_9': 'c9.png',
+            'club_10': 'ct.png',
+            'club_j': 'cj.png',
+            'club_q': 'cq.png',
+            'club_k': 'ck.png',
+            
+            // Diamonds (using actual available files)
+            'diamond_a': 'da.png',
+            'diamond_2': 'd2.png',
+            'diamond_3': 'd3.png',
+            'diamond_4': 'd4.png',
+            'diamond_5': 'd5.png',
+            'diamond_6': 'd6.png',
+            'diamond_7': 'd7.png',
+            'diamond_8': 'd8.png',
+            'diamond_9': 'd9.png',
+            'diamond_10': 'dt.png',
+            'diamond_j': 'dj.png',
+            'diamond_q': 'dq.png',
+            'diamond_k': 'dk.png',
+            
+            // Jokers (using actual available files)
+            'joker_small': 'jr.png',
+            'joker_big': 'jb.png'
+        };
         
-        // Available long-named images for other cards
-        const longImages = [
-            '1747795235521-SpiritualMonkeyFromBlackMythWukongPlayingCardDesign@1024x1536.png',
-            '1747795241525-Black_Myth_Wukong_Banana_Fan_Playing_Card@1024x1536.png',
-            '1747795242567-Image_Generation_Instructions_for_Earth_God_Playing_Card_in_Black_Myth_Wukong@1024x1536.png',
-            '1747795243592-SixRootsArtifactFromBlackMythWukongCardDesign@1024x1536.png',
-            '1747795247429-HopliteTigerChampionFromBlackMythWukong@1024x1536.png',
-            '1747795255136-Image_generation_instructions_for_poker_card_diamond_10_inspired_by_black_mythology_wukong@1024x1536.png',
-            '1747795256651-Creepy_Centipede_Monster_From_Black_Myth_Wukong_Playing_Card@1024x1536.png',
-            '1747797235769-Image_design_for_Luli_Daxian_of_Four_of_Hearts@1024x1536.png'
-        ];
-        
-        // Map specific cards to short images first
-        cardImages['heart_10'] = 'ht.png';
-        cardImages['club_q'] = 'cq.png';
-        cardImages['spade_10'] = 'st.png';
-        cardImages['heart_a'] = 'ha.png';
-        cardImages['heart_q'] = 'hq.png';
-        cardImages['joker_small'] = 'jr.png';
-        cardImages['joker_big'] = 'jb.png';
-        
-        // Assign remaining images to other cards
-        let imageIndex = 0;
-        for (let suit of suits) {
-            for (let rank of ranks) {
-                const key = `${suit}_${rank}`;
-                if (!cardImages[key]) {
-                    cardImages[key] = longImages[imageIndex % longImages.length];
-                    imageIndex++;
-                }
-            }
-        }
-        
-        return cardImages;
+        return actualMapping;
     }
 
     // Initialize game
