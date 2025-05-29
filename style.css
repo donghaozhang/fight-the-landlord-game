@@ -161,7 +161,7 @@ body {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: bold;
     font-size: 14px;
     position: relative;
@@ -171,6 +171,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     z-index: 1;
+    transform-origin: center bottom;
 }
 
 .card:hover {
@@ -491,4 +492,44 @@ body {
         width: 100%;
         max-width: 200px;
     }
+}
+
+.player-bottom .player-cards {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0px;
+    justify-content: center;
+    min-height: 120px;
+    overflow: visible;
+    position: relative;
+    padding: 10px 0;
+}
+
+.player-bottom .card {
+    margin-left: -30px;
+    position: relative;
+}
+
+.player-bottom .card:first-child {
+    margin-left: 0;
+}
+
+.player-bottom .card:hover {
+    transform: translateY(-20px) scale(1.4);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    border-color: #ffd700;
+}
+
+.player-bottom .card.selected {
+    transform: translateY(-25px) scale(1.1);
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    z-index: 30;
+}
+
+.player-bottom .card.selected:hover {
+    transform: translateY(-25px) scale(1.5);
+    box-shadow: 0 20px 40px rgba(255, 215, 0, 0.9);
+    z-index: 60;
 }

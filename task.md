@@ -80,6 +80,13 @@ This is a card game project with HTML, CSS, and JavaScript components.
 - [x] Test overlap with different card counts (few cards vs many cards)
 - [x] Maintain hover effects while cards are overlapped
 
+### 13. ✅ Implement human player card overlapping and hover zoom
+- [x] Apply overlapping effect to human player (Player 1) cards
+- [x] Add smooth hover zoom effects (1.4x scale) for better interaction
+- [x] Ensure overlapping doesn't interfere with card selection mechanics
+- [x] Maintain golden highlight for selected cards with enhanced hover
+- [x] Test card overlap with different hand sizes (few vs many cards)
+
 ## File Structure
 
 ## Upcoming GitHub Features
