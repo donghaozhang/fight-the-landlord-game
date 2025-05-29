@@ -6,9 +6,9 @@
 
 body {
     font-family: 'Segoe UI', 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
-    color: #333;
+    color: #2c3e50;
     font-size: 16px;
     line-height: 1.5;
 }
@@ -22,19 +22,19 @@ body {
 
 .header {
     text-align: center;
-    margin-bottom: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .header h1 {
-    color: #d4af37;
+    color: #3498db;
     font-size: 3.2em;
     font-weight: 700;
     margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     letter-spacing: -0.02em;
 }
 
@@ -43,21 +43,26 @@ body {
     justify-content: space-between;
     font-weight: 600;
     font-size: 1.1em;
-    color: #444;
+    color: #34495e;
     letter-spacing: 0.01em;
 }
 
 .landlord-cards {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .landlord-cards h3 {
-    color: #fff;
+    color: #2c3e50;
     margin-bottom: 15px;
     font-size: 1.6em;
     font-weight: 600;
     letter-spacing: 0.01em;
+    background: #ffffff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .card-deck {
@@ -75,12 +80,52 @@ body {
 }
 
 .player {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 15px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(52, 73, 94, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Landlord player styling */
+.player.landlord {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border: 2px solid #ffc107;
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.2);
+}
+
+.player.landlord .player-name {
+    color: #e65100;
+    font-weight: 700;
+}
+
+.player.landlord .card-count {
+    color: #d84315;
+    background: rgba(255, 193, 7, 0.1);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+/* Peasant player styling */
+.player.peasant {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 2px solid #2196f3;
+    box-shadow: 0 4px 20px rgba(33, 150, 243, 0.2);
+}
+
+.player.peasant .player-name {
+    color: #0d47a1;
+    font-weight: 700;
+}
+
+.player.peasant .card-count {
+    color: #1565c0;
+    background: rgba(33, 150, 243, 0.1);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 700;
 }
 
 .player-top {
@@ -106,11 +151,11 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 20px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    border: 2px solid #dee2e6;
 }
 
 .player-info {
@@ -118,11 +163,13 @@ body {
 }
 
 .player-name {
-    color: #ffd700;
+    color: #3498db;
+    font-weight: 600;
 }
 
 .card-count {
-    color: #87ceeb;
+    color: #e74c3c;
+    font-weight: 600;
 }
 
 .player-cards {
@@ -192,9 +239,9 @@ body {
 .card {
     width: 80px;
     height: 112px;
-    background: #fff;
-    border: 2px solid #333;
-    border-radius: 8px;
+    background: #ffffff;
+    border: 2px solid #ecf0f1;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -207,7 +254,7 @@ body {
     position: relative;
     user-select: none;
     -webkit-user-select: none;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -217,21 +264,22 @@ body {
 
 .card:hover {
     transform: translateY(-10px) scale(1.3);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px rgba(52, 152, 219, 0.3);
     z-index: 10;
-    border-color: #ffd700;
+    border-color: #3498db;
 }
 
 .card.selected {
     transform: translateY(-15px) scale(1.1);
-    border-color: #ffd700;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    border-color: #e74c3c;
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.4);
     z-index: 5;
+    background: linear-gradient(135deg, #ffffff 0%, #ffeaa7 100%);
 }
 
 .card.selected:hover {
     transform: translateY(-15px) scale(1.4);
-    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.8);
+    box-shadow: 0 8px 40px rgba(231, 76, 60, 0.5);
     z-index: 15;
 }
 
@@ -272,24 +320,45 @@ body {
 .card-back-computer {
     width: 80px;
     height: 112px;
-    background: linear-gradient(145deg, #1a237e 0%, #3949ab 30%, #5c6bc0 70%, #7986cb 100%);
-    border: 2px solid #1a237e;
-    border-radius: 8px;
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    border: 2px solid #74b9ff;
+    border-radius: 12px;
     position: relative;
     overflow: hidden;
     cursor: default;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 
-                0 2px 4px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 12px rgba(116, 185, 255, 0.3);
     transform-origin: center center;
 }
 
+/* Landlord card backs */
+.player.landlord .card-back-computer {
+    background: linear-gradient(135deg, #ffb74d 0%, #ff9800 100%);
+    border: 2px solid #ffb74d;
+    box-shadow: 0 2px 12px rgba(255, 183, 77, 0.3);
+}
+
+.player.landlord .card-back-computer:hover {
+    box-shadow: 0 4px 20px rgba(255, 183, 77, 0.5);
+    border-color: #ff9800;
+}
+
+/* Peasant card backs */
+.player.peasant .card-back-computer {
+    background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
+    border: 2px solid #64b5f6;
+    box-shadow: 0 2px 12px rgba(100, 181, 246, 0.3);
+}
+
+.player.peasant .card-back-computer:hover {
+    box-shadow: 0 4px 20px rgba(100, 181, 246, 0.5);
+    border-color: #1976d2;
+}
+
 .card-back-computer:hover {
-    box-shadow: 0 15px 40px rgba(57, 73, 171, 0.4), 
-                0 0 20px rgba(57, 73, 171, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-color: #5c6bc0;
+    box-shadow: 0 4px 20px rgba(116, 185, 255, 0.5);
+    border-color: #0984e3;
+    transform: scale(1.05);
 }
 
 .card-back-inner {
@@ -374,17 +443,19 @@ body {
 
 .played-cards {
     min-height: 100px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px;
-    color: #fff;
-    font-weight: bold;
+    gap: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+    border: 2px solid #6c757d;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .game-controls {
@@ -395,30 +466,32 @@ body {
 }
 
 .btn {
-    padding: 12px 24px;
+    padding: 14px 28px;
     border: none;
-    border-radius: 25px;
-    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     color: white;
     font-weight: 600;
     font-family: 'Segoe UI', 'Inter', 'Roboto', sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 16px;
-    min-width: 90px;
+    min-width: 100px;
     letter-spacing: 0.01em;
+    box-shadow: 0 2px 12px rgba(52, 152, 219, 0.3);
 }
 
 .btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+    box-shadow: 0 4px 20px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
 }
 
 .btn:disabled {
-    background: #95a5a6;
+    background: #bdc3c7;
     cursor: not-allowed;
     opacity: 0.6;
+    box-shadow: none;
 }
 
 .btn:active {
@@ -431,15 +504,29 @@ body {
 }
 
 #message-area {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    border: 2px solid #6c757d;
+}
+
+/* Role-specific message styling */
+#message-area.landlord-turn {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border-color: #ff9800;
+    box-shadow: 0 2px 16px rgba(255, 152, 0, 0.15);
+}
+
+#message-area.peasant-turn {
+    background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+    border-color: #03a9f4;
+    box-shadow: 0 2px 16px rgba(3, 169, 244, 0.15);
 }
 
 #message-area p {
     font-weight: 600;
-    color: #333;
+    color: #2c3e50;
     font-size: 18px;
     line-height: 1.4;
 }
@@ -450,35 +537,38 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(44, 62, 80, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .modal-content {
     background: white;
-    padding: 30px;
-    border-radius: 15px;
+    padding: 40px;
+    border-radius: 20px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+    max-width: 420px;
     width: 90%;
+    border: 1px solid rgba(52, 73, 94, 0.1);
 }
 
 .modal-content h2 {
-    color: #d4af37;
-    margin-bottom: 20px;
+    color: #3498db;
+    margin-bottom: 25px;
     font-size: 2.4em;
     font-weight: 700;
     letter-spacing: -0.01em;
 }
 
 .modal-content p {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     font-size: 18px;
-    color: #555;
+    color: #34495e;
     line-height: 1.5;
 }
 
@@ -491,31 +581,37 @@ body {
 }
 
 .landlord::after {
-    content: 'Landlord';
+    content: '👑 Landlord';
     position: absolute;
-    top: -10px;
-    right: -10px;
-    background: #ffd700;
-    color: #333;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-size: 10px;
-    font-weight: bold;
-    border: 1px solid #333;
+    top: -15px;
+    right: -15px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffb300 100%);
+    color: #8b4513;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    border: 2px solid #ff8f00;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 .farmer::after {
-    content: 'Farmer';
+    content: '🌾 Peasant';
     position: absolute;
-    top: -10px;
-    right: -10px;
-    background: #87ceeb;
-    color: #333;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-size: 10px;
-    font-weight: bold;
-    border: 1px solid #333;
+    top: -15px;
+    right: -15px;
+    background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+    color: #0d47a1;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    border: 2px solid #0288d1;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 /* 响应式设计 */

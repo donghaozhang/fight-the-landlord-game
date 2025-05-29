@@ -416,16 +416,27 @@ class DouDiZhuGame {
             cardCountElement.textContent = `${player.cards.length} cards`;
             
             // Update role indicators
-            playerElement.classList.remove('landlord', 'farmer');
+            playerElement.classList.remove('landlord', 'farmer', 'peasant');
             if (player.role === 'landlord') {
                 playerElement.classList.add('landlord');
-            } else if (player.role === 'farmer') {
+            } else if (player.role === 'peasant') {
+                playerElement.classList.add('peasant');
+                // Keep 'farmer' class for backward compatibility with existing CSS
                 playerElement.classList.add('farmer');
             }
         });
         
         document.getElementById('current-player').textContent = `Current player: ${this.players[this.currentPlayer].name}`;
         document.getElementById('remaining-cards').textContent = `Remaining cards: ${this.deck.length}`;
+        
+        // Update message area styling based on current player role
+        const messageArea = document.getElementById('message-area');
+        messageArea.classList.remove('landlord-turn', 'peasant-turn');
+        if (this.players[this.currentPlayer].role === 'landlord') {
+            messageArea.classList.add('landlord-turn');
+        } else if (this.players[this.currentPlayer].role === 'peasant') {
+            messageArea.classList.add('peasant-turn');
+        }
     }
 
     // Update game controls
@@ -456,10 +467,10 @@ class DouDiZhuGame {
         this.landlord = this.currentPlayer;
         this.players[this.currentPlayer].role = 'landlord';
         
-        // Other players become farmers
+        // Other players become peasants
         this.players.forEach((player, index) => {
             if (index !== this.landlord) {
-                player.role = 'farmer';
+                player.role = 'peasant';
             }
         });
         
@@ -726,8 +737,8 @@ class DouDiZhuGame {
             result.textContent = 'Landlord wins!';
             message.textContent = `${winnerPlayer.name} as landlord wins!`;
         } else {
-            result.textContent = 'Farmer wins!';
-            message.textContent = `${winnerPlayer.name} as farmer wins!`;
+            result.textContent = 'Peasant wins!';
+            message.textContent = `${winnerPlayer.name} as peasant wins!`;
         }
         
         modal.classList.remove('hidden');
