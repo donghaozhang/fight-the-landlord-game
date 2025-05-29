@@ -1,0 +1,394 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    color: #d4af37;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #555;
+}
+
+.landlord-cards {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.landlord-cards h3 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.card-deck {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.players-area {
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    grid-template-rows: 150px 1fr 200px;
+    gap: 20px;
+    height: 600px;
+}
+
+.player {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.player-top {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.player-left {
+    grid-column: 1;
+    grid-row: 2;
+    writing-mode: vertical-rl;
+}
+
+.player-bottom {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.center-area {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.player-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.player-name {
+    color: #ffd700;
+}
+
+.card-count {
+    color: #87ceeb;
+}
+
+.player-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    min-height: 80px;
+}
+
+.card {
+    width: 80px;
+    height: 112px;
+    background: #fff;
+    border: 2px solid #333;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 14px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.3);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+    border-color: #ffd700;
+}
+
+.card.selected {
+    transform: translateY(-15px) scale(1.1);
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    z-index: 5;
+}
+
+.card.selected:hover {
+    transform: translateY(-15px) scale(1.4);
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.8);
+    z-index: 15;
+}
+
+.card.red {
+    color: #e74c3c;
+}
+
+.card.black {
+    color: #2c3e50;
+}
+
+.card.has-image {
+    color: transparent;
+    text-shadow: none;
+}
+
+.card.has-image > div {
+    display: none;
+}
+
+.card-back {
+    width: 64px;
+    height: 90px;
+    background: linear-gradient(45deg, #8b4513, #a0522d);
+    border: 2px solid #654321;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 12px;
+    margin: 2px;
+    background-image: url('./images/card-back.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.played-cards {
+    min-height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.game-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    min-width: 80px;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+}
+
+.btn:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.game-status {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#message-area {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#message-area p {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal-content h2 {
+    color: #d4af37;
+    margin-bottom: 15px;
+    font-size: 2em;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.landlord {
+    position: relative;
+}
+
+.landlord::after {
+    content: 'Landlord';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ffd700;
+    color: #333;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #333;
+}
+
+.farmer::after {
+    content: 'Farmer';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #87ceeb;
+    color: #333;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #333;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .players-area {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        height: auto;
+    }
+    
+    .player-top {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    
+    .center-area {
+        grid-column: 1;
+        grid-row: 2;
+    }
+    
+    .player-left {
+        grid-column: 1;
+        grid-row: 3;
+        writing-mode: initial;
+    }
+    
+    .player-bottom {
+        grid-column: 1;
+        grid-row: 4;
+    }
+    
+    .card {
+        width: 60px;
+        height: 84px;
+        font-size: 12px;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 200px;
+    }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fight the Landlord Card Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>Fight the Landlord</h1>
+            <div class="game-info">
+                <span id="current-player">Current Player: Player 1</span>
+                <span id="remaining-cards">Remaining Cards: 54</span>
+            </div>
+        </div>
+
+        <!-- Landlord cards area -->
+        <div class="landlord-cards">
+            <h3>Landlord Cards</h3>
+            <div id="landlord-deck" class="card-deck hidden">
+                <!-- Landlord cards will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Players area -->
+        <div class="players-area">
+            <!-- Top player (Computer 2) -->
+            <div class="player player-top" id="player2">
+                <div class="player-info">
+                    <span class="player-name">Computer 2</span>
+                    <span class="card-count">17 cards</span>
+                </div>
+                <div class="player-cards">
+                    <!-- Computer player card backs -->
+                </div>
+            </div>
+
+            <!-- Left player (Computer 1) -->
+            <div class="player player-left" id="player1">
+                <div class="player-info">
+                    <span class="player-name">Computer 1</span>
+                    <span class="card-count">17 cards</span>
+                </div>
+                <div class="player-cards">
+                    <!-- Computer player card backs -->
+                </div>
+            </div>
+
+            <!-- Center playing area -->
+            <div class="center-area">
+                <div class="played-cards" id="played-cards">
+                    <p>Waiting for cards...</p>
+                </div>
+                <div class="game-controls">
+                    <button id="call-landlord" class="btn">Call Landlord</button>
+                    <button id="pass-landlord" class="btn">Pass</button>
+                    <button id="play-cards" class="btn" disabled>Play Cards</button>
+                    <button id="pass-turn" class="btn" disabled>Pass Turn</button>
+                    <button id="hint" class="btn">Hint</button>
+                </div>
+            </div>
+
+            <!-- Bottom player (Human player) -->
+            <div class="player player-bottom" id="player0">
+                <div class="player-info">
+                    <span class="player-name">Player 1</span>
+                    <span class="card-count">17 cards</span>
+                </div>
+                <div class="player-cards" id="human-cards">
+                    <!-- Human player cards will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Game status display -->
+        <div class="game-status">
+            <div id="message-area">
+                <p>Game started, please call landlord!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game over modal -->
+    <div id="game-over-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="game-result">Game Over</h2>
+            <p id="game-message"></p>
+            <button id="restart-game" class="btn">Restart Game</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
