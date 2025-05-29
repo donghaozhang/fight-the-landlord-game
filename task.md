@@ -73,12 +73,28 @@ This is a card game project with HTML, CSS, and JavaScript components.
 - [x] Verify all 54 playing cards (52 standard + 2 jokers) have unique short names
 - [x] Test game functionality with complete short-named deck
 
-### 12. ✅ Improve computer player card visualization
+### 12. ✅ Improve computer player card visualization (Enhanced)
 - [x] Increase card overlap for more realistic card hand appearance
 - [x] Adjust spacing and stacking for better visual depth
 - [x] Ensure proper z-index management for card layering
 - [x] Test overlap with different card counts (few cards vs many cards)
 - [x] Maintain hover effects while cards are overlapped
+- [x] **NEW**: Enhanced natural card fanning with mathematical positioning
+- [x] **NEW**: Dynamic overlap adjustment based on card count for optimal spacing
+- [x] **NEW**: Improved 3D depth effects with multiple shadow layers
+- [x] **NEW**: Natural arc positioning for horizontal card layout (top player)
+- [x] **NEW**: Progressive rotation angles for realistic card spreading
+- [x] **NEW**: Enhanced hover interactions with smooth scale and glow effects
+- [x] **NEW**: Upgraded card count indicator with modern glass-morphism design
+- [x] **NEW**: Increased display limit to 15 cards for better visibility
+- [x] **FIX**: Ensured Computer 2 (top player) uses same overlapping system as Computer 1
+- [x] Ensure Computer 1's cards are visually contained within its designated player area.
+  - Fixed CSS: Added `overflow: hidden` and `width: 100%` to `.player-left .player-cards`
+  - Fixed CSS: Removed `translateX(20px)` from hover effect to prevent overflow
+  - Fixed JavaScript: Reduced horizontal offset from 8px to 2px range to prevent boundary overflow
+  - Fixed JavaScript: Removed `translateX(20px)` from hover event listener
+- [x] Remove or hide player name labels ('Computer 1', 'Computer 2') as they are deemed unnecessary.
+  - Fixed CSS: Changed `.player-info` from `visibility: hidden` to `display: none` for complete removal
 
 ### 13. ✅ Implement human player card overlapping and hover zoom
 - [x] Apply overlapping effect to human player (Player 1) cards

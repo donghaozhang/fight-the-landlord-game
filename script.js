@@ -213,23 +213,23 @@ class DouDiZhuGame {
         this.renderComputerCards(2, 'player2');
     }
 
-    // Render computer cards
+    // Render computer cards with enhanced overlapping and visual effects
     renderComputerCards(playerIndex, containerId) {
         const container = document.querySelector(`#${containerId} .player-cards`);
         container.innerHTML = '';
         
         const cardCount = this.players[playerIndex].cards.length;
-        const maxDisplayCards = Math.min(cardCount, 12); // Show up to 12 cards
+        const maxDisplayCards = Math.min(cardCount, 15); // Increased to show more cards
+        const isVertical = containerId === 'player1'; // Left player is vertical
         
         for (let i = 0; i < maxDisplayCards; i++) {
             const cardBack = document.createElement('div');
             cardBack.className = 'card card-back-computer';
             
-            // Create card back design elements
+            // Create enhanced card back design
             const cardBackInner = document.createElement('div');
             cardBackInner.className = 'card-back-inner';
             
-            // Add decorative pattern
             const pattern = document.createElement('div');
             pattern.className = 'card-back-pattern';
             pattern.innerHTML = '🃏';
@@ -237,38 +237,111 @@ class DouDiZhuGame {
             cardBackInner.appendChild(pattern);
             cardBack.appendChild(cardBackInner);
             
-            // Enhanced overlapping effect with better spacing
-            if (i > 0) {
-                // Calculate overlap based on number of cards for better distribution
-                const overlapAmount = Math.max(-35, -60 + (cardCount * 2));
-                cardBack.style.marginLeft = `${overlapAmount}px`;
-                cardBack.style.zIndex = 20 - i; // Higher z-index for better layering
+            // Apply enhanced positioning to all cards (including first one for proper base)
+            const totalCards = maxDisplayCards;
+            const cardIndex = i;
+            
+            if (isVertical) {
+                // Vertical layout for left player - enhanced overlap
+                if (i > 0) {
+                    const baseOverlap = -50;
+                    const overlapVariation = Math.max(-15, cardCount * -2); // Tighter with more cards
+                    const finalOverlap = baseOverlap + overlapVariation;
+                    cardBack.style.marginTop = `${finalOverlap}px`;
+                    
+                    // Slight horizontal offset for natural look - reduced to prevent overflow
+                    const horizontalOffset = (Math.sin(cardIndex / totalCards * Math.PI) * 2) - 1; // Reduced from 8 to 2, and -4 to -1
+                    cardBack.style.marginLeft = `${horizontalOffset}px`;
+                    
+                    // Natural rotation for card fanning
+                    const maxRotation = Math.min(15, totalCards * 1.5);
+                    const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
+                    cardBack.style.transform = `rotate(${rotation}deg)`;
+                } else {
+                    // First card as base
+                    cardBack.style.marginTop = '0px';
+                    cardBack.style.marginLeft = '0px';
+                    cardBack.style.transform = 'rotate(0deg)';
+                }
                 
-                // Add slight rotation for more natural look
-                const rotation = (Math.random() - 0.5) * 4; // Random rotation between -2 and 2 degrees
-                cardBack.style.transform = `rotate(${rotation}deg)`;
+                // Progressive z-index for proper layering
+                cardBack.style.zIndex = 50 - i;
+                
+            } else {
+                // Horizontal layout for top player - enhanced overlap
+                if (i > 0) {
+                    const baseOverlap = -45;
+                    const overlapVariation = Math.max(-20, cardCount * -1.5); // Adjust based on card count
+                    const finalOverlap = baseOverlap + overlapVariation;
+                    cardBack.style.marginLeft = `${finalOverlap}px`;
+                    
+                    // Natural arc effect for horizontal fanning
+                    const arcHeight = Math.sin((cardIndex / (totalCards - 1)) * Math.PI) * 12;
+                    cardBack.style.marginTop = `${arcHeight}px`;
+                    
+                    // Natural rotation for card fanning
+                    const maxRotation = Math.min(20, totalCards * 1.2);
+                    const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
+                    cardBack.style.transform = `rotate(${rotation}deg)`;
+                } else {
+                    // First card as base - explicitly set to ensure no CSS interference
+                    cardBack.style.marginLeft = '0px';
+                    cardBack.style.marginTop = '0px';
+                    cardBack.style.transform = 'rotate(0deg)';
+                }
+                
+                // Progressive z-index for proper layering
+                cardBack.style.zIndex = 50 - i;
             }
             
-            // Add hover effect that brings card to front
+            // Enhanced hover interactions
             cardBack.addEventListener('mouseenter', () => {
-                cardBack.style.zIndex = 100;
-                cardBack.style.transform = `rotate(0deg) scale(1.1)`;
+                cardBack.style.zIndex = 150;
+                cardBack.style.transition = 'all 0.2s ease-out';
+                
+                if (isVertical) {
+                    cardBack.style.transform = 'scale(1.15) rotate(0deg)';
+                } else {
+                    cardBack.style.transform = 'translateY(-15px) scale(1.15) rotate(0deg)';
+                }
+                
+                // Add glow effect
+                cardBack.style.boxShadow = '0 15px 40px rgba(57, 73, 171, 0.4), 0 0 20px rgba(57, 73, 171, 0.3)';
+                cardBack.style.borderColor = '#5c6bc0';
             });
             
             cardBack.addEventListener('mouseleave', () => {
-                cardBack.style.zIndex = 20 - i;
-                const rotation = (Math.random() - 0.5) * 4;
-                cardBack.style.transform = `rotate(${rotation}deg) scale(1)`;
+                cardBack.style.zIndex = 50 - i;
+                cardBack.style.transition = 'all 0.3s ease-out';
+                
+                // Restore original position and rotation
+                if (isVertical) {
+                    const maxRotation = Math.min(15, totalCards * 1.5);
+                    const rotation = i > 0 ? (i / (totalCards - 1) - 0.5) * maxRotation : 0;
+                    cardBack.style.transform = `rotate(${rotation}deg) scale(1)`;
+                } else {
+                    const maxRotation = Math.min(20, totalCards * 1.2);
+                    const rotation = i > 0 ? (i / (totalCards - 1) - 0.5) * maxRotation : 0;
+                    cardBack.style.transform = `rotate(${rotation}deg) scale(1)`;
+                }
+                
+                // Restore original shadow and border
+                cardBack.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+                cardBack.style.borderColor = '#1a237e';
             });
             
             container.appendChild(cardBack);
         }
         
-        // Show card count if more than display limit
+        // Enhanced card count indicator with better styling
         if (cardCount > maxDisplayCards) {
             const moreCards = document.createElement('div');
             moreCards.className = 'more-cards-indicator';
-            moreCards.textContent = `+${cardCount - maxDisplayCards} more`;
+            moreCards.innerHTML = `<strong>+${cardCount - maxDisplayCards}</strong><br><small>more cards</small>`;
+            moreCards.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.95))';
+            moreCards.style.backdropFilter = 'blur(10px)';
+            moreCards.style.border = '2px solid rgba(255, 255, 255, 0.3)';
+            moreCards.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
             container.appendChild(moreCards);
         }
     }
