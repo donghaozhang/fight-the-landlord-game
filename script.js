@@ -219,11 +219,57 @@ class DouDiZhuGame {
         container.innerHTML = '';
         
         const cardCount = this.players[playerIndex].cards.length;
-        for (let i = 0; i < Math.min(cardCount, 10); i++) {
+        const maxDisplayCards = Math.min(cardCount, 12); // Show up to 12 cards
+        
+        for (let i = 0; i < maxDisplayCards; i++) {
             const cardBack = document.createElement('div');
-            cardBack.className = 'card-back';
-            cardBack.textContent = 'Card';
+            cardBack.className = 'card card-back-computer';
+            
+            // Create card back design elements
+            const cardBackInner = document.createElement('div');
+            cardBackInner.className = 'card-back-inner';
+            
+            // Add decorative pattern
+            const pattern = document.createElement('div');
+            pattern.className = 'card-back-pattern';
+            pattern.innerHTML = '🃏';
+            
+            cardBackInner.appendChild(pattern);
+            cardBack.appendChild(cardBackInner);
+            
+            // Enhanced overlapping effect with better spacing
+            if (i > 0) {
+                // Calculate overlap based on number of cards for better distribution
+                const overlapAmount = Math.max(-35, -60 + (cardCount * 2));
+                cardBack.style.marginLeft = `${overlapAmount}px`;
+                cardBack.style.zIndex = 20 - i; // Higher z-index for better layering
+                
+                // Add slight rotation for more natural look
+                const rotation = (Math.random() - 0.5) * 4; // Random rotation between -2 and 2 degrees
+                cardBack.style.transform = `rotate(${rotation}deg)`;
+            }
+            
+            // Add hover effect that brings card to front
+            cardBack.addEventListener('mouseenter', () => {
+                cardBack.style.zIndex = 100;
+                cardBack.style.transform = `rotate(0deg) scale(1.1)`;
+            });
+            
+            cardBack.addEventListener('mouseleave', () => {
+                cardBack.style.zIndex = 20 - i;
+                const rotation = (Math.random() - 0.5) * 4;
+                cardBack.style.transform = `rotate(${rotation}deg) scale(1)`;
+            });
+            
             container.appendChild(cardBack);
+        }
+        
+        // Show card count if more than display limit
+        if (cardCount > maxDisplayCards) {
+            const moreCards = document.createElement('div');
+            moreCards.className = 'more-cards-indicator';
+            moreCards.textContent = `+${cardCount - maxDisplayCards} more`;
+            container.appendChild(moreCards);
         }
     }
 

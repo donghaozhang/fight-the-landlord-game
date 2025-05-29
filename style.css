@@ -123,10 +123,31 @@ body {
 
 .player-cards {
     display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0px;
+    justify-content: flex-start;
     min-height: 80px;
+    overflow: visible;
+    position: relative;
+    padding: 10px 0;
+}
+
+.player-top .player-cards {
+    justify-content: center;
+}
+
+.player-left .player-cards {
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-left .card-back-computer {
+    margin-left: 0 !important;
+    margin-top: -35px;
+}
+
+.player-left .card-back-computer:first-child {
+    margin-top: 0;
 }
 
 .card {
@@ -199,12 +220,91 @@ body {
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 12px;
-    margin: 2px;
-    background-image: url('./images/card-back.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    font-size: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card-back-computer {
+    width: 80px;
+    height: 112px;
+    background: linear-gradient(145deg, #1a237e 0%, #3949ab 30%, #5c6bc0 70%, #7986cb 100%);
+    border: 2px solid #1a237e;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform-origin: center center;
+}
+
+.card-back-computer:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    border-color: #3949ab;
+}
+
+.card-back-inner {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.card-back-inner::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.05) 10px,
+        rgba(255, 255, 255, 0.05) 20px
+    );
+}
+
+.card-back-pattern {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    z-index: 2;
+    position: relative;
+    animation: gentle-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes gentle-glow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    to {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.more-cards-indicator {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 15px;
+    align-self: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    z-index: 1000;
+    position: relative;
 }
 
 .played-cards {

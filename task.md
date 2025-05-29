@@ -73,6 +73,13 @@ This is a card game project with HTML, CSS, and JavaScript components.
 - [x] Verify all 54 playing cards (52 standard + 2 jokers) have unique short names
 - [x] Test game functionality with complete short-named deck
 
+### 12. ✅ Improve computer player card visualization
+- [x] Increase card overlap for more realistic card hand appearance
+- [x] Adjust spacing and stacking for better visual depth
+- [x] Ensure proper z-index management for card layering
+- [x] Test overlap with different card counts (few cards vs many cards)
+- [x] Maintain hover effects while cards are overlapped
+
 ## File Structure
 
 ## Upcoming GitHub Features
