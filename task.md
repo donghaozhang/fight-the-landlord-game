@@ -57,5 +57,12 @@ This is a card game project with HTML, CSS, and JavaScript components.
 - [x] Initialize Git repository structure
 - [x] Test repository setup without large image files
 
+### 10. ✅ Deploy to GitHub
+- [x] Initialize Git repository locally
+- [x] Stage and commit all project files
+- [x] Create GitHub repository: fight-the-landlord-game
+- [x] Push code to GitHub: https://github.com/donghaozhang/fight-the-landlord-game
+- [x] Verify repository is public and accessible
+
 ## File Structure
 ```
