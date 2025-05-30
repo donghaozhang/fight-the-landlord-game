@@ -10,12 +10,19 @@ class DouDiZhuGame {
         this.landlordCards = [];
         this.currentPlayer = 0;
         this.landlord = -1;
-        this.gamePhase = 'calling'; // calling, playing, ended
+        this.gamePhase = 'bidding'; // bidding, playing, ended
         this.lastPlayedCards = [];
         this.lastPlayer = -1;
         this.selectedCards = [];
         this.passCount = 0;
         this.cardImages = this.initializeCardImages();
+        
+        // Bidding system properties
+        this.currentBidder = 0; // Start with player 0
+        this.currentBid = 0; // Current highest bid (0 = no bids yet)
+        this.currentBidder = -1; // Who made the current bid
+        this.biddingPasses = 0; // Count of consecutive passes
+        this.baseScore = 0; // Base score for the game
         
         this.initializeGame();
         this.bindEvents();
@@ -101,7 +108,7 @@ class DouDiZhuGame {
         this.shuffleDeck();
         this.dealCards();
         this.renderGame();
-        this.updateMessage('Game started, please call landlord!');
+        this.startBidding();
     }
 
     // Create deck
@@ -111,21 +118,36 @@ class DouDiZhuGame {
         
         this.deck = [];
         
-        // Create normal cards
+        // Create normal cards (52 cards)
         for (let suit of suits) {
             for (let rank of ranks) {
                 this.deck.push({
                     suit: suit,
                     rank: rank,
                     value: this.getCardValue(rank),
-                    color: (suit === '♥' || suit === '♦') ? 'red' : 'black'
+                    color: (suit === '♥' || suit === '♦') ? 'red' : 'black',
+                    isJoker: false
                 });
             }
         }
         
-        // Add jokers
-        this.deck.push({ suit: '', rank: 'Small Joker', value: 14, color: 'black' });
-        this.deck.push({ suit: '', rank: 'Big Joker', value: 15, color: 'red' });
+        // Add jokers (2 cards) - total 54 cards
+        this.deck.push({ 
+            suit: '', 
+            rank: 'Small Joker', 
+            value: 16, // Higher than 2 (value 15)
+            color: 'black',
+            isJoker: true 
+        });
+        this.deck.push({ 
+            suit: '', 
+            rank: 'Big Joker', 
+            value: 17, // Highest value
+            color: 'red',
+            isJoker: true 
+        });
+        
+        console.log(`Created deck with ${this.deck.length} cards`); // Should be 54
     }
 
     // Get card image key
@@ -145,41 +167,65 @@ class DouDiZhuGame {
         return `${suit}_${rank}`;
     }
 
-    // Deal cards
+    // Deal cards according to Fight the Landlord rules
     dealCards() {
-        // Deal 17 cards to each player
+        // Verify we have exactly 54 cards
+        if (this.deck.length !== 54) {
+            console.error(`Deck should have 54 cards, but has ${this.deck.length}`);
+            return;
+        }
+        
+        // Deal 17 cards to each player (51 total)
         for (let i = 0; i < 17; i++) {
             for (let j = 0; j < 3; j++) {
-                this.players[j].cards.push(this.deck.pop());
+                if (this.deck.length > 0) {
+                    this.players[j].cards.push(this.deck.pop());
+                }
             }
         }
         
-        // Remaining 3 cards as landlord cards
+        // Remaining 3 cards as landlord bonus cards
         this.landlordCards = this.deck.splice(0, 3);
         
-        // Sort each player's cards
+        console.log(`Player cards: ${this.players[0].cards.length}, ${this.players[1].cards.length}, ${this.players[2].cards.length}`);
+        console.log(`Landlord bonus cards: ${this.landlordCards.length}`);
+        
+        // Sort each player's cards by Fight the Landlord ranking
         this.players.forEach(player => {
             this.sortCards(player.cards);
         });
     }
 
-    // Get card value
+    // Get card value according to Fight the Landlord ranking
+    // 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < J < Q < K < A < 2 < Small Joker < Big Joker
     getCardValue(rank) {
         const values = {
             '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
-            'J': 11, 'Q': 12, 'K': 13, 'A': 14, '2': 15
+            'J': 11, 'Q': 12, 'K': 13, 'A': 14, '2': 15,
+            'Small Joker': 16, 'Big Joker': 17
         };
         return values[rank] || 0;
     }
 
-    // Sort cards
+    // Sort cards by Fight the Landlord ranking (lowest to highest)
     sortCards(cards) {
         cards.sort((a, b) => {
             if (a.value !== b.value) {
                 return a.value - b.value;
             }
+            // If same rank, sort by suit for consistency
             return a.suit.localeCompare(b.suit);
         });
+    }
+
+    // Compare two cards according to Fight the Landlord rules
+    compareCards(card1, card2) {
+        return card1.value - card2.value;
+    }
+
+    // Check if a card is higher than another
+    isCardHigher(card1, card2) {
+        return this.compareCards(card1, card2) > 0;
     }
 
     // Shuffle deck
@@ -445,21 +491,54 @@ class DouDiZhuGame {
         const passLandlordBtn = document.getElementById('pass-landlord');
         const playCardsBtn = document.getElementById('play-cards');
         const passTurnBtn = document.getElementById('pass-turn');
+        const hintBtn = document.getElementById('hint');
         
-        if (this.gamePhase === 'calling') {
-            callLandlordBtn.style.display = this.currentPlayer === 0 ? 'inline-block' : 'none';
-            passLandlordBtn.style.display = this.currentPlayer === 0 ? 'inline-block' : 'none';
-            playCardsBtn.style.display = 'none';
-            passTurnBtn.style.display = 'none';
+        // Hide all buttons first
+        callLandlordBtn.style.display = 'none';
+        passLandlordBtn.style.display = 'none';
+        playCardsBtn.style.display = 'none';
+        passTurnBtn.style.display = 'none';
+        hintBtn.style.display = 'none';
+        
+        // Remove all bidding buttons
+        document.querySelectorAll('.bid-button').forEach(btn => btn.remove());
+        
+        if (this.gamePhase === 'bidding') {
+            if (this.currentBidder === 0) {
+                // Show bidding buttons for human player
+                this.showBiddingButtons();
+            }
         } else if (this.gamePhase === 'playing') {
-            callLandlordBtn.style.display = 'none';
-            passLandlordBtn.style.display = 'none';
-            playCardsBtn.style.display = this.currentPlayer === 0 ? 'inline-block' : 'none';
-            passTurnBtn.style.display = this.currentPlayer === 0 ? 'inline-block' : 'none';
-            
-            playCardsBtn.disabled = this.selectedCards.length === 0 || !this.isValidPlay();
-            passTurnBtn.disabled = this.lastPlayedCards.length === 0 || this.lastPlayer === this.currentPlayer;
+            if (this.currentPlayer === 0) {
+                playCardsBtn.style.display = 'inline-block';
+                passTurnBtn.style.display = 'inline-block';
+                hintBtn.style.display = 'inline-block';
+            }
         }
+    }
+
+    // Show bidding buttons with dynamic options
+    showBiddingButtons() {
+        const container = document.querySelector('.game-controls');
+        
+        // Remove existing bidding buttons
+        container.querySelectorAll('.bid-button').forEach(btn => btn.remove());
+        
+        // Add bidding buttons
+        for (let i = this.currentBid + 1; i <= 3; i++) {
+            const bidBtn = document.createElement('button');
+            bidBtn.className = 'btn bid-button';
+            bidBtn.textContent = `Bid ${i}`;
+            bidBtn.onclick = () => this.makeBid(i);
+            container.appendChild(bidBtn);
+        }
+        
+        // Add pass button
+        const passBtn = document.createElement('button');
+        passBtn.className = 'btn bid-button';
+        passBtn.textContent = 'Pass';
+        passBtn.onclick = () => this.passBid();
+        container.appendChild(passBtn);
     }
 
     // Call landlord
@@ -564,33 +643,26 @@ class DouDiZhuGame {
     aiPlay() {
         const player = this.players[this.currentPlayer];
         
-        // 简单AI逻辑
-        if (this.lastPlayedCards.length === 0) {
-            // 自由出牌，出最小的单牌
-            const cardsToPlay = [player.cards[0]];
-            this.aiPlayCards(cardsToPlay);
+        // 寻找AI可以出的牌
+        const validCards = this.findValidAICards(player.cards);
+        if (validCards.length > 0) {
+            this.aiPlayCards(validCards);
         } else {
-            // 尝试跟牌
-            const validCards = this.findValidAICards(player.cards);
-            if (validCards.length > 0) {
-                this.aiPlayCards(validCards);
+            // 不要
+            this.passCount++;
+            this.nextPlayer();
+            
+            if (this.passCount >= 2) {
+                this.lastPlayedCards = [];
+                this.lastPlayer = -1;
+                this.passCount = 0;
+                this.updateMessage(`${this.players[this.currentPlayer].name} can play freely`);
             } else {
-                // 不要
-                this.passCount++;
-                this.nextPlayer();
-                
-                if (this.passCount >= 2) {
-                    this.lastPlayedCards = [];
-                    this.lastPlayer = -1;
-                    this.passCount = 0;
-                    this.updateMessage(`${this.players[this.currentPlayer].name} can play freely`);
-                } else {
-                    this.updateMessage(`${this.players[(this.currentPlayer + 2) % 3].name} passes`);
-                }
-                
-                if (this.currentPlayer !== 0) {
-                    setTimeout(() => this.aiPlay(), 1500);
-                }
+                this.updateMessage(`${this.players[(this.currentPlayer + 2) % 3].name} passes`);
+            }
+            
+            if (this.currentPlayer !== 0) {
+                setTimeout(() => this.aiPlay(), 1500);
             }
         }
         
@@ -632,13 +704,100 @@ class DouDiZhuGame {
 
     // 寻找AI可以出的牌
     findValidAICards(cards) {
-        if (this.lastPlayedCards.length === 1) {
-            // 单牌
-            const validCards = cards.filter(card => card.value > this.lastPlayedCards[0].value);
-            return validCards.length > 0 ? [validCards[0]] : [];
+        if (this.lastPlayedCards.length === 0) {
+            // 自由出牌，出最小的单牌
+            return [cards[0]];
         }
-        // 简化处理，只处理单牌
-        return [];
+        
+        const lastCombination = this.isValidCardCombination(this.lastPlayedCards);
+        if (!lastCombination) return [];
+        
+        // Try to find a combination that can beat the last play
+        const validPlays = this.findAllValidPlays(cards);
+        
+        for (let play of validPlays) {
+            if (this.canBeatLastPlay(play)) {
+                return play;
+            }
+        }
+        
+        return []; // No valid play found
+    }
+    
+    // Find all possible valid card combinations from given cards
+    findAllValidPlays(cards) {
+        const validPlays = [];
+        
+        // Try singles
+        for (let card of cards) {
+            validPlays.push([card]);
+        }
+        
+        // Try pairs
+        const cardsByValue = {};
+        cards.forEach(card => {
+            if (!cardsByValue[card.value]) cardsByValue[card.value] = [];
+            cardsByValue[card.value].push(card);
+        });
+        
+        Object.values(cardsByValue).forEach(sameValueCards => {
+            if (sameValueCards.length >= 2) {
+                validPlays.push([sameValueCards[0], sameValueCards[1]]);
+            }
+            if (sameValueCards.length >= 3) {
+                validPlays.push([sameValueCards[0], sameValueCards[1], sameValueCards[2]]);
+            }
+            if (sameValueCards.length >= 4) {
+                validPlays.push([sameValueCards[0], sameValueCards[1], sameValueCards[2], sameValueCards[3]]);
+            }
+        });
+        
+        // Try rocket (both jokers)
+        const jokers = cards.filter(card => card.isJoker);
+        if (jokers.length === 2) {
+            validPlays.push(jokers);
+        }
+        
+        // Try sequences (simplified - just 5-card sequences for AI)
+        const nonJokers = cards.filter(card => !card.isJoker && card.value < 14); // Exclude A and 2
+        if (nonJokers.length >= 5) {
+            const sequence = this.findSimpleSequence(nonJokers, 5);
+            if (sequence) validPlays.push(sequence);
+        }
+        
+        return validPlays.filter(play => this.isValidCardCombination(play));
+    }
+    
+    // Helper function to find a simple 5-card sequence
+    findSimpleSequence(cards, length) {
+        const sortedCards = cards.sort((a, b) => a.value - b.value);
+        const unique = [];
+        
+        // Get unique values
+        let lastValue = -1;
+        for (let card of sortedCards) {
+            if (card.value !== lastValue) {
+                unique.push(card);
+                lastValue = card.value;
+            }
+        }
+        
+        // Look for consecutive sequence
+        for (let i = 0; i <= unique.length - length; i++) {
+            let isConsecutive = true;
+            for (let j = 1; j < length; j++) {
+                if (unique[i + j].value !== unique[i + j - 1].value + 1) {
+                    isConsecutive = false;
+                    break;
+                }
+            }
+            
+            if (isConsecutive) {
+                return unique.slice(i, i + length);
+            }
+        }
+        
+        return null;
     }
 
     // 检查是否是有效出牌
@@ -647,53 +806,249 @@ class DouDiZhuGame {
         
         const selectedCardObjects = this.selectedCards.map(index => this.players[0].cards[index]);
         
+        // First check if it's a valid card combination
+        const combination = this.isValidCardCombination(selectedCardObjects);
+        if (!combination) return false;
+        
         if (this.lastPlayedCards.length === 0) {
-            // 自由出牌，任何组合都可以
-            return this.isValidCardCombination(selectedCardObjects);
+            // 自由出牌，任何有效组合都可以
+            return true;
         }
         
-        // 必须出相同类型且更大的牌
+        // 必须出相同类型且更大的牌，或者出炸弹/火箭
         return this.canBeatLastPlay(selectedCardObjects);
     }
 
     // 检查牌型组合是否有效
     isValidCardCombination(cards) {
-        if (cards.length === 1) return true; // 单牌
-        if (cards.length === 2) {
-            // 对子
-            return cards[0].value === cards[1].value;
-        }
-        if (cards.length === 3) {
-            // 三张
-            return cards[0].value === cards[1].value && cards[1].value === cards[2].value;
-        }
-        // 简化处理，其他牌型暂不支持
-        return false;
-    }
-
-    // 检查是否能压过上家的牌
-    canBeatLastPlay(cards) {
-        if (cards.length !== this.lastPlayedCards.length) return false;
+        if (cards.length === 0) return false;
+        
+        // Sort cards by value for easier analysis
+        const sortedCards = [...cards].sort((a, b) => a.value - b.value);
         
         if (cards.length === 1) {
-            // 单牌
-            return cards[0].value > this.lastPlayedCards[0].value;
+            // Single card - always valid
+            return { type: 'single', rank: cards[0].value };
         }
         
         if (cards.length === 2) {
-            // 对子
-            return cards[0].value === cards[1].value && 
-                   cards[0].value > this.lastPlayedCards[0].value;
+            // Pair - two cards of same rank
+            if (sortedCards[0].value === sortedCards[1].value) {
+                return { type: 'pair', rank: sortedCards[0].value };
+            }
+            
+            // Rocket - both jokers
+            if (this.isRocket(sortedCards)) {
+                return { type: 'rocket', rank: 1000 }; // Highest possible rank
+            }
+            
+            return false;
         }
         
         if (cards.length === 3) {
-            // 三张
-            return cards[0].value === cards[1].value && 
-                   cards[1].value === cards[2].value &&
-                   cards[0].value > this.lastPlayedCards[0].value;
+            // Three of a kind
+            if (sortedCards[0].value === sortedCards[1].value && 
+                sortedCards[1].value === sortedCards[2].value) {
+                return { type: 'three', rank: sortedCards[0].value };
+            }
+            return false;
+        }
+        
+        if (cards.length === 4) {
+            // Check for bomb (four of a kind)
+            if (sortedCards[0].value === sortedCards[1].value && 
+                sortedCards[1].value === sortedCards[2].value &&
+                sortedCards[2].value === sortedCards[3].value) {
+                return { type: 'bomb', rank: sortedCards[0].value };
+            }
+            
+            // Check for three + single
+            const threeWithSingle = this.isThreeWithSingle(sortedCards);
+            if (threeWithSingle) return threeWithSingle;
+            
+            return false;
+        }
+        
+        if (cards.length === 5) {
+            // Check for sequence (5 consecutive singles)
+            const sequence = this.isSequence(sortedCards, 1);
+            if (sequence) return sequence;
+            
+            // Check for three + pair
+            const threeWithPair = this.isThreeWithPair(sortedCards);
+            if (threeWithPair) return threeWithPair;
+            
+            return false;
+        }
+        
+        if (cards.length >= 5) {
+            // Check for longer sequences
+            const sequence = this.isSequence(sortedCards, 1);
+            if (sequence) return sequence;
+        }
+        
+        if (cards.length >= 6) {
+            // Check for pair sequences (minimum 3 pairs = 6 cards)
+            const pairSequence = this.isPairSequence(sortedCards);
+            if (pairSequence) return pairSequence;
+            
+            // Check for triplet sequences (minimum 2 triplets = 6 cards)
+            const tripletSequence = this.isTripletSequence(sortedCards);
+            if (tripletSequence) return tripletSequence;
+        }
+        
+        // Check for complex combinations with attachments
+        if (cards.length >= 6) {
+            const complexCombination = this.isComplexCombination(sortedCards);
+            if (complexCombination) return complexCombination;
         }
         
         return false;
+    }
+    
+    // Check if cards form a rocket (both jokers)
+    isRocket(cards) {
+        if (cards.length !== 2) return false;
+        
+        const hasSmallJoker = cards.some(card => card.rank === 'Small Joker');
+        const hasBigJoker = cards.some(card => card.rank === 'Big Joker');
+        
+        return hasSmallJoker && hasBigJoker;
+    }
+    
+    // Check if cards form three + single
+    isThreeWithSingle(cards) {
+        if (cards.length !== 4) return false;
+        
+        const counts = this.getCardCounts(cards);
+        const values = Object.keys(counts).map(Number);
+        
+        // Must have exactly one triple and one single
+        const triples = values.filter(value => counts[value] === 3);
+        const singles = values.filter(value => counts[value] === 1);
+        
+        if (triples.length === 1 && singles.length === 1) {
+            return { type: 'three_single', rank: triples[0] };
+        }
+        
+        return false;
+    }
+    
+    // Check if cards form three + pair
+    isThreeWithPair(cards) {
+        if (cards.length !== 5) return false;
+        
+        const counts = this.getCardCounts(cards);
+        const values = Object.keys(counts).map(Number);
+        
+        // Must have exactly one triple and one pair
+        const triples = values.filter(value => counts[value] === 3);
+        const pairs = values.filter(value => counts[value] === 2);
+        
+        if (triples.length === 1 && pairs.length === 1) {
+            return { type: 'three_pair', rank: triples[0] };
+        }
+        
+        return false;
+    }
+    
+    // Check if cards form a sequence (consecutive singles)
+    isSequence(cards, expectedCount = 1) {
+        if (cards.length < 5) return false; // Minimum 5 cards for sequence
+        
+        // Remove jokers - they can't be part of sequences
+        const nonJokers = cards.filter(card => !card.isJoker);
+        if (nonJokers.length !== cards.length) return false;
+        
+        const counts = this.getCardCounts(cards);
+        const values = Object.keys(counts).map(Number).sort((a, b) => a - b);
+        
+        // All cards must appear exactly expectedCount times
+        if (!values.every(value => counts[value] === expectedCount)) {
+            return false;
+        }
+        
+        // Check if values are consecutive and don't include A(14) or 2(15)
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] === 14 || values[i] === 15) return false; // A or 2 not allowed
+            
+            if (i > 0 && values[i] !== values[i-1] + 1) {
+                return false; // Not consecutive
+            }
+        }
+        
+        const sequenceType = expectedCount === 1 ? 'sequence' : 
+                           expectedCount === 2 ? 'pair_sequence' : 'triplet_sequence';
+        
+        return { 
+            type: sequenceType, 
+            rank: values[values.length - 1], // Highest card in sequence
+            length: values.length 
+        };
+    }
+    
+    // Check if cards form a pair sequence (consecutive pairs)
+    isPairSequence(cards) {
+        if (cards.length < 6 || cards.length % 2 !== 0) return false;
+        
+        return this.isSequence(cards, 2);
+    }
+    
+    // Check if cards form a triplet sequence (consecutive three-of-a-kinds)
+    isTripletSequence(cards) {
+        if (cards.length < 6 || cards.length % 3 !== 0) return false;
+        
+        return this.isSequence(cards, 3);
+    }
+    
+    // Check for complex combinations (triplet sequence with attachments)
+    isComplexCombination(cards) {
+        // This is for more advanced combinations like airplane with wings
+        // For now, we'll keep it simple and return false
+        // This can be expanded later for full Fight the Landlord rules
+        return false;
+    }
+    
+    // Helper function to count cards by value
+    getCardCounts(cards) {
+        const counts = {};
+        cards.forEach(card => {
+            counts[card.value] = (counts[card.value] || 0) + 1;
+        });
+        return counts;
+    }
+    
+    // Enhanced card comparison for Fight the Landlord combinations
+    canBeatLastPlay(cards) {
+        const lastPlay = this.lastPlayedCards;
+        if (lastPlay.length === 0) return true; // Can always play when no previous play
+        
+        const currentCombination = this.isValidCardCombination(cards);
+        const lastCombination = this.isValidCardCombination(lastPlay);
+        
+        if (!currentCombination || !lastCombination) return false;
+        
+        // Rockets beat everything
+        if (currentCombination.type === 'rocket') return true;
+        if (lastCombination.type === 'rocket') return false;
+        
+        // Bombs beat everything except rockets and bigger bombs
+        if (currentCombination.type === 'bomb') {
+            if (lastCombination.type === 'bomb') {
+                return currentCombination.rank > lastCombination.rank;
+            }
+            return lastCombination.type !== 'rocket';
+        }
+        
+        // Regular combinations must match type and be higher rank
+        if (currentCombination.type !== lastCombination.type) return false;
+        
+        // For sequences, must also match length
+        if (currentCombination.type.includes('sequence')) {
+            if (currentCombination.length !== lastCombination.length) return false;
+        }
+        
+        return currentCombination.rank > lastCombination.rank;
     }
 
     // 渲染出牌区域
@@ -755,11 +1110,21 @@ class DouDiZhuGame {
         this.landlordCards = [];
         this.currentPlayer = 0;
         this.landlord = -1;
-        this.gamePhase = 'calling';
+        this.gamePhase = 'bidding';
         this.lastPlayedCards = [];
         this.lastPlayer = -1;
         this.selectedCards = [];
         this.passCount = 0;
+        
+        // Reset bidding state
+        this.currentBidder = 0;
+        this.currentBid = 0;
+        this.highestBidder = -1;
+        this.biddingPasses = 0;
+        this.baseScore = 0;
+        
+        // Remove dynamic bidding buttons
+        document.querySelectorAll('.bid-button').forEach(btn => btn.remove());
         
         // 隐藏模态框
         document.getElementById('game-over-modal').classList.add('hidden');
@@ -780,8 +1145,250 @@ class DouDiZhuGame {
         document.getElementById('hint').addEventListener('click', () => {
             if (this.gamePhase === 'playing' && this.currentPlayer === 0) {
                 this.updateMessage('Hint: Choose the right cards to play!');
+            } else if (this.gamePhase === 'bidding') {
+                // Debug: Force transition to playing if user is already landlord
+                this.debugCheckGameState();
             }
         });
+    }
+
+    // Start bidding phase
+    startBidding() {
+        this.gamePhase = 'bidding';
+        this.currentBidder = 0;
+        this.currentBid = 0;
+        this.highestBidder = -1;
+        this.biddingPasses = 0;
+        this.updateMessage('Bidding phase started. Player 1, please bid or pass.');
+        this.updateGameControls();
+    }
+
+    // Make a bid
+    makeBid(points) {
+        if (this.gamePhase !== 'bidding' || points < 1 || points > 3) {
+            return false;
+        }
+        
+        // Bid must be higher than current bid
+        if (points <= this.currentBid) {
+            this.updateMessage(`Bid must be higher than ${this.currentBid}`);
+            return false;
+        }
+        
+        this.currentBid = points;
+        this.highestBidder = this.currentBidder;
+        this.biddingPasses = 0;
+        this.baseScore = points;
+        
+        this.updateMessage(`${this.players[this.currentBidder].name} bids ${points} point(s)`);
+        
+        // Move to next bidder
+        this.nextBidder();
+        return true;
+    }
+
+    // Pass in bidding
+    passBid() {
+        if (this.gamePhase !== 'bidding') {
+            return false;
+        }
+        
+        this.biddingPasses++;
+        this.updateMessage(`${this.players[this.currentBidder].name} passes`);
+        
+        // Check if bidding should end
+        if (this.biddingPasses >= 3 && this.highestBidder === -1) {
+            // All players passed, redeal
+            this.updateMessage('All players passed. Redealing cards...');
+            setTimeout(() => {
+                this.restartGame();
+            }, 2000);
+            return true;
+        }
+        
+        if (this.biddingPasses >= 2 && this.highestBidder !== -1) {
+            // Two passes after a bid, bidding ends
+            this.endBidding();
+            return true;
+        }
+        
+        // Move to next bidder
+        this.nextBidder();
+        return true;
+    }
+
+    // Move to next bidder
+    nextBidder() {
+        this.currentBidder = (this.currentBidder + 1) % 3;
+        
+        if (this.currentBidder !== 0) {
+            // AI bidding
+            setTimeout(() => {
+                this.aiBid();
+            }, 1000);
+        } else {
+            this.updateGameControls();
+        }
+    }
+
+    // AI bidding logic
+    aiBid() {
+        if (this.gamePhase !== 'bidding') return;
+        
+        const player = this.players[this.currentBidder];
+        const cards = player.cards;
+        
+        // Simple AI bidding strategy based on card strength
+        const strength = this.evaluateHandStrength(cards);
+        const bidProbability = this.calculateBidProbability(strength, this.currentBid);
+        
+        const shouldBid = Math.random() < bidProbability;
+        
+        if (shouldBid && this.currentBid < 3) {
+            const bidAmount = this.currentBid + 1;
+            this.makeBid(bidAmount);
+        } else {
+            this.passBid();
+        }
+    }
+
+    // Evaluate hand strength for AI bidding
+    evaluateHandStrength(cards) {
+        let strength = 0;
+        const cardCounts = {};
+        
+        // Count cards by rank
+        cards.forEach(card => {
+            cardCounts[card.rank] = (cardCounts[card.rank] || 0) + 1;
+        });
+        
+        // Evaluate strength based on:
+        // - High cards (A, 2, Jokers)
+        // - Pairs, triplets, bombs
+        // - Jokers
+        cards.forEach(card => {
+            if (card.rank === 'Big Joker') strength += 15;
+            else if (card.rank === 'Small Joker') strength += 12;
+            else if (card.rank === '2') strength += 8;
+            else if (card.rank === 'A') strength += 6;
+            else if (card.rank === 'K') strength += 4;
+            else if (card.rank === 'Q') strength += 3;
+            else if (card.rank === 'J') strength += 2;
+            else strength += 1;
+        });
+        
+        // Bonus for multiple cards of same rank
+        Object.values(cardCounts).forEach(count => {
+            if (count === 2) strength += 3; // Pair
+            else if (count === 3) strength += 8; // Triplet
+            else if (count === 4) strength += 20; // Bomb
+        });
+        
+        return strength;
+    }
+
+    // Calculate bidding probability based on hand strength
+    calculateBidProbability(strength, currentBid) {
+        // Adjust thresholds based on current bid
+        const baseThreshold = 60 + (currentBid * 20);
+        
+        if (strength > baseThreshold + 40) return 0.8;
+        if (strength > baseThreshold + 20) return 0.6;
+        if (strength > baseThreshold) return 0.4;
+        if (strength > baseThreshold - 20) return 0.2;
+        return 0.1;
+    }
+
+    // End bidding phase and start game
+    endBidding() {
+        if (this.highestBidder === -1) {
+            this.updateMessage('No valid bids. Restarting...');
+            setTimeout(() => this.restartGame(), 2000);
+            return;
+        }
+        
+        // Set landlord
+        this.landlord = this.highestBidder;
+        this.players[this.landlord].role = 'landlord';
+        
+        // Set peasants
+        for (let i = 0; i < 3; i++) {
+            if (i !== this.landlord) {
+                this.players[i].role = 'peasant';
+            }
+        }
+        
+        // Give landlord bonus cards
+        this.landlordCards.forEach(card => {
+            this.players[this.landlord].cards.push(card);
+        });
+        this.landlordCards = []; // Clear the bonus cards
+        
+        // Sort landlord's cards after adding bonus cards
+        this.sortCards(this.players[this.landlord].cards);
+        
+        // Start playing phase
+        this.gamePhase = 'playing';
+        this.currentPlayer = this.landlord; // Landlord plays first
+        
+        this.updateMessage(`${this.players[this.landlord].name} is the landlord with ${this.baseScore} point(s). Game starts!`);
+        this.renderGame();
+        this.updateGameControls();
+        
+        // If landlord is AI, start their turn
+        if (this.landlord !== 0) {
+            setTimeout(() => this.aiPlay(), 1500);
+        }
+    }
+
+    // Debug method to check and fix game state
+    debugCheckGameState() {
+        console.log('Game State Debug:', {
+            gamePhase: this.gamePhase,
+            landlord: this.landlord,
+            currentPlayer: this.currentPlayer,
+            currentBidder: this.currentBidder,
+            highestBidder: this.highestBidder,
+            playerRoles: this.players.map(p => p.role)
+        });
+        
+        // If a player is already landlord but game is in bidding phase, force transition
+        const landlordPlayer = this.players.find(p => p.role === 'landlord');
+        if (landlordPlayer && this.gamePhase === 'bidding') {
+            console.log('Forcing transition to playing phase...');
+            this.landlord = this.players.indexOf(landlordPlayer);
+            this.gamePhase = 'playing';
+            this.currentPlayer = this.landlord;
+            this.updateMessage(`${landlordPlayer.name} is the landlord. Game starts!`);
+            this.updateGameControls();
+            this.renderGame();
+        }
+        
+        // Force show playing buttons if user is landlord and it's playing phase
+        if (this.gamePhase === 'playing' || landlordPlayer) {
+            console.log('Forcing playing phase and showing buttons...');
+            this.gamePhase = 'playing';
+            this.currentPlayer = 0; // Make sure it's human player's turn
+            this.landlord = 0; // Make sure human is landlord
+            this.players[0].role = 'landlord';
+            this.players[1].role = 'peasant';
+            this.players[2].role = 'peasant';
+            
+            // Force show the buttons
+            const playCardsBtn = document.getElementById('play-cards');
+            const passTurnBtn = document.getElementById('pass-turn');
+            const hintBtn = document.getElementById('hint');
+            
+            playCardsBtn.style.display = 'inline-block';
+            passTurnBtn.style.display = 'inline-block';
+            hintBtn.style.display = 'inline-block';
+            
+            // Remove any lingering bidding buttons
+            document.querySelectorAll('.bid-button').forEach(btn => btn.remove());
+            
+            this.updateMessage('Your turn! Select cards and click PLAY CARDS.');
+            this.renderGame();
+        }
     }
 }
 

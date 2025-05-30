@@ -39,6 +39,16 @@
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
   --glow-primary: 0 0 10px rgba(59, 130, 246, 0.6);
   --glow-accent: 0 0 15px rgba(245, 158, 11, 0.6);
+
+  /* Responsive variables */
+  --card-width: clamp(60px, 8vw, 80px);
+  --card-height: clamp(84px, 11vw, 112px);
+  --font-size-base: clamp(14px, 2.5vw, 16px);
+  --font-size-h1: clamp(1.8em, 4vw, 2.8em);
+  --spacing-xs: clamp(5px, 1vw, 10px);
+  --spacing-sm: clamp(10px, 2vw, 15px);
+  --spacing-md: clamp(15px, 3vw, 20px);
+  --spacing-lg: clamp(20px, 4vw, 30px);
 }
 
 * {
@@ -54,6 +64,8 @@ body {
     min-height: 100vh;
     color: var(--text-primary);
     position: relative;
+    font-size: var(--font-size-base);
+    line-height: 1.5;
 }
 
 /* Tech grid overlay effect */
@@ -67,7 +79,7 @@ body::before {
     background-image: 
         linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
+    background-size: clamp(30px, 5vw, 50px) clamp(30px, 5vw, 50px);
     pointer-events: none;
     z-index: -1;
 }
@@ -75,15 +87,15 @@ body::before {
 .game-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: var(--spacing-md);
     min-height: 100vh;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-md);
     background: var(--container-bg);
-    padding: 20px;
+    padding: var(--spacing-md);
     border-radius: 15px;
     box-shadow: var(--shadow-card);
     border: 1px solid var(--container-border);
@@ -93,8 +105,8 @@ body::before {
 
 .header h1 {
     color: var(--color-accent);
-    font-size: 2.8em;
-    margin-bottom: 15px;
+    font-size: var(--font-size-h1);
+    margin-bottom: var(--spacing-sm);
     text-shadow: var(--glow-accent);
     font-weight: bold;
     letter-spacing: 2px;
@@ -105,7 +117,9 @@ body::before {
     justify-content: space-between;
     font-weight: bold;
     color: var(--text-secondary);
-    font-size: 1.1em;
+    font-size: clamp(0.9em, 2vw, 1.1em);
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
 }
 
 .landlord-cards {
@@ -129,10 +143,11 @@ body::before {
 
 .players-area {
     display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    grid-template-rows: 150px 1fr 200px;
-    gap: 20px;
-    height: 600px;
+    grid-template-columns: minmax(180px, 200px) 1fr minmax(180px, 200px);
+    grid-template-rows: minmax(120px, 150px) 1fr minmax(180px, 200px);
+    gap: var(--spacing-md);
+    height: clamp(500px, 80vh, 600px);
+    margin-bottom: var(--spacing-md);
 }
 
 .player {
@@ -313,8 +328,8 @@ body::before {
 }
 
 .card {
-    width: 80px;
-    height: 112px;
+    width: var(--card-width);
+    height: var(--card-height);
     background: var(--container-bg);
     border: 2px solid var(--container-border);
     border-radius: 10px;
@@ -325,7 +340,7 @@ body::before {
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: bold;
-    font-size: 14px;
+    font-size: clamp(12px, 2vw, 14px);
     position: relative;
     user-select: none;
     -webkit-user-select: none;
@@ -337,6 +352,9 @@ body::before {
     box-shadow: var(--shadow-card);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    /* Enhanced touch targets for mobile */
+    min-width: 44px;
+    min-height: 60px;
 }
 
 .card:hover {
@@ -566,7 +584,7 @@ body::before {
 }
 
 .btn {
-    padding: 14px 28px;
+    padding: clamp(10px, 2vw, 14px) clamp(20px, 4vw, 28px);
     border: none;
     border-radius: 30px;
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
@@ -574,8 +592,9 @@ body::before {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 15px;
-    min-width: 100px;
+    font-size: clamp(13px, 2.5vw, 15px);
+    min-width: clamp(80px, 15vw, 100px);
+    min-height: 44px; /* Touch-friendly minimum */
     box-shadow: var(--shadow-primary);
     border: 1px solid transparent;
     backdrop-filter: blur(10px);
@@ -750,52 +769,294 @@ body::before {
     }
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
+/* Responsive Design - Mobile First Approach */
+
+/* Small Mobile Devices (320px - 480px) */
+@media (max-width: 480px) {
+    :root {
+        --card-width: 50px;
+        --card-height: 70px;
+    }
+    
+    .game-container {
+        padding: 10px;
+    }
+    
     .players-area {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto;
+        grid-template-rows: auto auto auto auto auto;
         height: auto;
+        gap: 15px;
     }
     
     .player-top {
         grid-column: 1;
         grid-row: 1;
+        order: 1;
     }
     
     .center-area {
         grid-column: 1;
-        grid-row: 2;
+        grid-row: 3;
+        order: 3;
+        min-height: 200px;
     }
     
     .player-left {
         grid-column: 1;
-        grid-row: 3;
+        grid-row: 2;
+        order: 2;
         writing-mode: initial;
     }
     
     .player-bottom {
         grid-column: 1;
         grid-row: 4;
+        order: 4;
     }
     
-    .card {
-        width: 60px;
-        height: 84px;
-        font-size: 12px;
+    .header h1 {
+        font-size: 1.8em;
+        letter-spacing: 1px;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9em;
     }
     
     .game-controls {
         flex-direction: column;
-        align-items: center;
+        gap: 10px;
     }
     
     .btn {
         width: 100%;
-        max-width: 200px;
+        max-width: none;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    
+    .card:hover {
+        transform: translateY(-8px) scale(1.2);
+    }
+    
+    .player-bottom .card:hover {
+        transform: translateY(-15px) scale(1.3);
+    }
+    
+    /* Reduce overlapping on small screens */
+    .player-bottom .card {
+        margin-left: -20px;
+    }
+    
+    .player-left .card-back-computer {
+        margin-top: -30px;
+    }
+    
+    /* Improve modal for mobile */
+    .modal-content {
+        width: 95%;
+        padding: 25px 20px;
+        margin: 10px;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.6em;
+    }
+    
+    /* Disable some heavy effects on mobile for performance */
+    .card-back-computer::before {
+        animation: none;
     }
 }
 
+/* Mobile Devices (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    :root {
+        --card-width: 60px;
+        --card-height: 84px;
+    }
+    
+    .players-area {
+        grid-template-columns: 150px 1fr 150px;
+        grid-template-rows: 120px 1fr 160px;
+        height: clamp(450px, 70vh, 550px);
+    }
+    
+    .player-left .player-cards {
+        min-height: 250px;
+    }
+    
+    .player-top .player-cards {
+        min-height: 100px;
+    }
+    
+    .card:hover {
+        transform: translateY(-8px) scale(1.25);
+    }
+    
+    .player-bottom .card:hover {
+        transform: translateY(-15px) scale(1.35);
+    }
+    
+    /* Moderate overlapping for tablets */
+    .player-bottom .card {
+        margin-left: -25px;
+    }
+    
+    .player-left .card-back-computer {
+        margin-top: -40px;
+    }
+}
+
+/* Tablet Devices (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    :root {
+        --card-width: 70px;
+        --card-height: 98px;
+    }
+    
+    .players-area {
+        grid-template-columns: 180px 1fr 180px;
+        grid-template-rows: 140px 1fr 180px;
+        height: clamp(550px, 75vh, 600px);
+    }
+    
+    .game-controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .btn {
+        min-width: 120px;
+        flex: 0 0 auto;
+    }
+}
+
+/* Desktop Devices (1025px+) */
+@media (min-width: 1025px) {
+    :root {
+        --card-width: 80px;
+        --card-height: 112px;
+    }
+    
+    .players-area {
+        height: 600px;
+    }
+    
+    /* Enhanced hover effects for desktop */
+    .card:hover {
+        transform: translateY(-10px) scale(1.3);
+    }
+    
+    .player-bottom .card:hover {
+        transform: translateY(-20px) scale(1.4);
+    }
+    
+    .player-bottom .card.selected:hover {
+        transform: translateY(-25px) scale(1.5);
+    }
+    
+    /* Full overlapping for desktop */
+    .player-bottom .card {
+        margin-left: -30px;
+    }
+    
+    .player-left .card-back-computer {
+        margin-top: -50px;
+    }
+    
+    /* Desktop-specific enhancements */
+    .card-back-computer::before {
+        animation: shimmer 2s infinite;
+    }
+    
+    .landlord::after {
+        animation: pulse-glow 2s infinite;
+    }
+}
+
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
+    .game-container {
+        padding: 30px;
+    }
+    
+    .players-area {
+        gap: 25px;
+        height: 650px;
+    }
+    
+    .center-area {
+        padding: 30px;
+    }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .tech-grid {
+        background-size: 100px 100px;
+    }
+}
+
+/* Landscape orientation adjustments for mobile/tablet */
+@media (max-width: 1024px) and (orientation: landscape) {
+    .players-area {
+        height: 85vh;
+        grid-template-rows: 100px 1fr 140px;
+    }
+    
+    .center-area {
+        min-height: 150px;
+    }
+    
+    .modal-content {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+}
+
+/* Accessibility: Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .card-back-computer::before {
+        animation: none;
+    }
+    
+    .landlord::after {
+        animation: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .header, .game-controls, .modal {
+        display: none !important;
+    }
+    
+    .players-area {
+        height: auto;
+        background: white;
+        color: black;
+    }
+    
+    .card {
+        border: 1px solid black;
+        background: white;
+        box-shadow: none;
+    }
+}
+
+/* Player Bottom Card Layout */
 .player-bottom .player-cards {
     display: flex;
     flex-wrap: nowrap;
@@ -820,18 +1081,18 @@ body::before {
     transform: translateY(-20px) scale(1.4);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
     z-index: 50;
-    border-color: #ffd700;
+    border-color: var(--color-tech-cyan);
 }
 
 .player-bottom .card.selected {
     transform: translateY(-25px) scale(1.1);
-    border-color: #ffd700;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    border-color: var(--color-accent);
+    box-shadow: var(--glow-accent);
     z-index: 30;
 }
 
 .player-bottom .card.selected:hover {
     transform: translateY(-25px) scale(1.5);
-    box-shadow: 0 20px 40px rgba(255, 215, 0, 0.9);
+    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.9);
     z-index: 60;
 }

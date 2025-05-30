@@ -1,19 +1,113 @@
 ---
 description: 
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 # Fight the Landlord Card Game - Development Guide
 
 ## Project Overview
-This is a web-based "Fight the Landlord" (斗地主) card game implemented in HTML, CSS, and JavaScript. The game features a 3-player layout with enhanced visual effects, overlapping cards, and a comprehensive futuristic tech-themed color system with dark aesthetics and neon effects.
+This is a web-based "Fight the Landlord" (斗地主) card game implemented in HTML, CSS, and JavaScript. The game features authentic Fight the Landlord mechanics with a complete bidding system, proper card rankings, and a futuristic tech-themed dark interface with responsive design for all devices.
+
+## Game Rules & Mechanics
+
+### Core Game Structure
+- **Players**: 3 players total (1 human, 2 AI)
+- **Deck**: Standard 54-card deck (52 regular cards + 2 jokers)
+- **Deal**: 17 cards per player (51 total) + 3 bonus cards for landlord
+- **Roles**: Landlord (1 player, plays solo) vs Peasants (2 players, cooperate)
+
+### Card Rankings (Fight the Landlord Order)
+3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < J < Q < K < A < 2 < Small Joker < Big Joker
+
+### Bidding System
+- Players bid in clockwise order: 1, 2, or 3 points (or pass)
+- Highest bidder becomes landlord
+- If all pass → redeal cards
+- Landlord receives 3 bonus cards (total 20 cards)
+- Base score equals bid amount (1-3 points)
+
+### Valid Card Combinations
+- **Single**: Any single card
+- **Pair**: Two cards of same rank
+- **Three of a Kind**: Three cards of same rank
+- **Three + Single**: Three-of-a-kind + one extra card
+- **Three + Pair**: Three-of-a-kind + one pair
+- **Sequence**: ≥5 consecutive singles (A/2 not allowed)
+- **Pair Sequence**: ≥3 consecutive pairs (A/2 not allowed)
+- **Triplet Sequence**: ≥2 consecutive three-of-a-kinds
+- **Bomb**: Four cards of same rank (beats non-rockets)
+- **Rocket**: Both jokers (beats everything)
+
+### Win Conditions
+- **Landlord wins**: Plays all cards first
+- **Peasants win**: Either peasant empties hand first
 
 ## File Structure
 - [index.html](mdc:index.html) - Main game interface with 3-player grid layout
-- [style.css](mdc:style.css) - Comprehensive styling with CSS variables and futuristic tech theme
-- [script.js](mdc:script.js) - Game logic, card rendering, and interactive behaviors
+- [style.css](mdc:style.css) - Comprehensive styling with responsive design and tech theme
+- [script.js](mdc:script.js) - Complete Fight the Landlord game logic and AI
 - [task.md](mdc:task.md) - Development progress tracking and feature documentation
 - `images/` folder - Card images (gitignored, uses short naming convention)
+
+## JavaScript Architecture
+
+### Main Game Class: `DouDiZhuGame`
+```javascript
+class DouDiZhuGame {
+  constructor() {
+    // Game state management
+    this.gamePhase = 'bidding' | 'playing' | 'ended';
+    this.players = [...]; // 3 players with roles and cards
+    this.landlord = -1; // Index of landlord player
+    this.currentPlayer = 0; // Current turn
+    
+    // Bidding system
+    this.currentBidder = 0;
+    this.currentBid = 0; // 0-3 points
+    this.highestBidder = -1;
+    this.baseScore = 0;
+    
+    // Card system
+    this.deck = []; // 54-card deck
+    this.landlordCards = []; // 3 bonus cards
+    this.cardImages = {}; // Short name mapping
+  }
+}
+```
+
+### Key Methods Implementation
+- **`createDeck()`**: Creates 54-card deck with proper rankings
+- **`dealCards()`**: Deals 17 cards per player + 3 bonus cards
+- **`startBidding()`**: Initiates bidding phase with AI logic
+- **`makeBid(points)`**: Handles human/AI bidding with validation
+- **`evaluateHandStrength()`**: AI bidding strategy based on card strength
+- **`endBidding()`**: Assigns roles and starts playing phase
+- **`isValidCardCombination()`**: Validates Fight the Landlord card types
+- **`canBeatLastPlay()`**: Checks if cards can beat previous play
+
+### Card System Implementation
+```javascript
+// Card value mapping for Fight the Landlord ranking
+getCardValue(rank) {
+  const values = {
+    '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
+    'J': 11, 'Q': 12, 'K': 13, 'A': 14, '2': 15,
+    'Small Joker': 16, 'Big Joker': 17
+  };
+  return values[rank] || 0;
+}
+
+// Short name mapping for card images
+getCardImageKey(card) {
+  if (card.rank === 'Small Joker') return 'joker_small';
+  if (card.rank === 'Big Joker') return 'joker_big';
+  
+  const suitMap = {'♠': 'spade', '♥': 'heart', '♣': 'club', '♦': 'diamond'};
+  const rankMap = { 'J': 'j', 'Q': 'q', 'K': 'k', 'A': 'a', '10': '10', '2': '2' };
+  
+  return `${suitMap[card.suit]}_${rankMap[card.rank] || card.rank}`;
+}
+```
 
 ## Design System & Color Principles
 
@@ -44,8 +138,21 @@ All colors and effects are managed through CSS variables in [style.css](mdc:styl
   /* Tech effects */
   --shadow-neon: 0 0 20px rgba(0, 217, 255, 0.5);
   --glow-primary: 0 0 10px rgba(59, 130, 246, 0.6);
+  
+  /* Responsive variables */
+  --card-width: clamp(60px, 8vw, 80px);
+  --card-height: clamp(84px, 11.2vw, 112px);
+  --spacing-sm: clamp(0.5rem, 2vw, 1rem);
+  --spacing-md: clamp(1rem, 3vw, 1.5rem);
 }
 ```
+
+### Responsive Design Implementation
+- **Mobile-first approach**: 5 distinct breakpoints (320px, 481px, 769px, 1025px, 1400px)
+- **Fluid typography**: Using clamp() functions for scalable text
+- **Adaptive layouts**: Grid layouts adapt for each screen size
+- **Touch-friendly**: Minimum 44px touch targets, enhanced card selection
+- **Performance optimized**: Disabled heavy animations on mobile devices
 
 ### Visual Effects & Animations
 - **Shimmer Effect**: Moving light animation on computer card backs
@@ -53,12 +160,6 @@ All colors and effects are managed through CSS variables in [style.css](mdc:styl
 - **Neon Shadows**: Cyan glow effects on hover states
 - **Tech Grid**: Background pattern overlay for sci-fi atmosphere
 - **Backdrop Filters**: Glassmorphism blur effects on all containers
-
-### Accessibility Compliance
-- High contrast white text (#f8fafc) on dark backgrounds ≥7:1 ratio
-- Secondary text (#cbd5e1) maintains ≥4.5:1 contrast ratio
-- Button text remains white on colored backgrounds for visibility
-- Neon effects enhance rather than replace functional visual cues
 
 ## Player Layout & Positioning
 - **Player 1 (Human)**: Bottom position with overlapping cards, selection mechanics
@@ -77,6 +178,57 @@ All colors and effects are managed through CSS variables in [style.css](mdc:styl
 - **Computer players**: Enhanced overlapping with mathematical positioning
 - **Human player**: Overlapping with selection mechanics preserved
 - **Hover effects**: Tech-themed scale and neon glow effects without layout disruption
+
+### Card Rendering Logic
+```javascript
+renderComputerCards(playerIndex, containerId) {
+  // Enhanced overlapping with mathematical positioning
+  const isVertical = containerId === 'player1';
+  const totalCards = Math.min(cardCount, 15);
+  
+  // Dynamic overlap adjustment based on card count
+  const baseOverlap = isVertical ? -50 : -45;
+  const overlapVariation = Math.max(-15, cardCount * -2);
+  const finalOverlap = baseOverlap + overlapVariation;
+  
+  // Natural arc/rotation effects for realistic card fanning
+  const maxRotation = Math.min(15, totalCards * 1.5);
+  const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
+}
+```
+
+## Game State Management
+
+### Bidding Phase Implementation
+```javascript
+// Bidding system with AI strategy
+showBiddingButtons() {
+  // Dynamic bidding buttons based on current bid
+  for (let i = this.currentBid + 1; i <= 3; i++) {
+    // Create "Bid {i}" buttons
+  }
+  // Add "Pass" button
+}
+
+aiBid() {
+  const strength = this.evaluateHandStrength(cards);
+  const bidProbability = this.calculateBidProbability(strength, this.currentBid);
+  const shouldBid = Math.random() < bidProbability;
+}
+
+evaluateHandStrength(cards) {
+  // AI evaluates hand based on:
+  // - High cards (A, 2, Jokers) 
+  // - Pairs, triplets, bombs
+  // - Card distribution and potential combinations
+}
+```
+
+### Playing Phase Mechanics
+- **Turn management**: Clockwise rotation with proper skip logic
+- **Card validation**: Validates Fight the Landlord combinations
+- **AI strategy**: Simple but effective AI for computer players
+- **Win detection**: Proper landlord vs peasant victory conditions
 
 ## Key Implementation Patterns
 
@@ -102,40 +254,52 @@ Player name labels are hidden:
 
 ## Development Guidelines
 
-### When Adding New Features:
+### When Adding New Game Features:
+1. Follow Fight the Landlord rules strictly
+2. Update card validation logic in `isValidCardCombination()`
+3. Enhance AI strategy in `evaluateHandStrength()` and `findValidAICards()`
+4. Maintain proper game state transitions (bidding → playing → ended)
+5. Test with different card combinations and scenarios
+
+### When Adding UI Features:
 1. Follow the established tech theme using CSS variables
 2. Maintain high contrast accessibility requirements for dark theme
 3. Use neon/glow effects consistently for interactive feedback
-4. Ensure card containment within player regions
-5. Preserve overlapping card behaviors
-6. Update [task.md](mdc:task.md) with progress tracking
+4. Ensure responsive behavior across all breakpoints
+5. Update [task.md](mdc:task.md) with progress tracking
 
 ### CSS Modifications:
 - Use existing CSS variables for tech theme consistency
 - Follow shadow/glow effect patterns (--shadow-neon, --glow-primary)
-- Implement backdrop-filter blur effects for glassmorphism
+- Implement responsive design with mobile-first approach
 - Add subtle animations for enhanced tech feel
+- Use clamp() for fluid sizing and spacing
 
 ### JavaScript Changes:
+- Maintain Fight the Landlord game logic accuracy
 - Card positioning logic is in `renderComputerCards()` method
 - Hover effects are managed through event listeners
 - Image mapping system uses `cardImages` object with short names
-- Maintain performance with hardware-accelerated animations
+- Bidding system in `startBidding()`, `makeBid()`, `passBid()` methods
+
+## Testing Considerations
+- **Game Logic**: Test all Fight the Landlord card combinations
+- **Bidding System**: Test AI bidding behavior and edge cases
+- **Card Validation**: Verify proper card comparison and type validation
+- **Responsive Design**: Test across mobile, tablet, and desktop devices
+- **Performance**: Verify smooth animations and transitions
+- **Accessibility**: Ensure high contrast and touch-friendly interactions
+- **AI Behavior**: Test computer player strategies and decision making
 
 ## Common Issues & Solutions
 - **Card overflow**: Check container `overflow: hidden` and JavaScript positioning
-- **Hover effects**: Ensure transforms don't break layout containment
+- **Bidding logic**: Ensure proper turn management and bid validation
+- **Game state bugs**: Verify phase transitions and state resets
 - **Theme consistency**: Use CSS variables instead of hardcoded colors
-- **Accessibility**: Verify high contrast ratios with dark backgrounds
+- **Responsive issues**: Test fluid sizing with clamp() functions
 - **Performance**: Use CSS transforms and backdrop-filter for smooth animations
 
-## Testing Considerations
-- Test card overlapping with different hand sizes
-- Verify responsive behavior on mobile devices
-- Check hover effects don't cause layout shifts
-- Ensure all interactive elements meet accessibility standards
-- Test animation performance across different devices
-- Verify glassmorphism effects work on supported browsers
+
 
 
 
