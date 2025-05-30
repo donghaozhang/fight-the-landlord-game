@@ -15,6 +15,8 @@ export class DouDiZhuGame {
         this.lastPlayer = -1;
         this.selectedCards = [];
         this.passCount = 0;
+        // Web Audio context for simple sound effects
+        this.audioCtx = null;
         this.cardImages = this.initializeCardImages();
         
         this.baseScore = 1;
@@ -522,6 +524,9 @@ export class DouDiZhuGame {
     // Play cards
     playCards() {
         if (this.selectedCards.length === 0 || !this.isValidPlay()) return;
+
+        // Play confirmation sound
+        this.playTone(660, 0.2);
         
         const selectedCardObjects = this.selectedCards.map(index => this.players[0].cards[index]);
         
@@ -556,6 +561,8 @@ export class DouDiZhuGame {
 
     // Pass turn
     passTurn() {
+        // Sound to indicate pass
+        this.playTone(330, 0.15);
         this.passCount++;
         this.nextPlayer();
         
@@ -582,11 +589,12 @@ export class DouDiZhuGame {
         
         // Find cards the AI can play
         const validCards = this.findValidAICards(player.cards);
-        if (validCards.length > 0) {
-            this.aiPlayCards(validCards);
-        } else {
-            // Pass
-            this.passCount++;
+       if (validCards.length > 0) {
+           this.aiPlayCards(validCards);
+       } else {
+           // Pass
+            this.playTone(330, 0.15);
+           this.passCount++;
             this.nextPlayer();
             
             if (this.passCount >= 2) {
@@ -608,6 +616,8 @@ export class DouDiZhuGame {
 
     // AI plays the selected cards
     aiPlayCards(cards) {
+        // Simple sound for AI playing
+        this.playTone(520, 0.15);
         // Remove these cards from the AI player's hand
         cards.forEach(card => {
             const index = this.players[this.currentPlayer].cards.findIndex(c => 
@@ -1016,9 +1026,29 @@ export class DouDiZhuGame {
         document.querySelector('#message-area p').textContent = message;
     }
 
+    // Play a short sound using Web Audio API
+    playTone(freq = 440, duration = 0.15) {
+        if (!this.audioCtx) {
+            this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        const ctx = this.audioCtx;
+        if (ctx.state === 'suspended') {
+            ctx.resume();
+        }
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = freq;
+        gain.gain.value = 0.1;
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+    }
+
     // End the game
     endGame(winner) {
         this.gamePhase = 'ended';
+        this.playTone(880, 0.3);
         const modal = document.getElementById('game-over-modal');
         const result = document.getElementById('game-result');
         const message = document.getElementById('game-message');
