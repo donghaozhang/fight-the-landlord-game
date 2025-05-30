@@ -10,19 +10,14 @@ export class DouDiZhuGame {
         this.landlordCards = [];
         this.currentPlayer = 0;
         this.landlord = -1;
-        this.gamePhase = 'bidding'; // bidding, playing, ended
+        this.gamePhase = 'playing';
         this.lastPlayedCards = [];
         this.lastPlayer = -1;
         this.selectedCards = [];
         this.passCount = 0;
         this.cardImages = this.initializeCardImages();
         
-        // Bidding system properties
-        this.currentBidder = 0; // Start with player 0
-        this.currentBid = 0; // Current highest bid (0 = no bids yet)
-        this.currentBidder = -1; // Who made the current bid
-        this.biddingPasses = 0; // Count of consecutive passes
-        this.baseScore = 0; // Base score for the game
+        this.baseScore = 1;
         
         this.initializeGame();
         this.bindEvents();
@@ -107,8 +102,9 @@ export class DouDiZhuGame {
         this.createDeck();
         this.shuffleDeck();
         this.dealCards();
+        this.assignLandlord();
         this.renderGame();
-        this.startBidding();
+        this.updateGameControls();
     }
 
     // Create deck
@@ -194,6 +190,25 @@ export class DouDiZhuGame {
         this.players.forEach(player => {
             this.sortCards(player.cards);
         });
+    }
+
+    // Assign landlord without bidding (player 1 by default)
+    assignLandlord() {
+        this.landlord = 0; // Human player is landlord
+
+        this.players.forEach((player, index) => {
+            player.role = index === this.landlord ? 'landlord' : 'peasant';
+        });
+
+        this.players[this.landlord].cards.push(...this.landlordCards);
+        this.sortCards(this.players[this.landlord].cards);
+        this.landlordCards = [];
+
+        this.gamePhase = 'playing';
+        this.currentPlayer = this.landlord;
+        this.baseScore = 1;
+
+        this.updateMessage(`${this.players[this.landlord].name} is the landlord. Game starts!`);
     }
 
     // Get card value according to Fight the Landlord ranking
@@ -487,100 +502,22 @@ export class DouDiZhuGame {
 
     // Update game controls
     updateGameControls() {
-        const callLandlordBtn = document.getElementById('call-landlord');
-        const passLandlordBtn = document.getElementById('pass-landlord');
         const playCardsBtn = document.getElementById('play-cards');
         const passTurnBtn = document.getElementById('pass-turn');
         const hintBtn = document.getElementById('hint');
-        
+
         // Hide all buttons first
-        callLandlordBtn.style.display = 'none';
-        passLandlordBtn.style.display = 'none';
         playCardsBtn.style.display = 'none';
         passTurnBtn.style.display = 'none';
         hintBtn.style.display = 'none';
-        
-        // Remove all bidding buttons
-        document.querySelectorAll('.bid-button').forEach(btn => btn.remove());
-        
-        if (this.gamePhase === 'bidding') {
-            if (this.currentBidder === 0) {
-                // Show bidding buttons for human player
-                this.showBiddingButtons();
-            }
-        } else if (this.gamePhase === 'playing') {
-            if (this.currentPlayer === 0) {
-                playCardsBtn.style.display = 'inline-block';
-                passTurnBtn.style.display = 'inline-block';
-                hintBtn.style.display = 'inline-block';
-            }
+
+        if (this.gamePhase === 'playing' && this.currentPlayer === 0) {
+            playCardsBtn.style.display = 'inline-block';
+            passTurnBtn.style.display = 'inline-block';
+            hintBtn.style.display = 'inline-block';
         }
     }
 
-    // Show bidding buttons with dynamic options
-    showBiddingButtons() {
-        const container = document.querySelector('.game-controls');
-        
-        // Remove existing bidding buttons
-        container.querySelectorAll('.bid-button').forEach(btn => btn.remove());
-        
-        // Add bidding buttons
-        for (let i = this.currentBid + 1; i <= 3; i++) {
-            const bidBtn = document.createElement('button');
-            bidBtn.className = 'btn bid-button';
-            bidBtn.textContent = `Bid ${i}`;
-            bidBtn.onclick = () => this.makeBid(i);
-            container.appendChild(bidBtn);
-        }
-        
-        // Add pass button
-        const passBtn = document.createElement('button');
-        passBtn.className = 'btn bid-button';
-        passBtn.textContent = 'Pass';
-        passBtn.onclick = () => this.passBid();
-        container.appendChild(passBtn);
-    }
-
-    // Call landlord
-    callLandlord() {
-        this.landlord = this.currentPlayer;
-        this.players[this.currentPlayer].role = 'landlord';
-        
-        // Other players become peasants
-        this.players.forEach((player, index) => {
-            if (index !== this.landlord) {
-                player.role = 'peasant';
-            }
-        });
-        
-        // Landlord gets the landlord cards
-        this.players[this.landlord].cards.push(...this.landlordCards);
-        this.sortCards(this.players[this.landlord].cards);
-        
-        this.gamePhase = 'playing';
-        this.currentPlayer = this.landlord;
-        this.lastPlayedCards = [];
-        this.lastPlayer = -1;
-        
-        this.renderGame();
-        this.updateMessage(`${this.players[this.landlord].name} is now the landlord!`);
-    }
-
-    // Pass on calling landlord
-    passLandlord() {
-        this.nextPlayer();
-        
-        // Simple AI: randomly decide whether to call landlord
-        if (this.currentPlayer !== 0) {
-            setTimeout(() => {
-                if (Math.random() < 0.3) {
-                    this.callLandlord();
-                } else {
-                    this.passLandlord();
-                }
-            }, 1000);
-        }
-    }
 
     // Play cards
     playCards() {
@@ -1110,21 +1047,14 @@ export class DouDiZhuGame {
         this.landlordCards = [];
         this.currentPlayer = 0;
         this.landlord = -1;
-        this.gamePhase = 'bidding';
+        this.gamePhase = 'playing';
         this.lastPlayedCards = [];
         this.lastPlayer = -1;
         this.selectedCards = [];
         this.passCount = 0;
         
-        // Reset bidding state
-        this.currentBidder = 0;
-        this.currentBid = 0;
-        this.highestBidder = -1;
-        this.biddingPasses = 0;
-        this.baseScore = 0;
-        
-        // Remove dynamic bidding buttons
-        document.querySelectorAll('.bid-button').forEach(btn => btn.remove());
+        // Reset base score
+        this.baseScore = 1;
         
         // Hide the modal dialog
         document.getElementById('game-over-modal').classList.add('hidden');
@@ -1135,8 +1065,6 @@ export class DouDiZhuGame {
 
     // Bind DOM events
     bindEvents() {
-        document.getElementById('call-landlord').addEventListener('click', () => this.callLandlord());
-        document.getElementById('pass-landlord').addEventListener('click', () => this.passLandlord());
         document.getElementById('play-cards').addEventListener('click', () => this.playCards());
         document.getElementById('pass-turn').addEventListener('click', () => this.passTurn());
         document.getElementById('restart-game').addEventListener('click', () => this.restartGame());
@@ -1145,201 +1073,10 @@ export class DouDiZhuGame {
         document.getElementById('hint').addEventListener('click', () => {
             if (this.gamePhase === 'playing' && this.currentPlayer === 0) {
                 this.updateMessage('Hint: Choose the right cards to play!');
-            } else if (this.gamePhase === 'bidding') {
-                // Debug: Force transition to playing if user is already landlord
-                this.debugCheckGameState();
             }
         });
     }
 
-    // Start bidding phase
-    startBidding() {
-        this.gamePhase = 'bidding';
-        this.currentBidder = 0;
-        this.currentBid = 0;
-        this.highestBidder = -1;
-        this.biddingPasses = 0;
-        this.updateMessage('Bidding phase started. Player 1, please bid or pass.');
-        this.updateGameControls();
-    }
-
-    // Make a bid
-    makeBid(points) {
-        if (this.gamePhase !== 'bidding' || points < 1 || points > 3) {
-            return false;
-        }
-        
-        // Bid must be higher than current bid
-        if (points <= this.currentBid) {
-            this.updateMessage(`Bid must be higher than ${this.currentBid}`);
-            return false;
-        }
-        
-        this.currentBid = points;
-        this.highestBidder = this.currentBidder;
-        this.biddingPasses = 0;
-        this.baseScore = points;
-        
-        this.updateMessage(`${this.players[this.currentBidder].name} bids ${points} point(s)`);
-        
-        // Move to next bidder
-        this.nextBidder();
-        return true;
-    }
-
-    // Pass in bidding
-    passBid() {
-        if (this.gamePhase !== 'bidding') {
-            return false;
-        }
-        
-        this.biddingPasses++;
-        this.updateMessage(`${this.players[this.currentBidder].name} passes`);
-        
-        // Check if bidding should end
-        if (this.biddingPasses >= 3 && this.highestBidder === -1) {
-            // All players passed, redeal
-            this.updateMessage('All players passed. Redealing cards...');
-            setTimeout(() => {
-                this.restartGame();
-            }, 2000);
-            return true;
-        }
-        
-        if (this.biddingPasses >= 2 && this.highestBidder !== -1) {
-            // Two passes after a bid, bidding ends
-            this.endBidding();
-            return true;
-        }
-        
-        // Move to next bidder
-        this.nextBidder();
-        return true;
-    }
-
-    // Move to next bidder
-    nextBidder() {
-        this.currentBidder = (this.currentBidder + 1) % 3;
-        
-        if (this.currentBidder !== 0) {
-            // AI bidding
-            setTimeout(() => {
-                this.aiBid();
-            }, 1000);
-        } else {
-            this.updateGameControls();
-        }
-    }
-
-    // AI bidding logic
-    aiBid() {
-        if (this.gamePhase !== 'bidding') return;
-        
-        const player = this.players[this.currentBidder];
-        const cards = player.cards;
-        
-        // Simple AI bidding strategy based on card strength
-        const strength = this.evaluateHandStrength(cards);
-        const bidProbability = this.calculateBidProbability(strength, this.currentBid);
-        
-        const shouldBid = Math.random() < bidProbability;
-        
-        if (shouldBid && this.currentBid < 3) {
-            const bidAmount = this.currentBid + 1;
-            this.makeBid(bidAmount);
-        } else {
-            this.passBid();
-        }
-    }
-
-    // Evaluate hand strength for AI bidding
-    evaluateHandStrength(cards) {
-        let strength = 0;
-        const cardCounts = {};
-        
-        // Count cards by rank
-        cards.forEach(card => {
-            cardCounts[card.rank] = (cardCounts[card.rank] || 0) + 1;
-        });
-        
-        // Evaluate strength based on:
-        // - High cards (A, 2, Jokers)
-        // - Pairs, triplets, bombs
-        // - Jokers
-        cards.forEach(card => {
-            if (card.rank === 'Big Joker') strength += 15;
-            else if (card.rank === 'Small Joker') strength += 12;
-            else if (card.rank === '2') strength += 8;
-            else if (card.rank === 'A') strength += 6;
-            else if (card.rank === 'K') strength += 4;
-            else if (card.rank === 'Q') strength += 3;
-            else if (card.rank === 'J') strength += 2;
-            else strength += 1;
-        });
-        
-        // Bonus for multiple cards of same rank
-        Object.values(cardCounts).forEach(count => {
-            if (count === 2) strength += 3; // Pair
-            else if (count === 3) strength += 8; // Triplet
-            else if (count === 4) strength += 20; // Bomb
-        });
-        
-        return strength;
-    }
-
-    // Calculate bidding probability based on hand strength
-    calculateBidProbability(strength, currentBid) {
-        // Adjust thresholds based on current bid
-        const baseThreshold = 60 + (currentBid * 20);
-        
-        if (strength > baseThreshold + 40) return 0.8;
-        if (strength > baseThreshold + 20) return 0.6;
-        if (strength > baseThreshold) return 0.4;
-        if (strength > baseThreshold - 20) return 0.2;
-        return 0.1;
-    }
-
-    // End bidding phase and start game
-    endBidding() {
-        if (this.highestBidder === -1) {
-            this.updateMessage('No valid bids. Restarting...');
-            setTimeout(() => this.restartGame(), 2000);
-            return;
-        }
-        
-        // Set landlord
-        this.landlord = this.highestBidder;
-        this.players[this.landlord].role = 'landlord';
-        
-        // Set peasants
-        for (let i = 0; i < 3; i++) {
-            if (i !== this.landlord) {
-                this.players[i].role = 'peasant';
-            }
-        }
-        
-        // Give landlord bonus cards
-        this.landlordCards.forEach(card => {
-            this.players[this.landlord].cards.push(card);
-        });
-        this.landlordCards = []; // Clear the bonus cards
-        
-        // Sort landlord's cards after adding bonus cards
-        this.sortCards(this.players[this.landlord].cards);
-        
-        // Start playing phase
-        this.gamePhase = 'playing';
-        this.currentPlayer = this.landlord; // Landlord plays first
-        
-        this.updateMessage(`${this.players[this.landlord].name} is the landlord with ${this.baseScore} point(s). Game starts!`);
-        this.renderGame();
-        this.updateGameControls();
-        
-        // If landlord is AI, start their turn
-        if (this.landlord !== 0) {
-            setTimeout(() => this.aiPlay(), 1500);
-        }
-    }
 
     // Debug method to check and fix game state
     debugCheckGameState() {
@@ -1347,22 +1084,10 @@ export class DouDiZhuGame {
             gamePhase: this.gamePhase,
             landlord: this.landlord,
             currentPlayer: this.currentPlayer,
-            currentBidder: this.currentBidder,
-            highestBidder: this.highestBidder,
             playerRoles: this.players.map(p => p.role)
         });
-        
-        // If a player is already landlord but game is in bidding phase, force transition
+
         const landlordPlayer = this.players.find(p => p.role === 'landlord');
-        if (landlordPlayer && this.gamePhase === 'bidding') {
-            console.log('Forcing transition to playing phase...');
-            this.landlord = this.players.indexOf(landlordPlayer);
-            this.gamePhase = 'playing';
-            this.currentPlayer = this.landlord;
-            this.updateMessage(`${landlordPlayer.name} is the landlord. Game starts!`);
-            this.updateGameControls();
-            this.renderGame();
-        }
         
         // Force show playing buttons if user is landlord and it's playing phase
         if (this.gamePhase === 'playing' || landlordPlayer) {
@@ -1382,9 +1107,6 @@ export class DouDiZhuGame {
             playCardsBtn.style.display = 'inline-block';
             passTurnBtn.style.display = 'inline-block';
             hintBtn.style.display = 'inline-block';
-            
-            // Remove any lingering bidding buttons
-            document.querySelectorAll('.bid-button').forEach(btn => btn.remove());
             
             this.updateMessage('Your turn! Select cards and click PLAY CARDS.');
             this.renderGame();
