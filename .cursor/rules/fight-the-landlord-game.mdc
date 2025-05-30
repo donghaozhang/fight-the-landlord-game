@@ -6,7 +6,7 @@ alwaysApply: false
 # Fight the Landlord Card Game - Development Guide
 
 ## Project Overview
-This is a web-based "Fight the Landlord" (斗地主) card game implemented in HTML, CSS, and JavaScript. The game features authentic Fight the Landlord mechanics with a complete bidding system, proper card rankings, and a futuristic tech-themed dark interface with responsive design for all devices.
+This is a web-based "Fight the Landlord" (Dou Dizhu) card game implemented in HTML, CSS, and JavaScript. The game features authentic Fight the Landlord mechanics with a complete bidding system, proper card rankings, and a futuristic tech-themed dark interface with responsive design for all devices.
 
 ## Game Rules & Mechanics
 

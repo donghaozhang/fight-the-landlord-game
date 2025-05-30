@@ -582,13 +582,13 @@ export class DouDiZhuGame {
         }
     }
 
-    // 出牌
+    // Play cards
     playCards() {
         if (this.selectedCards.length === 0 || !this.isValidPlay()) return;
         
         const selectedCardObjects = this.selectedCards.map(index => this.players[0].cards[index]);
         
-        // 移除选中的牌
+        // Remove the selected cards
         this.selectedCards.sort((a, b) => b - a);
         this.selectedCards.forEach(index => {
             this.players[0].cards.splice(index, 1);
@@ -602,7 +602,7 @@ export class DouDiZhuGame {
         this.renderPlayedCards(selectedCardObjects);
         this.renderGame();
         
-        // 检查游戏是否结束
+        // Check if the game is over
         if (this.players[0].cards.length === 0) {
             this.endGame(0);
             return;
@@ -611,13 +611,13 @@ export class DouDiZhuGame {
         this.nextPlayer();
         this.updateMessage(`${this.players[this.lastPlayer].name} played`);
         
-        // AI玩家自动出牌
+        // AI automatically plays cards
         if (this.currentPlayer !== 0) {
             setTimeout(() => this.aiPlay(), 1500);
         }
     }
 
-    // 不要
+    // Pass turn
     passTurn() {
         this.passCount++;
         this.nextPlayer();
@@ -631,7 +631,7 @@ export class DouDiZhuGame {
             this.updateMessage(`${this.players[(this.currentPlayer + 2) % 3].name} passes`);
         }
         
-        // AI玩家自动决策
+        // AI makes a decision
         if (this.currentPlayer !== 0) {
             setTimeout(() => this.aiPlay(), 1500);
         }
@@ -639,16 +639,16 @@ export class DouDiZhuGame {
         this.updateGameControls();
     }
 
-    // AI玩家出牌
+    // AI plays cards
     aiPlay() {
         const player = this.players[this.currentPlayer];
         
-        // 寻找AI可以出的牌
+        // Find cards the AI can play
         const validCards = this.findValidAICards(player.cards);
         if (validCards.length > 0) {
             this.aiPlayCards(validCards);
         } else {
-            // 不要
+            // Pass
             this.passCount++;
             this.nextPlayer();
             
@@ -669,9 +669,9 @@ export class DouDiZhuGame {
         this.updateGameControls();
     }
 
-    // AI出牌
+    // AI plays the selected cards
     aiPlayCards(cards) {
-        // 从AI玩家手牌中移除这些牌
+        // Remove these cards from the AI player's hand
         cards.forEach(card => {
             const index = this.players[this.currentPlayer].cards.findIndex(c => 
                 c.rank === card.rank && c.suit === card.suit
@@ -688,7 +688,7 @@ export class DouDiZhuGame {
         this.renderPlayedCards(cards);
         this.renderGame();
         
-        // 检查游戏是否结束
+        // Check if the game is over
         if (this.players[this.currentPlayer].cards.length === 0) {
             this.endGame(this.currentPlayer);
             return;
@@ -702,10 +702,10 @@ export class DouDiZhuGame {
         }
     }
 
-    // 寻找AI可以出的牌
+    // Find cards the AI can play
     findValidAICards(cards) {
         if (this.lastPlayedCards.length === 0) {
-            // 自由出牌，出最小的单牌
+            // Free play - play the smallest single card
             return [cards[0]];
         }
         
@@ -800,7 +800,7 @@ export class DouDiZhuGame {
         return null;
     }
 
-    // 检查是否是有效出牌
+    // Check if the selected cards form a valid play
     isValidPlay() {
         if (this.selectedCards.length === 0) return false;
         
@@ -811,15 +811,15 @@ export class DouDiZhuGame {
         if (!combination) return false;
         
         if (this.lastPlayedCards.length === 0) {
-            // 自由出牌，任何有效组合都可以
+            // Free play, any valid combination is allowed
             return true;
         }
         
-        // 必须出相同类型且更大的牌，或者出炸弹/火箭
+        // Must play the same type with higher rank, or a bomb/rocket
         return this.canBeatLastPlay(selectedCardObjects);
     }
 
-    // 检查牌型组合是否有效
+    // Validate whether a card combination is legal
     isValidCardCombination(cards) {
         if (cards.length === 0) return false;
         
@@ -1051,7 +1051,7 @@ export class DouDiZhuGame {
         return currentCombination.rank > lastCombination.rank;
     }
 
-    // 渲染出牌区域
+    // Render the area showing played cards
     renderPlayedCards(cards) {
         const container = document.getElementById('played-cards');
         container.innerHTML = '';
@@ -1068,18 +1068,18 @@ export class DouDiZhuGame {
         }
     }
 
-    // 下一个玩家
+    // Move to the next player
     nextPlayer() {
         this.currentPlayer = (this.currentPlayer + 1) % 3;
         this.updatePlayerInfo();
     }
 
-    // 更新消息
+    // Update status message
     updateMessage(message) {
         document.querySelector('#message-area p').textContent = message;
     }
 
-    // 结束游戏
+    // End the game
     endGame(winner) {
         this.gamePhase = 'ended';
         const modal = document.getElementById('game-over-modal');
@@ -1099,9 +1099,9 @@ export class DouDiZhuGame {
         modal.classList.remove('hidden');
     }
 
-    // 重新开始游戏
+    // Restart the game
     restartGame() {
-        // 重置所有状态
+        // Reset all game state
         this.deck = [];
         this.players.forEach(player => {
             player.cards = [];
@@ -1126,14 +1126,14 @@ export class DouDiZhuGame {
         // Remove dynamic bidding buttons
         document.querySelectorAll('.bid-button').forEach(btn => btn.remove());
         
-        // 隐藏模态框
+        // Hide the modal dialog
         document.getElementById('game-over-modal').classList.add('hidden');
         
-        // 重新初始化游戏
+        // Reinitialize the game
         this.initializeGame();
     }
 
-    // 绑定事件
+    // Bind DOM events
     bindEvents() {
         document.getElementById('call-landlord').addEventListener('click', () => this.callLandlord());
         document.getElementById('pass-landlord').addEventListener('click', () => this.passLandlord());
@@ -1141,7 +1141,7 @@ export class DouDiZhuGame {
         document.getElementById('pass-turn').addEventListener('click', () => this.passTurn());
         document.getElementById('restart-game').addEventListener('click', () => this.restartGame());
         
-        // 提示按钮（简单实现）
+        // Hint button (simple implementation)
         document.getElementById('hint').addEventListener('click', () => {
             if (this.gamePhase === 'playing' && this.currentPlayer === 0) {
                 this.updateMessage('Hint: Choose the right cards to play!');

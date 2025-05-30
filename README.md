@@ -1,6 +1,6 @@
 # Fight the Landlord Card Game
 
-A web-based implementation of the popular Chinese card game "Fight the Landlord" (斗地主) featuring beautiful Black Myth Wukong themed artwork.
+A web-based implementation of the popular Chinese card game "Fight the Landlord" (Dou Dizhu) featuring beautiful Black Myth Wukong themed artwork.
 
 ## 🎮 Game Features
 
