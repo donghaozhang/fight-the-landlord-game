@@ -1,0 +1,9 @@
+{
+  "name": "fight-the-landlord-game",
+  "version": "1.0.0",
+  "description": "Web-based Fight the Landlord card game",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  }
+}
