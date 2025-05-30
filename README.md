@@ -11,6 +11,7 @@ A web-based implementation of the popular Chinese card game "Fight the Landlord"
 - **AI Opponents**: Play against computer players with basic AI logic
 - **Responsive Design**: Works on desktop and mobile devices
 - **Modern Web Tech**: Pure HTML5, CSS3, and JavaScript - no frameworks needed
+- **Sound Effects**: Minimal beeps for plays and wins
 
 ## 🃏 Card System
 
@@ -142,12 +143,12 @@ You'll need to:
 - Responsive card sizing
 - Basic AI opponent logic
 - Complete game rule implementation
+- Simple sound effects using the Web Audio API
 
 ### 🔄 Future Enhancements
 - Online multiplayer support
 - Advanced AI strategies
 - Card animation effects
-- Sound effects
 - Score tracking system
 
 ## 🤝 Contributing
