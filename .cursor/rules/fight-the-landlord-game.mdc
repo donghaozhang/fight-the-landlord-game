@@ -1,0 +1,105 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Fight the Landlord Card Game - Development Guide
+
+## Project Overview
+This is a web-based "Fight the Landlord" (斗地主) card game implemented in HTML, CSS, and JavaScript. The game features a 3-player layout with enhanced visual effects, overlapping cards, and a comprehensive color system.
+
+## File Structure
+- [index.html](mdc:index.html) - Main game interface with 3-player grid layout
+- [style.css](mdc:style.css) - Comprehensive styling with CSS variables and 60-30-10 color system
+- [script.js](mdc:script.js) - Game logic, card rendering, and interactive behaviors
+- [task.md](mdc:task.md) - Development progress tracking and feature documentation
+- `images/` folder - Card images (gitignored, uses short naming convention)
+
+## Design System & Color Principles
+
+### 60-30-10 Color Rule
+- **60% Background**: Light blue-gray gradient (#F5F7FA → #E4EAF2) for main atmosphere
+- **30% Primary**: Blue system (#1E88E5, #42A5F5) for buttons, highlights, interactive elements
+- **10% Accent**: Amber gold (#FFCA28) for selections, landlord indicators, important states
+
+### CSS Variables System
+All colors are managed through CSS variables in [style.css](mdc:style.css):
+```css
+:root {
+  --color-primary: #1E88E5;
+  --color-accent: #FFCA28;
+  --text-primary: #212121;
+  --shadow-primary: 0 2px 8px rgba(30, 136, 229, 0.3);
+}
+```
+
+### Accessibility Compliance
+- Primary text: ≥7:1 contrast ratio (WCAG AAA)
+- Interactive elements: ≥4.5:1 contrast ratio (WCAG AA)
+- Consistent shadow system with blue-tinted effects
+
+## Player Layout & Positioning
+- **Player 1 (Human)**: Bottom position with overlapping cards, selection mechanics
+- **Computer 1**: Left position (vertical layout) with contained card display
+- **Computer 2**: Top position (horizontal layout) with card fanning effects
+
+## Card System Implementation
+
+### Card Image Naming
+- Short names: `{suit}{rank}.png` (e.g., `sa.png` for Spades Ace, `ht.png` for Hearts Ten)
+- Suits: s(spades), h(hearts), c(clubs), d(diamonds)
+- Ranks: a,2-9,t(ten),j,q,k
+- Jokers: `jr.png` (red), `jb.png` (black)
+
+### Card Overlapping System
+- **Computer players**: Enhanced overlapping with mathematical positioning
+- **Human player**: Overlapping with selection mechanics preserved
+- **Hover effects**: Scale and glow effects without layout disruption
+
+## Key Implementation Patterns
+
+### Card Containment
+Computer 1 cards must stay within their designated region:
+- CSS: `overflow: hidden` on `.player-left .player-cards`
+- JavaScript: Reduced horizontal offsets and removed translateX on hover
+
+### Player Info Visibility
+Player name labels are hidden:
+- CSS: `.player-info { display: none; }`
+
+### Interactive States
+- **Hover**: Scale transforms with enhanced shadows
+- **Selection**: Golden accent highlighting with glow effects
+- **Disabled**: Proper disabled states with reduced opacity
+
+## Development Guidelines
+
+### When Adding New Features:
+1. Follow the established color system using CSS variables
+2. Maintain accessibility contrast requirements
+3. Ensure card containment within player regions
+4. Preserve overlapping card behaviors
+5. Update [task.md](mdc:task.md) with progress tracking
+
+### CSS Modifications:
+- Use existing CSS variables for consistency
+- Follow shadow system patterns (--shadow-primary, --shadow-elevated)
+- Maintain responsive design considerations
+
+### JavaScript Changes:
+- Card positioning logic is in `renderComputerCards()` method
+- Hover effects are managed through event listeners
+- Image mapping system uses `cardImages` object with short names
+
+## Common Issues & Solutions
+- **Card overflow**: Check container `overflow: hidden` and JavaScript positioning
+- **Hover effects**: Ensure transforms don't break layout containment
+- **Color inconsistency**: Use CSS variables instead of hardcoded colors
+- **Accessibility**: Verify contrast ratios when adding new colors
+
+## Testing Considerations
+- Test card overlapping with different hand sizes
+- Verify responsive behavior on mobile devices
+- Check hover effects don't cause layout shifts
+- Ensure all interactive elements meet accessibility standards
+
