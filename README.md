@@ -49,7 +49,8 @@ You can play the game immediately by opening `index.html` in any modern web brow
 
 ```
 ├── index.html          # Main game interface
-├── script.js           # Game logic and card management  
+├── game.js             # Game logic and card management
+├── main.js             # Game initialization
 ├── style.css           # Styling and hover effects
 ├── images.json         # Card image mapping reference
 ├── .gitignore          # Excludes large image files
@@ -111,7 +112,7 @@ Fight the Landlord is played with 3 players using a 54-card deck (including 2 jo
 ### For Full Game Experience:
 You'll need to:
 1. Host card images on external services (CloudFlare, AWS S3, GitHub Pages, etc.)
-2. Update image paths in `script.js` 
+2. Update image paths in `game.js`
 3. Or download images locally and update `.gitignore`
 
 ### Image Reference:
