@@ -23,8 +23,8 @@ Cards use a systematic short naming convention:
 Examples: `ht.png` (Hearts 10), `cq.png` (Clubs Queen), `sa.png` (Spades Ace)
 
 ### Current Implementation
-- 7 cards with short names implemented
-- 113 cards with descriptive long names
+- Complete 54-card deck with short filenames
+- Images stored externally to keep repository small
 - All cards feature unique Black Myth Wukong artwork
 - 1024x1536 resolution for crisp display
 
@@ -46,6 +46,13 @@ npm start
 This command starts a simple Node.js server defined in `server.js`. The game can
 then be accessed at `http://localhost:8080`.
 
+### Running Tests
+Use Node.js 20+ for the built-in test runner.
+```bash
+npm test
+```
+This command executes the suites in the `tests/` directory covering the HTTP server and core game logic.
+
 ### Live Demo
 You can play the game immediately by opening `index.html` in any modern web browser.
 
@@ -56,7 +63,9 @@ You can play the game immediately by opening `index.html` in any modern web brow
 ├── game.js             # Game logic and card management
 ├── main.js             # Game initialization
 ├── style.css           # Styling and hover effects
-├── images.json         # Card image mapping reference
+├── server.js           # Development server
+├── package.json        # npm scripts and metadata
+├── tests/              # Automated tests
 ├── .gitignore          # Excludes large image files
 ├── task.md             # Development progress tracking
 └── README.md           # This file
@@ -120,24 +129,23 @@ You'll need to:
 3. Or download images locally and update `.gitignore`
 
 ### Image Reference:
-- All image names and mappings are documented in `images.json`
-- Short name mapping system ready for implementation
+- Card filenames follow the short naming scheme (e.g., `sa.png` for spade ace)
+- Provide your own image mapping file if hosting images yourself
 - Fallback to text-only cards if images unavailable
 
 ## 🎯 Game Status
 
 ### ✅ Completed Features
 - Full English interface translation
-- Short card naming system (7 cards implemented)
+- Complete short-named deck (54 cards)
 - Enhanced hover effects (30% enlargement)
 - Responsive card sizing
 - Basic AI opponent logic
 - Complete game rule implementation
 
 ### 🔄 Future Enhancements
-- Complete deck with all 52 short-named cards
+- Online multiplayer support
 - Advanced AI strategies
-- Multiplayer network support
 - Card animation effects
 - Sound effects
 - Score tracking system
