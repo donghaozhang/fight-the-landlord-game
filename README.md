@@ -76,7 +76,7 @@ You can play the game immediately by opening `index.html` in any modern web brow
 Fight the Landlord is played with 3 players using a 54-card deck (including 2 jokers):
 
 1. **Card Distribution**: Each player gets 17 cards, 3 cards remain as "landlord cards"
-2. **Landlord Selection**: Players bid to become the landlord
+2. **Landlord Selection**: Player 1 is automatically the landlord
 3. **Landlord Advantage**: Gets the 3 extra cards (20 total)
 4. **Victory Conditions**: 
    - Landlord wins by playing all cards first
