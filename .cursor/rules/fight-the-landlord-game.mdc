@@ -6,37 +6,59 @@ alwaysApply: true
 # Fight the Landlord Card Game - Development Guide
 
 ## Project Overview
-This is a web-based "Fight the Landlord" (斗地主) card game implemented in HTML, CSS, and JavaScript. The game features a 3-player layout with enhanced visual effects, overlapping cards, and a comprehensive color system.
+This is a web-based "Fight the Landlord" (斗地主) card game implemented in HTML, CSS, and JavaScript. The game features a 3-player layout with enhanced visual effects, overlapping cards, and a comprehensive futuristic tech-themed color system with dark aesthetics and neon effects.
 
 ## File Structure
 - [index.html](mdc:index.html) - Main game interface with 3-player grid layout
-- [style.css](mdc:style.css) - Comprehensive styling with CSS variables and 60-30-10 color system
+- [style.css](mdc:style.css) - Comprehensive styling with CSS variables and futuristic tech theme
 - [script.js](mdc:script.js) - Game logic, card rendering, and interactive behaviors
 - [task.md](mdc:task.md) - Development progress tracking and feature documentation
 - `images/` folder - Card images (gitignored, uses short naming convention)
 
 ## Design System & Color Principles
 
-### 60-30-10 Color Rule
-- **60% Background**: Light blue-gray gradient (#F5F7FA → #E4EAF2) for main atmosphere
-- **30% Primary**: Blue system (#1E88E5, #42A5F5) for buttons, highlights, interactive elements
-- **10% Accent**: Amber gold (#FFCA28) for selections, landlord indicators, important states
+### Futuristic Tech Theme
+- **Dark Atmosphere**: Deep blue gradient background (#0a0e27 → #1a1d3a) with tech grid overlay
+- **Neon Accents**: Cyan/blue (#00d9ff, #3b82f6) for interactive elements and highlights
+- **Glow Effects**: Amber gold (#f59e0b) for important states and role indicators
+- **Glassmorphism**: Semi-transparent containers with backdrop blur effects
 
 ### CSS Variables System
-All colors are managed through CSS variables in [style.css](mdc:style.css):
+All colors and effects are managed through CSS variables in [style.css](mdc:style.css):
 ```css
 :root {
-  --color-primary: #1E88E5;
-  --color-accent: #FFCA28;
-  --text-primary: #212121;
-  --shadow-primary: 0 2px 8px rgba(30, 136, 229, 0.3);
+  /* Dark tech atmosphere */
+  --bg-gradient-start: #0a0e27;
+  --bg-gradient-end: #1a1d3a;
+  --container-bg: rgba(15, 23, 42, 0.9);
+  
+  /* Tech colors */
+  --color-primary: #3b82f6;
+  --color-tech-cyan: #00d9ff;
+  --color-accent: #f59e0b;
+  
+  /* High contrast text */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  
+  /* Tech effects */
+  --shadow-neon: 0 0 20px rgba(0, 217, 255, 0.5);
+  --glow-primary: 0 0 10px rgba(59, 130, 246, 0.6);
 }
 ```
 
+### Visual Effects & Animations
+- **Shimmer Effect**: Moving light animation on computer card backs
+- **Pulse Glow**: Breathing light effect on landlord role indicators
+- **Neon Shadows**: Cyan glow effects on hover states
+- **Tech Grid**: Background pattern overlay for sci-fi atmosphere
+- **Backdrop Filters**: Glassmorphism blur effects on all containers
+
 ### Accessibility Compliance
-- Primary text: ≥7:1 contrast ratio (WCAG AAA)
-- Interactive elements: ≥4.5:1 contrast ratio (WCAG AA)
-- Consistent shadow system with blue-tinted effects
+- High contrast white text (#f8fafc) on dark backgrounds ≥7:1 ratio
+- Secondary text (#cbd5e1) maintains ≥4.5:1 contrast ratio
+- Button text remains white on colored backgrounds for visibility
+- Neon effects enhance rather than replace functional visual cues
 
 ## Player Layout & Positioning
 - **Player 1 (Human)**: Bottom position with overlapping cards, selection mechanics
@@ -54,9 +76,15 @@ All colors are managed through CSS variables in [style.css](mdc:style.css):
 ### Card Overlapping System
 - **Computer players**: Enhanced overlapping with mathematical positioning
 - **Human player**: Overlapping with selection mechanics preserved
-- **Hover effects**: Scale and glow effects without layout disruption
+- **Hover effects**: Tech-themed scale and neon glow effects without layout disruption
 
 ## Key Implementation Patterns
+
+### Tech Theme Elements
+- **Containers**: Dark semi-transparent backgrounds with blue borders and blur effects
+- **Animations**: Shimmer, pulse-glow, and enhanced hover transitions
+- **Interactive States**: Neon cyan borders and glow effects on hover/selection
+- **Typography**: High contrast white text with optional glow effects
 
 ### Card Containment
 Computer 1 cards must stay within their designated region:
@@ -68,38 +96,46 @@ Player name labels are hidden:
 - CSS: `.player-info { display: none; }`
 
 ### Interactive States
-- **Hover**: Scale transforms with enhanced shadows
-- **Selection**: Golden accent highlighting with glow effects
-- **Disabled**: Proper disabled states with reduced opacity
+- **Hover**: Scale transforms with neon glow shadows
+- **Selection**: Amber accent highlighting with enhanced glow effects
+- **Disabled**: Darkened states with reduced opacity maintaining theme consistency
 
 ## Development Guidelines
 
 ### When Adding New Features:
-1. Follow the established color system using CSS variables
-2. Maintain accessibility contrast requirements
-3. Ensure card containment within player regions
-4. Preserve overlapping card behaviors
-5. Update [task.md](mdc:task.md) with progress tracking
+1. Follow the established tech theme using CSS variables
+2. Maintain high contrast accessibility requirements for dark theme
+3. Use neon/glow effects consistently for interactive feedback
+4. Ensure card containment within player regions
+5. Preserve overlapping card behaviors
+6. Update [task.md](mdc:task.md) with progress tracking
 
 ### CSS Modifications:
-- Use existing CSS variables for consistency
-- Follow shadow system patterns (--shadow-primary, --shadow-elevated)
-- Maintain responsive design considerations
+- Use existing CSS variables for tech theme consistency
+- Follow shadow/glow effect patterns (--shadow-neon, --glow-primary)
+- Implement backdrop-filter blur effects for glassmorphism
+- Add subtle animations for enhanced tech feel
 
 ### JavaScript Changes:
 - Card positioning logic is in `renderComputerCards()` method
 - Hover effects are managed through event listeners
 - Image mapping system uses `cardImages` object with short names
+- Maintain performance with hardware-accelerated animations
 
 ## Common Issues & Solutions
 - **Card overflow**: Check container `overflow: hidden` and JavaScript positioning
 - **Hover effects**: Ensure transforms don't break layout containment
-- **Color inconsistency**: Use CSS variables instead of hardcoded colors
-- **Accessibility**: Verify contrast ratios when adding new colors
+- **Theme consistency**: Use CSS variables instead of hardcoded colors
+- **Accessibility**: Verify high contrast ratios with dark backgrounds
+- **Performance**: Use CSS transforms and backdrop-filter for smooth animations
 
 ## Testing Considerations
 - Test card overlapping with different hand sizes
 - Verify responsive behavior on mobile devices
 - Check hover effects don't cause layout shifts
 - Ensure all interactive elements meet accessibility standards
+- Test animation performance across different devices
+- Verify glassmorphism effects work on supported browsers
+
+
 
