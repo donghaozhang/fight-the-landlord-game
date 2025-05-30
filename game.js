@@ -483,7 +483,6 @@ export class DouDiZhuGame {
             if (player.role === 'landlord') {
                 playerElement.classList.add('landlord');
             } else if (player.role === 'peasant') {
-                playerElement.classList.add('peasant');
                 // Keep 'farmer' class for backward compatibility with existing CSS
                 playerElement.classList.add('farmer');
             }

@@ -20,6 +20,19 @@ function createServer() {
       case '.json':
         contentType = 'application/json';
         break;
+      case '.png':
+        contentType = 'image/png';
+        break;
+      case '.jpg':
+      case '.jpeg':
+        contentType = 'image/jpeg';
+        break;
+      case '.gif':
+        contentType = 'image/gif';
+        break;
+      case '.svg':
+        contentType = 'image/svg+xml';
+        break;
     }
 
     fs.readFile(filePath, (err, content) => {
@@ -28,7 +41,13 @@ function createServer() {
         res.end('Not Found');
       } else {
         res.writeHead(200, { 'Content-Type': contentType });
-        res.end(content, 'utf-8');
+        
+        // Handle binary files (images) vs text files differently
+        if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
+          res.end(content); // Binary data, no encoding needed
+        } else {
+          res.end(content, 'utf-8'); // Text data with UTF-8 encoding
+        }
       }
     });
   });
