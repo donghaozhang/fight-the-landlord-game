@@ -1,5 +1,5 @@
 // Fight the Landlord Game Class
-class DouDiZhuGame {
+export class DouDiZhuGame {
     constructor() {
         this.deck = [];
         this.players = [
@@ -1391,10 +1391,3 @@ class DouDiZhuGame {
         }
     }
 }
-
-// 游戏初始化
-let game;
-
-document.addEventListener('DOMContentLoaded', () => {
-    game = new DouDiZhuGame();
-});
