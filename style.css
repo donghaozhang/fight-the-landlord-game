@@ -59,8 +59,9 @@
 
 body {
     font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-    background-attachment: fixed;
+    background: 
+        linear-gradient(rgba(10, 14, 39, 0.7), rgba(26, 29, 58, 0.8)),
+        url('./images/wukong.jpg') center/cover no-repeat fixed;
     min-height: 100vh;
     color: var(--text-primary);
     position: relative;
@@ -68,7 +69,7 @@ body {
     line-height: 1.5;
 }
 
-/* Tech grid overlay effect */
+/* Tech grid overlay effect - more subtle to complement Wukong background */
 body::before {
     content: '';
     position: fixed;
@@ -77,8 +78,8 @@ body::before {
     width: 100%;
     height: 100%;
     background-image: 
-        linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
     background-size: clamp(30px, 5vw, 50px) clamp(30px, 5vw, 50px);
     pointer-events: none;
     z-index: -1;
@@ -91,18 +92,21 @@ body::before {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: rgba(10, 14, 39, 0.1); /* Very subtle overlay for better content definition */
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
 }
 
 .header {
     text-align: center;
     margin-bottom: var(--spacing-xs);
-    background: var(--container-bg);
+    background: rgba(15, 23, 42, 0.85); /* Slightly more opaque for better readability */
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: 8px;
     box-shadow: var(--shadow-card);
     border: 1px solid var(--container-border);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     flex-shrink: 0;
 }
 
@@ -159,11 +163,11 @@ body::before {
 }
 
 .player {
-    background: var(--container-bg);
+    background: rgba(15, 23, 42, 0.85); /* Slightly more opaque for better readability */
     border-radius: 8px;
     padding: var(--spacing-xs);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--container-border);
     box-shadow: var(--shadow-card);
     transition: all 0.3s ease;
@@ -265,14 +269,14 @@ body::before {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background: var(--container-bg);
+    background: rgba(15, 23, 42, 0.85); /* Slightly more opaque for better readability */
     border-radius: 8px;
     padding: var(--spacing-sm);
     position: relative;
     overflow: hidden;
     border: 1px solid var(--container-border);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     gap: var(--spacing-xs);
     min-height: 150px;
     align-self: stretch;
@@ -302,23 +306,27 @@ body::before {
     color: var(--text-secondary);
 }
 
+/* Base player cards container - distribute evenly across available space */
 .player-cards {
     display: flex;
     flex-wrap: nowrap;
     gap: 0px;
-    justify-content: flex-start;
+    justify-content: space-evenly; /* Changed from flex-start to space-evenly */
     min-height: 120px;
     overflow: visible;
     position: relative;
     padding: 25px 15px;
+    width: 100%; /* Ensure full width usage */
 }
 
+/* Top player - distribute cards evenly across full width */
 .player-top .player-cards {
-    justify-content: flex-start;
+    justify-content: space-evenly; /* Changed from flex-start to space-evenly */
     position: relative;
     padding: 25px 15px 35px 15px;
     min-height: 160px;
     overflow: visible;
+    width: 100%; /* Ensure full width usage */
 }
 
 .player-top .card-back-computer:first-child {
@@ -332,6 +340,7 @@ body::before {
     border-color: #3949ab;
 }
 
+/* Left player - distribute cards evenly across full height */
 .player-left .player-cards {
     flex-direction: column;
     align-items: center;
@@ -340,13 +349,14 @@ body::before {
     min-height: 200px;
     overflow: visible;
     width: 100%;
-    justify-content: flex-start;
+    justify-content: space-evenly; /* Changed from flex-start to space-evenly */
     gap: 0;
+    height: 100%; /* Ensure full height usage */
 }
 
 .player-left .card-back-computer {
     margin-left: 0 !important;
-    margin-top: clamp(-35px, -3vh, -25px);
+    margin-top: 0; /* Reset margin-top, let space-evenly handle spacing */
     position: relative;
     transform-origin: center center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1137,21 +1147,21 @@ body::before {
     }
 }
 
-/* Player Bottom Card Layout - Align to the right as shown by red arrows */
+/* Player Bottom Card Layout - distribute evenly across full width */
 .player-bottom .player-cards {
     display: flex;
-    justify-content: flex-end; /* Align to right side as indicated by red arrows */
+    justify-content: space-evenly; /* Changed from flex-end to space-evenly */
     align-items: flex-end;
     flex-wrap: nowrap;
     overflow-x: auto;
     overflow-y: visible;
-    padding: 15px 10px; /* Added padding to accommodate enlarged cards */
-    padding-right: 10px; /* Consistent right edge alignment */
+    padding: 15px 10px;
     min-height: var(--card-height);
-    gap: 2px;
+    gap: 0; /* Remove gap, let space-evenly handle spacing */
     scrollbar-width: thin;
     scrollbar-color: var(--color-primary) transparent;
     margin: 0;
+    width: 100%; /* Ensure full width usage */
 }
 
 .player-bottom .player-cards::-webkit-scrollbar {
@@ -1169,7 +1179,7 @@ body::before {
 
 .player-bottom .card {
     flex-shrink: 0;
-    margin-left: clamp(-10px, -1vw, -5px);
+    margin-left: 0; /* Reset margin, let space-evenly handle spacing */
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
@@ -1180,10 +1190,10 @@ body::before {
 }
 
 .player-bottom .card:hover {
-    transform: translateY(clamp(-10px, -1.5vh, -8px)) scale(1.4); /* Reduced scale from 1.7 to 1.4 */
+    transform: translateY(clamp(-10px, -1.5vh, -8px)) scale(1.4);
     z-index: 100;
-    margin-left: clamp(-15px, -1.5vw, -8px);
-    margin-right: clamp(-15px, -1.5vw, -8px);
+    margin-left: 0; /* Keep spacing consistent on hover */
+    margin-right: 0; /* Keep spacing consistent on hover */
 }
 
 .player-bottom .card.selected {
@@ -1194,121 +1204,123 @@ body::before {
 }
 
 .player-bottom .card.selected:hover {
-    transform: translateY(clamp(-12px, -2vh, -10px)) scale(1.5); /* Reduced scale from 1.9 to 1.5 */
+    transform: translateY(clamp(-12px, -2vh, -10px)) scale(1.5);
     z-index: 100;
-    margin-left: clamp(-15px, -1.5vw, -8px);
-    margin-right: clamp(-15px, -1.5vw, -8px);
+    margin-left: 0; /* Keep spacing consistent on hover */
+    margin-right: 0; /* Keep spacing consistent on hover */
 }
 
-/* Enhanced spacing for different screen sizes - maintain alignment directions */
+/* Enhanced spacing for different screen sizes - maintain even distribution */
 @media (min-width: 1200px) {
     .player-bottom .card {
-        margin-left: clamp(-8px, -0.8vw, -3px);
+        margin-left: 0; /* Let space-evenly handle distribution */
     }
     
     .player-bottom .card:hover {
-        margin-left: clamp(-12px, -1.2vw, -6px);
-        margin-right: clamp(-12px, -1.2vw, -6px);
+        margin-left: 0; /* Keep spacing consistent on hover */
+        margin-right: 0; /* Keep spacing consistent on hover */
     }
     
     .player-left .player-cards {
         min-height: 250px; /* Slightly larger for bigger screens */
         padding: var(--spacing-sm) 0;
-        justify-content: flex-start; /* Maintain top alignment */
+        justify-content: space-evenly; /* Maintain even distribution */
     }
     
     .player-left .card-back-computer {
-        margin-top: clamp(-40px, -2.5vh, -30px); /* Tighter spacing for large screens */
+        margin-top: 0; /* Let space-evenly handle distribution */
     }
     
     .player-top .player-cards {
-        justify-content: flex-start; /* Maintain left alignment */
-        padding-left: 0; /* Ensure left edge alignment */
+        justify-content: space-evenly; /* Maintain even distribution */
+        padding-left: 15px; /* Consistent padding */
+        padding-right: 15px; /* Consistent padding */
     }
     
     .player-top .card-back-computer {
-        margin-left: clamp(-12px, -1vw, -6px);
+        margin-left: 0; /* Let space-evenly handle distribution */
     }
 }
 
 @media (max-width: 768px) {
     .player-bottom .card {
-        margin-left: clamp(-12px, -1.5vw, -8px);
+        margin-left: 0; /* Let space-evenly handle distribution */
     }
     
     .player-left .player-cards {
         min-height: 150px; /* Smaller for mobile to reduce empty space */
         padding: 4px 0;
-        justify-content: flex-start; /* Maintain top alignment */
+        justify-content: space-evenly; /* Maintain even distribution */
     }
     
     .player-left .card-back-computer {
-        margin-top: clamp(-30px, -2.5vh, -20px); /* Tighter spacing for mobile */
+        margin-top: 0; /* Let space-evenly handle distribution */
     }
     
     .player-top .player-cards {
-        justify-content: flex-start; /* Maintain left alignment */
-        padding-left: 0; /* Ensure left edge alignment */
+        justify-content: space-evenly; /* Maintain even distribution */
+        padding-left: 15px; /* Consistent padding */
+        padding-right: 15px; /* Consistent padding */
     }
     
     .player-top .card-back-computer {
-        margin-left: clamp(-18px, -1.8vw, -12px);
+        margin-left: 0; /* Let space-evenly handle distribution */
     }
 }
 
-/* Enhanced spacing for all player cards - align according to red arrows */
+/* Enhanced spacing for all player cards - distribute evenly across regions */
 .player-cards {
     align-items: center;
 }
 
-/* Specific alignment for each player area */
+/* Specific alignment for each player area - all use even distribution */
 .player-top .player-cards {
-    justify-content: flex-start; /* Left alignment for top player */
+    justify-content: space-evenly; /* Even distribution across width */
 }
 
 .player-left .player-cards {
-    justify-content: flex-start; /* Top alignment for left player */
+    justify-content: space-evenly; /* Even distribution across height */
 }
 
 .player-bottom .player-cards {
-    justify-content: flex-end; /* Right alignment for bottom player */
+    justify-content: space-evenly; /* Even distribution across width */
 }
 
-/* Improved computer player card spacing */
+/* Computer player card spacing - let flexbox handle distribution */
 .player-top .card-back-computer {
-    margin-left: clamp(-15px, -1.2vw, -8px); /* Reduced overlap for top player */
+    margin-left: 0; /* Let space-evenly handle distribution */
 }
 
 .player-left .card-back-computer {
-    margin-top: clamp(-20px, -1.5vh, -12px); /* Reduced overlap for left player */
+    margin-top: 0; /* Let space-evenly handle distribution */
 }
 
-/* Better spacing on ultra-wide screens */
+/* Better spacing on ultra-wide screens - maintain even distribution */
 @media (min-width: 1400px) {
     .player-bottom .card {
-        margin-left: clamp(-5px, -0.5vw, -2px); /* Minimal overlap on large screens */
+        margin-left: 0; /* Let space-evenly handle distribution */
     }
     
     .player-top .card-back-computer {
-        margin-left: clamp(-12px, -1vw, -6px);
+        margin-left: 0; /* Let space-evenly handle distribution */
     }
     
     .player-left .card-back-computer {
-        margin-top: clamp(-18px, -1.2vh, -10px);
+        margin-top: 0; /* Let space-evenly handle distribution */
     }
 }
 
-/* Improved mobile spacing */
+/* Mobile spacing - maintain even distribution */
 @media (max-width: 480px) {
     .player-bottom .card {
-        margin-left: clamp(-15px, -2vw, -10px); /* Tighter spacing for small screens */
+        margin-left: 0; /* Let space-evenly handle distribution */
     }
     
     .player-top .card-back-computer {
-        margin-left: clamp(-18px, -1.8vw, -12px);
+        margin-left: 0; /* Let space-evenly handle distribution */
     }
     
     .player-left .card-back-computer {
-        margin-top: clamp(-25px, -2vh, -15px);
+        margin-top: 0; /* Let space-evenly handle distribution */
     }
 }
