@@ -302,16 +302,17 @@ export class DouDiZhuGame {
         this.renderComputerCards(2, 'player2');
     }
 
-    // Render computer cards with enhanced overlapping and visual effects
+    // Render computer cards with enhanced overlapping and visual effects - showing ALL cards
     renderComputerCards(playerIndex, containerId) {
         const container = document.querySelector(`#${containerId} .player-cards`);
         container.innerHTML = '';
         
         const cardCount = this.players[playerIndex].cards.length;
-        const maxDisplayCards = Math.min(cardCount, 15); // Increased to show more cards
+        // REMOVED: const maxDisplayCards = Math.min(cardCount, 15); 
+        // NOW: Show all cards regardless of count (3-20 cards)
         const isVertical = containerId === 'player1'; // Left player is vertical
         
-        for (let i = 0; i < maxDisplayCards; i++) {
+        for (let i = 0; i < cardCount; i++) {
             const cardBack = document.createElement('div');
             cardBack.className = 'card card-back-computer';
             
@@ -326,24 +327,27 @@ export class DouDiZhuGame {
             cardBackInner.appendChild(pattern);
             cardBack.appendChild(cardBackInner);
             
-            // Enhanced positioning with improved spacing for even distribution
-            const totalCards = maxDisplayCards;
+            // Enhanced positioning with dynamic spacing for variable card counts (3-20 cards)
+            const totalCards = cardCount;
             const cardIndex = i;
             
             if (isVertical) {
-                // Vertical layout for left player - align to top/start as indicated by red arrow
+                // Vertical layout for left player - dynamic overlap based on card count
                 if (i > 0) {
-                    const baseOverlap = -25; // Reduced overlap for more even spacing
-                    const overlapVariation = Math.max(-8, cardCount * -1); // More gradual variation
-                    const finalOverlap = baseOverlap + overlapVariation;
+                    // Dynamic overlap calculation: more cards = tighter spacing
+                    const baseOverlap = -25;
+                    const dynamicAdjustment = Math.max(-15, Math.min(0, (cardCount - 10) * -1.5)); // Tighter with more cards
+                    const finalOverlap = baseOverlap + dynamicAdjustment;
                     cardBack.style.marginTop = `${finalOverlap}px`;
                     
-                    // Slight horizontal offset for natural look - optimized for top alignment
-                    const horizontalOffset = (Math.sin(cardIndex / totalCards * Math.PI) * 1.5) - 0.8;
+                    // Slight horizontal offset for natural look - scaled by card count
+                    const offsetScale = Math.min(1, 15 / cardCount); // Reduce offset for many cards
+                    const horizontalOffset = (Math.sin(cardIndex / totalCards * Math.PI) * 1.5 * offsetScale) - 0.8;
                     cardBack.style.marginLeft = `${horizontalOffset}px`;
                     
-                    // Natural rotation for card fanning - reduced for cleaner look
-                    const maxRotation = Math.min(12, totalCards * 1.2);
+                    // Natural rotation for card fanning - scaled by card count
+                    const rotationScale = Math.min(1, 12 / cardCount); // Reduce rotation for many cards
+                    const maxRotation = Math.min(12, totalCards * 1.2) * rotationScale;
                     const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
                     cardBack.style.transform = `rotate(${rotation}deg)`;
                 } else {
@@ -357,19 +361,22 @@ export class DouDiZhuGame {
                 cardBack.style.zIndex = 50 - i;
                 
             } else {
-                // Horizontal layout for top player - align to left as indicated by red arrow
+                // Horizontal layout for top player - dynamic overlap based on card count
                 if (i > 0) {
-                    const baseOverlap = -20; // Reduced overlap for more even spacing
-                    const overlapVariation = Math.max(-10, cardCount * -0.8); // More gradual variation
-                    const finalOverlap = baseOverlap + overlapVariation;
+                    // Dynamic overlap calculation: more cards = tighter spacing
+                    const baseOverlap = -20;
+                    const dynamicAdjustment = Math.max(-10, Math.min(0, (cardCount - 10) * -1)); // Tighter with more cards
+                    const finalOverlap = baseOverlap + dynamicAdjustment;
                     cardBack.style.marginLeft = `${finalOverlap}px`;
                     
-                    // Natural arc effect for horizontal fanning - refined for left alignment
-                    const arcHeight = Math.sin((cardIndex / (totalCards - 1)) * Math.PI) * 8;
+                    // Natural arc effect for horizontal fanning - scaled by card count
+                    const arcScale = Math.min(1, 15 / cardCount); // Reduce arc for many cards
+                    const arcHeight = Math.sin((cardIndex / (totalCards - 1)) * Math.PI) * 8 * arcScale;
                     cardBack.style.marginTop = `${arcHeight}px`;
                     
-                    // Natural rotation for card fanning - optimized for left-start alignment
-                    const maxRotation = Math.min(15, totalCards * 1);
+                    // Natural rotation for card fanning - scaled by card count
+                    const rotationScale = Math.min(1, 12 / cardCount); // Reduce rotation for many cards
+                    const maxRotation = Math.min(15, totalCards * 1) * rotationScale;
                     const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
                     cardBack.style.transform = `rotate(${rotation}deg)`;
                 } else {
@@ -389,9 +396,9 @@ export class DouDiZhuGame {
                 cardBack.style.transition = 'all 0.2s ease-out';
                 
                 if (isVertical) {
-                    cardBack.style.transform = 'scale(1.15) rotate(0deg)';
+                    cardBack.style.transform = 'scale(1.7) rotate(0deg)';
                 } else {
-                    cardBack.style.transform = 'translateY(-15px) scale(1.15) rotate(0deg)';
+                    cardBack.style.transform = 'translateY(-15px) scale(1.7) rotate(0deg)';
                 }
                 
                 // Add glow effect
@@ -403,13 +410,15 @@ export class DouDiZhuGame {
                 cardBack.style.zIndex = 50 - i;
                 cardBack.style.transition = 'all 0.3s ease-out';
                 
-                // Restore original position and rotation with improved spacing
+                // Restore original position and rotation with dynamic spacing
                 if (isVertical) {
-                    const maxRotation = Math.min(12, totalCards * 1.2);
+                    const rotationScale = Math.min(1, 12 / cardCount);
+                    const maxRotation = Math.min(12, totalCards * 1.2) * rotationScale;
                     const rotation = i > 0 ? (i / (totalCards - 1) - 0.5) * maxRotation : 0;
                     cardBack.style.transform = `rotate(${rotation}deg) scale(1)`;
                 } else {
-                    const maxRotation = Math.min(15, totalCards * 1);
+                    const rotationScale = Math.min(1, 12 / cardCount);
+                    const maxRotation = Math.min(15, totalCards * 1) * rotationScale;
                     const rotation = i > 0 ? (i / (totalCards - 1) - 0.5) * maxRotation : 0;
                     cardBack.style.transform = `rotate(${rotation}deg) scale(1)`;
                 }
@@ -422,17 +431,8 @@ export class DouDiZhuGame {
             container.appendChild(cardBack);
         }
         
-        // Enhanced card count indicator with better styling
-        if (cardCount > maxDisplayCards) {
-            const moreCards = document.createElement('div');
-            moreCards.className = 'more-cards-indicator';
-            moreCards.innerHTML = `<strong>+${cardCount - maxDisplayCards}</strong><br><small>more cards</small>`;
-            moreCards.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.95))';
-            moreCards.style.backdropFilter = 'blur(10px)';
-            moreCards.style.border = '2px solid rgba(255, 255, 255, 0.3)';
-            moreCards.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
-            container.appendChild(moreCards);
-        }
+        // REMOVED: Enhanced card count indicator - no longer needed as all cards are shown
+        // All cards are now displayed regardless of count
     }
 
     // Create card element

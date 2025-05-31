@@ -281,6 +281,46 @@ This is a card game project with HTML, CSS, and JavaScript components.
   - Compressed border radius values for cleaner, tighter appearance
   - Streamlined all spacing variables for maximum space efficiency
 
+### 21. 🔄 Display all player cards instead of "+X more cards" indicator
+- [ ] Remove card display limit and show complete hands
+- [ ] Implement dynamic spacing for variable card counts (3-20 cards)
+- [ ] Optimize card arrangement algorithms for full visibility
+- [ ] Remove more-cards-indicator UI component
+- [ ] Enhance game transparency by showing actual card counts visually
+- [ ] **IMPLEMENTATION STEPS**:
+  1. **Modify game.js renderComputerCards() method**:
+     - Change `const maxDisplayCards = Math.min(cardCount, 15);` to `const maxDisplayCards = cardCount;`
+     - Or completely remove maxDisplayCards and use cardCount directly
+     - Remove the conditional block that creates more-cards-indicator (lines 425-433)
+  2. **Update spacing calculations**:
+     - Enhance overlap algorithms to handle 3-20 cards dynamically
+     - For vertical layout: adjust baseOverlap based on cardCount for optimal stacking
+     - For horizontal layout: adjust baseOverlap based on cardCount for optimal spreading
+  3. **Test card count scenarios**:
+     - Test with 3 cards (minimum after some cards played)
+     - Test with 17 cards (initial deal)
+     - Test with 20 cards (landlord with bonus cards)
+     - Verify no overflow from player containers
+  4. **Responsive optimization**:
+     - Ensure mobile devices can handle 20 cards without horizontal scrolling
+     - Adjust card sizes on smaller screens if necessary
+  5. **Remove unused CSS**:
+     - Delete `.more-cards-indicator` and related styles from style.css
+- [ ] **TECHNICAL DETAILS**:
+  - Current limit: `const maxDisplayCards = Math.min(cardCount, 15);` in game.js line 310
+  - More cards indicator: Created when `cardCount > maxDisplayCards` at game.js line 425-428
+  - CSS class: `.more-cards-indicator` styling in style.css lines 555-588
+  - Need to adjust overlap calculations to accommodate 3-20 cards dynamically
+  - Vertical player (left): optimize margin-top spacing for card stacking
+  - Horizontal player (top): optimize margin-left spacing for card spreading
+  - Remove totalCards = maxDisplayCards assignment at line 329
+  - Remove conditional more cards creation logic at lines 425-433
+- [ ] **EXPECTED OUTCOME**:
+  - All player cards visible at all times (no hidden cards)
+  - Smooth, natural card arrangement regardless of card count
+  - Proper spacing that scales with number of cards
+  - Enhanced game transparency - players can see actual card counts visually
+
 ## File Structure
 
 ## Upcoming GitHub Features
