@@ -326,20 +326,20 @@ export class DouDiZhuGame {
             cardBackInner.appendChild(pattern);
             cardBack.appendChild(cardBackInner);
             
-            // Apply enhanced positioning with improved spacing for even distribution
+            // Enhanced positioning with improved spacing for even distribution
             const totalCards = maxDisplayCards;
             const cardIndex = i;
             
             if (isVertical) {
-                // Vertical layout for left player - improved spacing
+                // Vertical layout for left player - align to top/start as indicated by red arrow
                 if (i > 0) {
                     const baseOverlap = -25; // Reduced overlap for more even spacing
                     const overlapVariation = Math.max(-8, cardCount * -1); // More gradual variation
                     const finalOverlap = baseOverlap + overlapVariation;
                     cardBack.style.marginTop = `${finalOverlap}px`;
                     
-                    // Slight horizontal offset for natural look - optimized for better distribution
-                    const horizontalOffset = (Math.sin(cardIndex / totalCards * Math.PI) * 1.5) - 0.8; // Refined offset
+                    // Slight horizontal offset for natural look - optimized for top alignment
+                    const horizontalOffset = (Math.sin(cardIndex / totalCards * Math.PI) * 1.5) - 0.8;
                     cardBack.style.marginLeft = `${horizontalOffset}px`;
                     
                     // Natural rotation for card fanning - reduced for cleaner look
@@ -347,7 +347,7 @@ export class DouDiZhuGame {
                     const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
                     cardBack.style.transform = `rotate(${rotation}deg)`;
                 } else {
-                    // First card as base
+                    // First card as base - positioned at top
                     cardBack.style.marginTop = '0px';
                     cardBack.style.marginLeft = '0px';
                     cardBack.style.transform = 'rotate(0deg)';
@@ -357,23 +357,23 @@ export class DouDiZhuGame {
                 cardBack.style.zIndex = 50 - i;
                 
             } else {
-                // Horizontal layout for top player - improved spacing
+                // Horizontal layout for top player - align to left as indicated by red arrow
                 if (i > 0) {
                     const baseOverlap = -20; // Reduced overlap for more even spacing
                     const overlapVariation = Math.max(-10, cardCount * -0.8); // More gradual variation
                     const finalOverlap = baseOverlap + overlapVariation;
                     cardBack.style.marginLeft = `${finalOverlap}px`;
                     
-                    // Natural arc effect for horizontal fanning - refined for better distribution
-                    const arcHeight = Math.sin((cardIndex / (totalCards - 1)) * Math.PI) * 8; // Reduced arc height
+                    // Natural arc effect for horizontal fanning - refined for left alignment
+                    const arcHeight = Math.sin((cardIndex / (totalCards - 1)) * Math.PI) * 8;
                     cardBack.style.marginTop = `${arcHeight}px`;
                     
-                    // Natural rotation for card fanning - reduced for cleaner look
+                    // Natural rotation for card fanning - optimized for left-start alignment
                     const maxRotation = Math.min(15, totalCards * 1);
                     const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
                     cardBack.style.transform = `rotate(${rotation}deg)`;
                 } else {
-                    // First card as base - explicitly set to ensure no CSS interference
+                    // First card as base - positioned at left edge
                     cardBack.style.marginLeft = '0px';
                     cardBack.style.marginTop = '0px';
                     cardBack.style.transform = 'rotate(0deg)';
