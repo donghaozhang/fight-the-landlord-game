@@ -326,24 +326,24 @@ export class DouDiZhuGame {
             cardBackInner.appendChild(pattern);
             cardBack.appendChild(cardBackInner);
             
-            // Apply enhanced positioning to all cards (including first one for proper base)
+            // Apply enhanced positioning with improved spacing for even distribution
             const totalCards = maxDisplayCards;
             const cardIndex = i;
             
             if (isVertical) {
-                // Vertical layout for left player - enhanced overlap
+                // Vertical layout for left player - improved spacing
                 if (i > 0) {
-                    const baseOverlap = -50;
-                    const overlapVariation = Math.max(-15, cardCount * -2); // Tighter with more cards
+                    const baseOverlap = -25; // Reduced overlap for more even spacing
+                    const overlapVariation = Math.max(-8, cardCount * -1); // More gradual variation
                     const finalOverlap = baseOverlap + overlapVariation;
                     cardBack.style.marginTop = `${finalOverlap}px`;
                     
-                    // Slight horizontal offset for natural look - reduced to prevent overflow
-                    const horizontalOffset = (Math.sin(cardIndex / totalCards * Math.PI) * 2) - 1; // Reduced from 8 to 2, and -4 to -1
+                    // Slight horizontal offset for natural look - optimized for better distribution
+                    const horizontalOffset = (Math.sin(cardIndex / totalCards * Math.PI) * 1.5) - 0.8; // Refined offset
                     cardBack.style.marginLeft = `${horizontalOffset}px`;
                     
-                    // Natural rotation for card fanning
-                    const maxRotation = Math.min(15, totalCards * 1.5);
+                    // Natural rotation for card fanning - reduced for cleaner look
+                    const maxRotation = Math.min(12, totalCards * 1.2);
                     const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
                     cardBack.style.transform = `rotate(${rotation}deg)`;
                 } else {
@@ -357,19 +357,19 @@ export class DouDiZhuGame {
                 cardBack.style.zIndex = 50 - i;
                 
             } else {
-                // Horizontal layout for top player - enhanced overlap
+                // Horizontal layout for top player - improved spacing
                 if (i > 0) {
-                    const baseOverlap = -45;
-                    const overlapVariation = Math.max(-20, cardCount * -1.5); // Adjust based on card count
+                    const baseOverlap = -20; // Reduced overlap for more even spacing
+                    const overlapVariation = Math.max(-10, cardCount * -0.8); // More gradual variation
                     const finalOverlap = baseOverlap + overlapVariation;
                     cardBack.style.marginLeft = `${finalOverlap}px`;
                     
-                    // Natural arc effect for horizontal fanning
-                    const arcHeight = Math.sin((cardIndex / (totalCards - 1)) * Math.PI) * 12;
+                    // Natural arc effect for horizontal fanning - refined for better distribution
+                    const arcHeight = Math.sin((cardIndex / (totalCards - 1)) * Math.PI) * 8; // Reduced arc height
                     cardBack.style.marginTop = `${arcHeight}px`;
                     
-                    // Natural rotation for card fanning
-                    const maxRotation = Math.min(20, totalCards * 1.2);
+                    // Natural rotation for card fanning - reduced for cleaner look
+                    const maxRotation = Math.min(15, totalCards * 1);
                     const rotation = (cardIndex / (totalCards - 1) - 0.5) * maxRotation;
                     cardBack.style.transform = `rotate(${rotation}deg)`;
                 } else {
@@ -383,7 +383,7 @@ export class DouDiZhuGame {
                 cardBack.style.zIndex = 50 - i;
             }
             
-            // Enhanced hover interactions
+            // Enhanced hover interactions with improved spacing awareness
             cardBack.addEventListener('mouseenter', () => {
                 cardBack.style.zIndex = 150;
                 cardBack.style.transition = 'all 0.2s ease-out';
@@ -403,13 +403,13 @@ export class DouDiZhuGame {
                 cardBack.style.zIndex = 50 - i;
                 cardBack.style.transition = 'all 0.3s ease-out';
                 
-                // Restore original position and rotation
+                // Restore original position and rotation with improved spacing
                 if (isVertical) {
-                    const maxRotation = Math.min(15, totalCards * 1.5);
+                    const maxRotation = Math.min(12, totalCards * 1.2);
                     const rotation = i > 0 ? (i / (totalCards - 1) - 0.5) * maxRotation : 0;
                     cardBack.style.transform = `rotate(${rotation}deg) scale(1)`;
                 } else {
-                    const maxRotation = Math.min(20, totalCards * 1.2);
+                    const maxRotation = Math.min(15, totalCards * 1);
                     const rotation = i > 0 ? (i / (totalCards - 1) - 0.5) * maxRotation : 0;
                     cardBack.style.transform = `rotate(${rotation}deg) scale(1)`;
                 }
