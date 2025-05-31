@@ -1,11 +1,7 @@
 ---
-description: >-
-  A web-based implementation of the popular Chinese card game "Fight the Landlord"
-  (Dou Dizhu) featuring beautiful Black Myth Wukong themed artwork. This file
-  serves as the development guide and repository rules.
-globs:
-  - '**'
-alwaysApply: true
+description: 
+globs: 
+alwaysApply: false
 ---
 # Fight the Landlord Card Game - Development Guide
 

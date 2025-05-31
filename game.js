@@ -507,15 +507,21 @@ export class DouDiZhuGame {
         const passTurnBtn = document.getElementById('pass-turn');
         const hintBtn = document.getElementById('hint');
 
-        // Hide all buttons first
+        // Hide all buttons first and disable them
         playCardsBtn.style.display = 'none';
         passTurnBtn.style.display = 'none';
         hintBtn.style.display = 'none';
+        playCardsBtn.disabled = true;
+        passTurnBtn.disabled = true;
+        hintBtn.disabled = true;
 
         if (this.gamePhase === 'playing' && this.currentPlayer === 0) {
             playCardsBtn.style.display = 'inline-block';
             passTurnBtn.style.display = 'inline-block';
             hintBtn.style.display = 'inline-block';
+            playCardsBtn.disabled = false;
+            passTurnBtn.disabled = false;
+            hintBtn.disabled = false;
         }
     }
 
