@@ -1,0 +1,31 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Fight the Landlord Game - Project Structure
+
+## Core Files
+- [index.html](mdc:index.html) - Main HTML structure with game board layout
+- [game.js](mdc:game.js) - Main game logic class `DouDiZhuGame` with all game mechanics
+- [main.js](mdc:main.js) - Entry point that initializes the game
+- [server.js](mdc:server.js) - Node.js server that serves files (handles PNG images for cards)
+- [style.css](mdc:style.css) - Game styling and visual effects
+- [task.md](mdc:task.md) - Complete game requirements and rules specification
+
+## Asset Directories
+- `images/` - Contains card image files (PNG format) with specific naming convention
+- `tests/` - Unit tests for game logic
+- `archive/` - Backup files
+
+## Key Relationships
+- [game.js](mdc:game.js) exports `DouDiZhuGame` class imported by [main.js](mdc:main.js)
+- [index.html](mdc:index.html) references [main.js](mdc:main.js) as ES6 module
+- Card images in `images/` are mapped in `initializeCardImages()` method in [game.js](mdc:game.js)
+- [server.js](mdc:server.js) must handle PNG files for card images to display properly
+
+## Entry Point Flow
+1. [index.html](mdc:index.html) loads [main.js](mdc:main.js)
+2. [main.js](mdc:main.js) imports and instantiates `DouDiZhuGame` from [game.js](mdc:game.js)
+3. Game initializes with card dealing, landlord assignment, and UI rendering
+

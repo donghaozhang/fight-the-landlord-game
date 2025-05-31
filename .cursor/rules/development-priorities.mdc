@@ -1,0 +1,61 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Development Priorities
+
+## Immediate Next Steps
+
+### 1. Implement Bidding System (High Priority)
+**Current State**: Game automatically assigns human as landlord
+**Required**: Full bidding phase as specified in [task.md](mdc:task.md)
+
+**Implementation Plan**:
+1. Add bidding buttons to [index.html](mdc:index.html):
+   - "Call Landlord" / "Pass" 
+   - Point bidding: "1 Point", "2 Points", "3 Points"
+2. Create bidding phase in [game.js](mdc:game.js):
+   - Add `'bidding'` to game phases
+   - Implement `startBidding()`, `handleBid()`, `processBidding()`
+   - Add bidding rotation logic
+3. Modify `assignLandlord()` to work with bidding results
+4. Update `updateGameControls()` to show bidding buttons during bidding phase
+
+### 2. Enhanced Score System (Medium Priority)
+**Current**: Basic scoring without multipliers
+**Needed**: Score calculation based on:
+- Bidding points (1x, 2x, 3x multipliers)
+- Bomb usage bonuses
+- Role performance (landlord vs peasants)
+
+### 3. Advanced Card Combinations (Low Priority)
+**Missing combinations** from [task.md](mdc:task.md):
+- Airplane with wings (consecutive triples with attachments)
+- Complex sequence variations
+- Update `isValidCardCombination()` in [game.js](mdc:game.js)
+
+## Code Quality Improvements
+
+### AI Enhancement
+- Improve AI bidding strategy in computer players
+- Better AI card selection logic
+- Strategic gameplay decisions
+
+### UI/UX Polish
+- Animation for card plays
+- Better visual feedback for invalid plays
+- Sound effects integration
+- Mobile responsiveness in [style.css](mdc:style.css)
+
+### Testing
+- Add comprehensive tests in `tests/` directory
+- Test bidding logic thoroughly
+- Test complex card combinations
+
+## Architecture Notes
+- Keep game logic separated in [game.js](mdc:game.js)
+- UI updates should be handled through dedicated render methods
+- Maintain card image mapping system for easy asset updates
+- Server configuration in [server.js](mdc:server.js) should handle all static assets
+

@@ -1,0 +1,39 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Fight the Landlord Game Mechanics
+
+## Game Overview
+Fight the Landlord (斗地主) is a 3-player card game with 54 cards (52 standard + 2 jokers).
+
+## Card Hierarchy
+From lowest to highest value:
+3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < J < Q < K < A < 2 < Small Joker < Big Joker
+
+## Current Implementation Status in [game.js](mdc:game.js)
+
+### ✅ Implemented Features
+- **Card Dealing**: 17 cards per player + 3 landlord bonus cards
+- **Card Combinations**: Singles, pairs, triples, bombs, rockets, sequences
+- **Valid Play Logic**: `isValidCardCombination()` and `canBeatLastPlay()`
+- **AI Players**: Basic AI that can play valid combinations
+- **Game Flow**: Turn management, win conditions, card playing
+- **Visual Interface**: Card rendering, selection, computer card backs
+
+## Key Game Logic Methods in [game.js](mdc:game.js)
+- `createDeck()` - Creates 54-card deck with proper Fight the Landlord ranking
+- `dealCards()` - Distributes 17 cards per player + 3 landlord cards
+- `assignLandlord()` - Currently bypasses bidding (line 197)
+- `isValidCardCombination()` - Validates card combinations (line 775)
+- `canBeatLastPlay()` - Determines if cards can beat previous play (line 974)
+- `playCards()` / `aiPlay()` - Human and AI turn logic
+
+## Image Asset System
+Card images use specific naming convention in `initializeCardImages()`:
+- Format: `{suit}_{rank}.png` (e.g., `spade_a.png`, `heart_10.png`)
+- Special: `jr.png` (Small Joker), `jb.png` (Big Joker)
+- Mapping handled in `getCardImageKey()` method
+
+

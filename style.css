@@ -87,29 +87,32 @@ body::before {
 .game-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--spacing-md);
+    padding: var(--spacing-xs);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
     text-align: center;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
     background: var(--container-bg);
-    padding: var(--spacing-md);
-    border-radius: 15px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 8px;
     box-shadow: var(--shadow-card);
     border: 1px solid var(--container-border);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    flex-shrink: 0;
 }
 
 .header h1 {
     color: var(--color-accent);
-    font-size: var(--font-size-h1);
-    margin-bottom: var(--spacing-sm);
+    font-size: clamp(1.2em, 3vw, 1.8em);
+    margin-bottom: 3px;
     text-shadow: var(--glow-accent);
     font-weight: bold;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 .game-info {
@@ -117,20 +120,21 @@ body::before {
     justify-content: space-between;
     font-weight: bold;
     color: var(--text-secondary);
-    font-size: clamp(0.9em, 2vw, 1.1em);
+    font-size: clamp(0.7em, 1.5vw, 0.9em);
     flex-wrap: wrap;
     gap: var(--spacing-xs);
 }
 
 .landlord-cards {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-xs);
+    flex-shrink: 0;
 }
 
 .landlord-cards h3 {
     color: var(--text-primary);
-    margin-bottom: 15px;
-    font-size: 1.4em;
+    margin-bottom: 3px;
+    font-size: clamp(0.9em, 2vw, 1.1em);
     text-shadow: var(--glow-primary);
     font-weight: bold;
 }
@@ -138,22 +142,23 @@ body::before {
 .card-deck {
     display: flex;
     justify-content: center;
-    gap: 5px;
+    gap: 3px;
 }
 
 .players-area {
     display: grid;
-    grid-template-columns: minmax(180px, 200px) 1fr minmax(180px, 200px);
-    grid-template-rows: minmax(120px, 150px) 1fr minmax(180px, 200px);
-    gap: var(--spacing-md);
-    height: clamp(500px, 80vh, 600px);
-    margin-bottom: var(--spacing-md);
+    grid-template-columns: minmax(140px, 160px) 1fr minmax(140px, 160px);
+    grid-template-rows: minmax(80px, 100px) 1fr minmax(100px, 120px);
+    gap: var(--spacing-xs);
+    height: clamp(350px, 60vh, 450px);
+    margin-bottom: var(--spacing-xs);
+    flex: 1;
 }
 
 .player {
     background: var(--container-bg);
-    border-radius: 15px;
-    padding: 15px;
+    border-radius: 8px;
+    padding: var(--spacing-xs);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--container-border);
@@ -230,13 +235,14 @@ body::before {
     justify-content: center;
     align-items: center;
     background: var(--container-bg);
-    border-radius: 20px;
-    padding: 25px;
+    border-radius: 10px;
+    padding: var(--spacing-sm);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--container-border);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 2px solid var(--container-border);
-    box-shadow: var(--shadow-elevated);
-    position: relative;
+    gap: var(--spacing-xs);
 }
 
 .center-area::before {
@@ -558,43 +564,42 @@ body::before {
 }
 
 .played-cards {
-    min-height: 120px;
-    background: var(--container-bg);
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 25px;
+    background: rgba(15, 23, 42, 0.8);
+    border-radius: 8px;
+    padding: var(--spacing-xs);
+    min-height: clamp(60px, 12vh, 100px);
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    color: var(--text-primary);
-    font-weight: bold;
-    border: 2px solid var(--container-border);
-    box-shadow: inset var(--shadow-card);
+    gap: 3px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .game-controls {
     display: flex;
-    gap: 15px;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-xs);
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .btn {
-    padding: clamp(10px, 2vw, 14px) clamp(20px, 4vw, 28px);
+    padding: clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px);
     border: none;
-    border-radius: 30px;
+    border-radius: 20px;
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
     color: var(--text-on-primary);
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: clamp(13px, 2.5vw, 15px);
-    min-width: clamp(80px, 15vw, 100px);
-    min-height: 44px; /* Touch-friendly minimum */
+    font-size: clamp(12px, 2vw, 14px);
+    min-width: clamp(70px, 12vw, 90px);
+    min-height: 40px;
     box-shadow: var(--shadow-primary);
     border: 1px solid transparent;
     backdrop-filter: blur(10px);
@@ -624,15 +629,15 @@ body::before {
 }
 
 .game-status {
-    margin-top: 20px;
-    text-align: center;
+    margin-top: var(--spacing-xs);
+    flex-shrink: 0;
 }
 
 #message-area {
     background: var(--container-bg);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: var(--shadow-card);
+    border-radius: 8px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    text-align: center;
     border: 1px solid var(--container-border);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -641,8 +646,9 @@ body::before {
 #message-area p {
     font-weight: bold;
     color: var(--text-primary);
-    font-size: 17px;
+    font-size: clamp(14px, 2.5vw, 16px);
     text-align: center;
+    margin: 0;
 }
 
 /* Role-specific message styling */
@@ -675,11 +681,11 @@ body::before {
 
 .modal-content {
     background: var(--container-bg);
-    padding: 40px;
-    border-radius: 20px;
+    padding: var(--spacing-md);
+    border-radius: 15px;
     text-align: center;
     box-shadow: var(--shadow-elevated);
-    max-width: 450px;
+    max-width: 350px;
     width: 90%;
     border: 2px solid var(--container-border);
     backdrop-filter: blur(15px);
@@ -701,18 +707,18 @@ body::before {
 
 .modal-content h2 {
     color: var(--color-accent);
-    margin-bottom: 20px;
-    font-size: 2.2em;
+    margin-bottom: 15px;
+    font-size: 1.8em;
     text-shadow: var(--glow-accent);
     font-weight: bold;
     letter-spacing: 1px;
 }
 
 .modal-content p {
-    margin-bottom: 25px;
-    font-size: 18px;
+    margin-bottom: 20px;
+    font-size: 16px;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 .hidden {
@@ -774,126 +780,176 @@ body::before {
 /* Small Mobile Devices (320px - 480px) */
 @media (max-width: 480px) {
     :root {
-        --card-width: 50px;
-        --card-height: 70px;
+        --card-width: clamp(40px, 5.5vw, 55px);
+        --card-height: clamp(56px, 7.5vw, 77px);
+        --spacing-xs: 3px;
+        --spacing-sm: 5px;
+        --spacing-md: 8px;
     }
-    
+
     .game-container {
-        padding: 10px;
+        padding: var(--spacing-xs);
     }
-    
+
     .players-area {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto auto;
-        height: auto;
-        gap: 15px;
+        grid-template-rows: auto auto 1fr auto;
+        height: clamp(320px, 80vh, 400px);
+        gap: 3px;
     }
-    
+
     .player-top {
         grid-column: 1;
         grid-row: 1;
         order: 1;
     }
-    
+
     .center-area {
         grid-column: 1;
         grid-row: 3;
         order: 3;
-        min-height: 200px;
+        padding: var(--spacing-xs);
     }
-    
+
     .player-left {
         grid-column: 1;
         grid-row: 2;
         order: 2;
-        writing-mode: initial;
     }
-    
+
     .player-bottom {
         grid-column: 1;
         grid-row: 4;
         order: 4;
     }
-    
+
     .header h1 {
-        font-size: 1.8em;
-        letter-spacing: 1px;
+        font-size: clamp(1em, 3.5vw, 1.5em);
+        margin-bottom: 2px;
     }
-    
+
     .game-info {
         flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        font-size: 0.9em;
+        text-align: center;
+        gap: 1px;
     }
-    
+
     .game-controls {
+        gap: 3px;
         flex-direction: column;
-        gap: 10px;
-    }
-    
-    .btn {
         width: 100%;
-        max-width: none;
-        padding: 12px 20px;
-        font-size: 14px;
     }
-    
-    .card:hover {
-        transform: translateY(-8px) scale(1.2);
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.8em;
+        width: 100%;
+        min-height: 36px;
     }
-    
-    .player-bottom .card:hover {
-        transform: translateY(-15px) scale(1.3);
+
+    .played-cards {
+        min-height: clamp(50px, 10vh, 70px);
+        padding: 3px;
     }
-    
-    /* Reduce overlapping on small screens */
-    .player-bottom .card {
-        margin-left: -20px;
+
+    .player {
+        padding: 3px;
     }
-    
-    .player-left .card-back-computer {
-        margin-top: -30px;
+
+    .header {
+        padding: 3px 5px;
     }
-    
-    /* Improve modal for mobile */
-    .modal-content {
-        width: 95%;
-        padding: 25px 20px;
-        margin: 10px;
-    }
-    
-    .modal-content h2 {
-        font-size: 1.6em;
-    }
-    
-    /* Disable some heavy effects on mobile for performance */
-    .card-back-computer::before {
-        animation: none;
+
+    .landlord-cards h3 {
+        font-size: clamp(0.8em, 1.8vw, 1em);
+        margin-bottom: 2px;
     }
 }
 
 /* Mobile Devices (481px - 768px) */
 @media (min-width: 481px) and (max-width: 768px) {
     :root {
-        --card-width: 60px;
-        --card-height: 84px;
+        --card-width: clamp(45px, 6.5vw, 65px);
+        --card-height: clamp(63px, 9vw, 91px);
+        --spacing-xs: 4px;
+        --spacing-sm: 6px;
+        --spacing-md: 10px;
+    }
+
+    .players-area {
+        grid-template-columns: minmax(120px, 140px) 1fr minmax(120px, 140px);
+        grid-template-rows: minmax(70px, 90px) 1fr minmax(100px, 120px);
+        height: clamp(320px, 70vh, 420px);
+        gap: 4px;
+    }
+
+    .center-area {
+        padding: var(--spacing-xs);
+    }
+
+    .played-cards {
+        min-height: clamp(55px, 11vh, 85px);
+    }
+
+    .header {
+        padding: 4px 6px;
+    }
+
+    .btn {
+        padding: 7px 14px;
+        min-height: 38px;
+    }
+}
+
+/* Tablet Devices (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    :root {
+        --card-width: clamp(55px, 7vw, 70px);
+        --card-height: clamp(77px, 9.5vw, 98px);
+        --spacing-sm: 8px;
+        --spacing-md: 12px;
+    }
+
+    .players-area {
+        height: clamp(350px, 70vh, 450px);
+        gap: var(--spacing-xs);
+        grid-template-columns: minmax(130px, 150px) 1fr minmax(130px, 150px);
+        grid-template-rows: minmax(75px, 95px) 1fr minmax(90px, 110px);
+    }
+
+    .game-controls {
+        gap: var(--spacing-xs);
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.9em;
+        min-height: 38px;
+    }
+
+    .center-area {
+        padding: 8px;
+    }
+
+    .header {
+        padding: 6px 8px;
+    }
+}
+
+/* Desktop Devices (1025px+) */
+@media (min-width: 1025px) {
+    :root {
+        --card-width: 75px;
+        --card-height: 105px;
     }
     
     .players-area {
-        grid-template-columns: 150px 1fr 150px;
-        grid-template-rows: 120px 1fr 160px;
-        height: clamp(450px, 70vh, 550px);
+        height: 450px;
+        grid-template-columns: minmax(140px, 160px) 1fr minmax(140px, 160px);
+        grid-template-rows: minmax(80px, 100px) 1fr minmax(100px, 120px);
     }
     
-    .player-left .player-cards {
-        min-height: 250px;
-    }
-    
-    .player-top .player-cards {
-        min-height: 100px;
-    }
-    
+    /* Enhanced hover effects for desktop */
     .card:hover {
         transform: translateY(-8px) scale(1.25);
     }
@@ -902,97 +958,45 @@ body::before {
         transform: translateY(-15px) scale(1.35);
     }
     
-    /* Moderate overlapping for tablets */
+    .player-bottom .card.selected:hover {
+        transform: translateY(-20px) scale(1.45);
+    }
+    
+    /* Compact overlapping for desktop */
     .player-bottom .card {
         margin-left: -25px;
     }
     
     .player-left .card-back-computer {
-        margin-top: -40px;
+        margin-top: -45px;
     }
-}
+    
+    .center-area {
+        padding: 12px;
+    }
 
-/* Tablet Devices (769px - 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
-    :root {
-        --card-width: 70px;
-        --card-height: 98px;
-    }
-    
-    .players-area {
-        grid-template-columns: 180px 1fr 180px;
-        grid-template-rows: 140px 1fr 180px;
-        height: clamp(550px, 75vh, 600px);
-    }
-    
-    .game-controls {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .btn {
-        min-width: 120px;
-        flex: 0 0 auto;
-    }
-}
-
-/* Desktop Devices (1025px+) */
-@media (min-width: 1025px) {
-    :root {
-        --card-width: 80px;
-        --card-height: 112px;
-    }
-    
-    .players-area {
-        height: 600px;
-    }
-    
-    /* Enhanced hover effects for desktop */
-    .card:hover {
-        transform: translateY(-10px) scale(1.3);
-    }
-    
-    .player-bottom .card:hover {
-        transform: translateY(-20px) scale(1.4);
-    }
-    
-    .player-bottom .card.selected:hover {
-        transform: translateY(-25px) scale(1.5);
-    }
-    
-    /* Full overlapping for desktop */
-    .player-bottom .card {
-        margin-left: -30px;
-    }
-    
-    .player-left .card-back-computer {
-        margin-top: -50px;
-    }
-    
-    /* Desktop-specific enhancements */
-    .card-back-computer::before {
-        animation: shimmer 2s infinite;
-    }
-    
-    .landlord::after {
-        animation: pulse-glow 2s infinite;
+    .header {
+        padding: 8px 12px;
     }
 }
 
 /* Large Desktop (1400px+) */
 @media (min-width: 1400px) {
     .game-container {
-        padding: 30px;
+        padding: 20px;
     }
     
     .players-area {
-        gap: 25px;
-        height: 650px;
+        gap: 15px;
+        height: 500px;
     }
     
     .center-area {
-        padding: 30px;
+        padding: 20px;
+    }
+
+    .header {
+        padding: 12px 16px;
     }
 }
 
@@ -1059,18 +1063,37 @@ body::before {
 /* Player Bottom Card Layout */
 .player-bottom .player-cards {
     display: flex;
-    flex-wrap: nowrap;
-    gap: 0px;
     justify-content: center;
-    min-height: 120px;
-    overflow: visible;
-    position: relative;
-    padding: 10px 0;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: var(--spacing-xs) 0;
+    min-height: var(--card-height);
+    gap: 2px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+}
+
+.player-bottom .player-cards::-webkit-scrollbar {
+    height: 4px;
+}
+
+.player-bottom .player-cards::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.player-bottom .player-cards::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 2px;
 }
 
 .player-bottom .card {
-    margin-left: -30px;
+    flex-shrink: 0;
+    margin-left: clamp(-25px, -3vw, -15px);
+    transition: all 0.3s ease;
     position: relative;
+    z-index: 1;
 }
 
 .player-bottom .card:first-child {
@@ -1078,21 +1101,22 @@ body::before {
 }
 
 .player-bottom .card:hover {
-    transform: translateY(-20px) scale(1.4);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-    z-index: 50;
-    border-color: var(--color-tech-cyan);
+    transform: translateY(clamp(-15px, -2vh, -10px)) scale(1.15);
+    z-index: 100;
+    margin-left: clamp(-20px, -2.5vw, -10px);
+    margin-right: clamp(-20px, -2.5vw, -10px);
 }
 
 .player-bottom .card.selected {
-    transform: translateY(-25px) scale(1.1);
-    border-color: var(--color-accent);
-    box-shadow: var(--glow-accent);
-    z-index: 30;
+    transform: translateY(clamp(-12px, -1.5vh, -8px));
+    z-index: 50;
+    box-shadow: 0 0 15px var(--color-accent), 0 4px 20px rgba(245, 158, 11, 0.4);
+    border: 2px solid var(--color-accent);
 }
 
 .player-bottom .card.selected:hover {
-    transform: translateY(-25px) scale(1.5);
-    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.9);
-    z-index: 60;
+    transform: translateY(clamp(-20px, -2.5vh, -15px)) scale(1.15);
+    z-index: 100;
+    margin-left: clamp(-20px, -2.5vw, -10px);
+    margin-right: clamp(-20px, -2.5vw, -10px);
 }
