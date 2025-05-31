@@ -129,12 +129,13 @@ body::before {
     text-align: center;
     margin-bottom: var(--spacing-xs);
     flex-shrink: 0;
+    padding: var(--spacing-xs) 0;
 }
 
 .landlord-cards h3 {
     color: var(--text-primary);
-    margin-bottom: 3px;
-    font-size: clamp(0.9em, 2vw, 1.1em);
+    margin-bottom: 2px;
+    font-size: clamp(0.8em, 1.8vw, 1em);
     text-shadow: var(--glow-primary);
     font-weight: bold;
 }
@@ -142,15 +143,16 @@ body::before {
 .card-deck {
     display: flex;
     justify-content: center;
-    gap: 3px;
+    gap: 2px;
+    padding: 2px 0;
 }
 
 .players-area {
     display: grid;
-    grid-template-columns: minmax(140px, 160px) 1fr minmax(140px, 160px);
-    grid-template-rows: minmax(80px, 100px) 1fr minmax(100px, 120px);
+    grid-template-columns: minmax(130px, 150px) 1fr;
+    grid-template-rows: minmax(70px, auto) auto minmax(90px, auto);
     gap: var(--spacing-xs);
-    height: clamp(350px, 60vh, 450px);
+    min-height: clamp(300px, 50vh, 380px);
     margin-bottom: var(--spacing-xs);
     flex: 1;
 }
@@ -235,7 +237,7 @@ body::before {
     justify-content: center;
     align-items: center;
     background: var(--container-bg);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: var(--spacing-sm);
     position: relative;
     overflow: hidden;
@@ -243,6 +245,7 @@ body::before {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     gap: var(--spacing-xs);
+    min-height: 100px;
 }
 
 .center-area::before {

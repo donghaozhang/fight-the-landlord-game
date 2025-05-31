@@ -101,12 +101,30 @@ export class DouDiZhuGame {
 
     // Initialize game
     initializeGame() {
+        console.log('Starting game initialization...');
+        
+        console.log('Step 1: Creating deck...');
         this.createDeck();
+        console.log(`Deck created with ${this.deck.length} cards`);
+        
+        console.log('Step 2: Shuffling deck...');
         this.shuffleDeck();
+        
+        console.log('Step 3: Dealing cards...');
         this.dealCards();
+        console.log('Cards dealt. Player hands:', this.players.map(p => p.cards.length));
+        
+        console.log('Step 4: Assigning landlord...');
         this.assignLandlord();
+        console.log(`Landlord assigned: Player ${this.landlord}`);
+        
+        console.log('Step 5: Rendering game...');
         this.renderGame();
+        
+        console.log('Step 6: Updating game controls...');
         this.updateGameControls();
+        
+        console.log('Game initialization complete!');
     }
 
     // Create deck
@@ -264,12 +282,20 @@ export class DouDiZhuGame {
     // Render player cards
     renderPlayerCards() {
         const humanCardsContainer = document.getElementById('human-cards');
+        console.log('Rendering player cards...');
+        console.log('Human cards container:', humanCardsContainer);
+        console.log('Player 0 cards:', this.players[0].cards);
+        
         humanCardsContainer.innerHTML = '';
         
         this.players[0].cards.forEach((card, index) => {
+            console.log('Creating card element for:', card);
             const cardElement = this.createCardElement(card, index);
+            console.log('Created card element:', cardElement);
             humanCardsContainer.appendChild(cardElement);
         });
+        
+        console.log('Human cards container after adding cards:', humanCardsContainer.children.length);
         
         // Render computer player card backs
         this.renderComputerCards(1, 'player1');
@@ -411,6 +437,8 @@ export class DouDiZhuGame {
 
     // Create card element
     createCardElement(card, index) {
+        console.log('Creating card element for:', card);
+        
         const cardElement = document.createElement('div');
         cardElement.className = `card ${card.color}`;
         cardElement.dataset.index = index;
@@ -419,9 +447,15 @@ export class DouDiZhuGame {
         const imageKey = this.getCardImageKey(card);
         const imagePath = this.cardImages[imageKey];
         
+        console.log('Card mapping:', { imageKey, imagePath });
+        
         if (imagePath) {
-            cardElement.style.backgroundImage = `url('./images/${imagePath}')`;
+            const fullImagePath = `./images/${imagePath}`;
+            cardElement.style.backgroundImage = `url('${fullImagePath}')`;
             cardElement.classList.add('has-image');
+            console.log('Set background image:', fullImagePath);
+        } else {
+            console.warn('No image found for card:', card, 'imageKey:', imageKey);
         }
         
         const rankElement = document.createElement('div');
@@ -434,6 +468,7 @@ export class DouDiZhuGame {
         
         cardElement.addEventListener('click', () => this.selectCard(index));
         
+        console.log('Created card element:', cardElement);
         return cardElement;
     }
 
