@@ -33,6 +33,15 @@ function createServer() {
       case '.svg':
         contentType = 'image/svg+xml';
         break;
+      case '.mp3':
+        contentType = 'audio/mpeg';
+        break;
+      case '.wav':
+        contentType = 'audio/wav';
+        break;
+      case '.ogg':
+        contentType = 'audio/ogg';
+        break;
     }
 
     fs.readFile(filePath, (err, content) => {
@@ -42,8 +51,9 @@ function createServer() {
       } else {
         res.writeHead(200, { 'Content-Type': contentType });
         
-        // Handle binary files (images) vs text files differently
-        if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
+        // Handle binary files (images and audio) vs text files differently
+        if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif' || 
+            ext === '.mp3' || ext === '.wav' || ext === '.ogg') {
           res.end(content); // Binary data, no encoding needed
         } else {
           res.end(content, 'utf-8'); // Text data with UTF-8 encoding

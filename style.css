@@ -1324,3 +1324,61 @@ body::before {
         margin-top: 0; /* Let space-evenly handle distribution */
     }
 }
+
+/* Music Control Button */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--text-on-primary);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-primary);
+    border: 2px solid var(--color-tech-cyan);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.music-control:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-neon);
+    background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-tech-cyan) 100%);
+}
+
+.music-control:active {
+    transform: scale(0.95);
+}
+
+.music-control.muted {
+    background: linear-gradient(135deg, var(--color-disabled-bg) 0%, #475569 100%);
+    color: var(--color-disabled-text);
+    opacity: 0.6;
+}
+
+.music-control.muted:hover {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    transform: scale(1.05);
+}
+
+/* Mobile adjustments for music control */
+@media (max-width: 768px) {
+    .music-control {
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
