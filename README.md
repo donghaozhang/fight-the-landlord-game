@@ -53,7 +53,7 @@ Examples: `ht.png` (Hearts 10), `cq.png` (Clubs Queen), `sa.png` (Spades Ace)
 
 ### For Development
 ```bash
-git clone https://github.com/yourusername/fight-the-landlord-game.git
+git clone https://github.com/donghaozhang/fight-the-landlord-game.git
 cd fight-the-landlord-game
 npm start
 ```
@@ -70,22 +70,26 @@ You can play the game immediately by opening `index.html` in any modern web brow
 ## 📁 Project Structure
 
 ```
-├── index.html          # Main game interface
-├── game.js             # Game logic and card management
-├── main.js             # Game initialization
-├── server.js           # Development server
-├── package.json        # npm scripts and metadata
-├── style.css           # Main CSS file (imports all modules)
-├── variables.css       # CSS custom properties and base styles
-├── layout.css          # Main layout containers and grid system
-├── players.css         # Player containers and role styling
-├── cards.css           # Card styles and overlapping effects
-├── ui-components.css   # Buttons, modals, and interactive elements
-├── responsive.css      # Media queries and responsive design
-├── tests/              # Automated tests
-├── .gitignore          # Excludes large image files
-├── task.md             # Development progress tracking
-└── README.md           # This file
+├── index.html              # Main game interface
+├── game.js                 # Game logic and card management
+├── main.js                 # Game initialization
+├── server.js               # Development server
+├── package.json            # npm scripts and metadata
+├── css/                    # Modular CSS architecture
+│   ├── style.css           # Main CSS file (imports all modules)
+│   ├── variables.css       # CSS custom properties and base styles
+│   ├── layout.css          # Main layout containers and grid system
+│   ├── players.css         # Player containers and role styling
+│   ├── cards.css           # Card styles and overlapping effects
+│   ├── ui-components.css   # Buttons, modals, and interactive elements
+│   └── responsive.css      # Media queries and responsive design
+├── images/                 # Game assets (card images, background)
+├── tests/                  # Automated tests
+├── archive/                # Development history and backups
+├── simple_version/         # Simplified version for reference
+├── .gitignore              # Repository configuration
+├── task.md                 # Development progress tracking
+└── README.md               # This file
 ```
 
 ## 🎨 Visual Features & Design
@@ -93,12 +97,12 @@ You can play the game immediately by opening `index.html` in any modern web brow
 ### Modular CSS Architecture
 The styling system is built with a clean, maintainable modular structure:
 
-- **`variables.css`** (81 lines): CSS custom properties, color system, responsive variables
-- **`layout.css`** (152 lines): Main containers, header, game grid, center area
-- **`players.css`** (221 lines): Player positioning, role styling, landlord/peasant themes
-- **`cards.css`** (320 lines): Card styling, overlapping effects, hover animations
-- **`ui-components.css`** (215 lines): Buttons, modals, messages, interactive controls
-- **`responsive.css`** (365 lines): Mobile-first responsive design across all breakpoints
+- **`css/variables.css`** (97 lines): CSS custom properties, color system, responsive variables
+- **`css/layout.css`** (162 lines): Main containers, header, game grid, center area
+- **`css/players.css`** (408 lines): Player positioning, role styling, landlord/peasant themes
+- **`css/cards.css`** (330 lines): Card styling, overlapping effects, hover animations
+- **`css/ui-components.css`** (222 lines): Buttons, modals, messages, interactive controls
+- **`css/responsive.css`** (393 lines): Mobile-first responsive design across all breakpoints
 
 ### Tech-Themed Visual Design
 - **Background**: Black Myth Wukong artwork with subtle tech grid overlay
@@ -142,17 +146,15 @@ The styling system is built with a clean, maintainable modular structure:
 
 ## 🖼 Image Assets
 
-**Note**: This repository excludes the card images to keep it lightweight (see `.gitignore`).
-
-### For Full Game Experience:
-1. Host card images on external services (CloudFlare, AWS S3, GitHub Pages, etc.)
-2. Update image paths in `game.js`
-3. Or download images locally and update `.gitignore`
+The repository includes all necessary image assets:
+- **Card Images**: 54 card images using short naming convention (e.g., `sa.png`, `ht.png`)
+- **Background**: `images/wukong.jpg` for Black Myth Wukong theme
+- **Audio**: `images/wukong.mp3` for background music
 
 ### Image Reference:
 - Card filenames follow the short naming scheme (e.g., `sa.png` for spade ace)
-- Background: `images/wukong.jpg` for Black Myth Wukong theme
-- Fallback to text-only cards if images unavailable
+- Jokers: `jr.png` (red joker), `jb.png` (black joker)
+- Background assets integrated into tech-themed interface
 
 ## 🎯 Game Status
 
@@ -165,13 +167,13 @@ The styling system is built with a clean, maintainable modular structure:
 - **AI Logic**: Strategic computer players with bidding and card play
 - **Overlapping Cards**: Natural card hand appearance for all players
 - **Enhanced UI**: Modern buttons, modals, and interactive elements
-
-### 🔄 Current Focus (From Development Priorities)
-- **Display Full Card Hands**: Remove card limits, show all 3-20 cards
-- **Enhanced Score System**: Implement multipliers based on bidding and bombs
-- **Advanced Combinations**: Airplane with wings and complex sequences
+- **Image Assets**: Complete card set and background assets included
+- **CSS Organization**: All styling files organized in dedicated `css/` folder
 
 ### 🚀 Future Enhancements
+- Display full card hands (remove 15-card limit)
+- Enhanced score system with multipliers
+- Advanced card combinations (airplane with wings)
 - Online multiplayer support
 - Advanced AI strategies with difficulty levels
 - Card animation effects during play
@@ -188,7 +190,7 @@ The styling system is built with a clean, maintainable modular structure:
 5. Open a Pull Request
 
 ### Development Guidelines
-- Follow the modular CSS structure when adding styles
+- Follow the modular CSS structure in the `css/` folder when adding styles
 - Test across all responsive breakpoints
 - Maintain the tech-themed visual consistency
 - Ensure accessibility standards (WCAG guidelines)
