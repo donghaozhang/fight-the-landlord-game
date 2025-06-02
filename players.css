@@ -98,11 +98,15 @@
     justify-content: center;
     align-items: center;
     min-height: 100%;
+    min-width: 140px; /* Ensure minimum width for text */
+    max-width: 180px; /* Prevent excessive width */
     background: rgba(15, 23, 42, 0.4);
     border-radius: 8px;
     border: 1px solid rgba(100, 181, 246, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    overflow: hidden; /* Ensure content stays within bounds */
+    box-sizing: border-box;
 }
 
 /* Enhanced Bottom Player Layout */
@@ -167,6 +171,32 @@
     box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
     z-index: 1001; /* Highest z-index for critical text */
     position: relative;
+}
+
+/* Specific styling for left player (Computer 1) to fit text in container */
+.player-back-frame-1 .player-info {
+    padding: 6px 8px; /* Reduced padding to allow more text space */
+    width: 100%; /* Ensure full width usage */
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent text overflow */
+}
+
+.player-back-frame-1 .player-name {
+    font-size: clamp(10px, 2vw, 14px); /* Reduced font size to fit better */
+    margin-right: 8px; /* Reduced margin for more compact layout */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if text is too long */
+    flex-shrink: 1; /* Allow shrinking if needed */
+}
+
+.player-back-frame-1 .card-count {
+    font-size: clamp(9px, 1.8vw, 12px); /* Reduced font size to fit better */
+    padding: 3px 6px; /* Reduced padding for more compact layout */
+    border-radius: 10px;
+    min-width: 50px; /* Reduced min-width */
+    white-space: nowrap; /* Prevent text wrapping */
+    flex-shrink: 0; /* Don't shrink the card count */
 }
 
 /* Landlord-specific card count styling */
