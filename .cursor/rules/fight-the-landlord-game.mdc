@@ -43,11 +43,16 @@ This is a web-based "Fight the Landlord" (Dou Dizhu) card game implemented in HT
 - **Peasants win**: Either peasant empties hand first
 
 ## File Structure
-- [index.html](mdc:index.html) - Main game interface with 3-player grid layout
-- [style.css](mdc:style.css) - Comprehensive styling with responsive design and tech theme
-- [script.js](mdc:script.js) - Complete Fight the Landlord game logic and AI
+- [index.html](mdc:index.html) - Main game interface with 3-player grid layout and 3D dragon viewer
+- [main.js](mdc:main.js) - Game initialization and dragon viewer integration
+- [game.js](mdc:game.js) - Complete Fight the Landlord game logic and AI
+- [dragon-viewer.js](mdc:dragon-viewer.js) - 3D dragon model viewer class (legacy fallback)
+- [server.js](mdc:server.js) - Node.js server with binary file support for GLB models
+- [css/style.css](mdc:css/style.css) - Main CSS import file for modular architecture
+- [css/layout.css](mdc:css/layout.css) - Layout system including 3D dragon viewer positioning
 - [task.md](mdc:task.md) - Development progress tracking and feature documentation
-- `images/` folder - Card images (gitignored, uses short naming convention)
+- `images/` folder - Card images + dragon.glb (15.6MB) + background/audio assets
+- `dragon_tests/` folder - Dragon integration testing and documentation
 
 ## JavaScript Architecture
 
@@ -298,6 +303,101 @@ Player name labels are hidden:
 - **Theme consistency**: Use CSS variables instead of hardcoded colors
 - **Responsive issues**: Test fluid sizing with clamp() functions
 - **Performance**: Use CSS transforms and backdrop-filter for smooth animations
+
+## 3D Dragon Integration
+
+### Dragon Model Specifications
+- **File**: `dragon.glb` (15.6MB Binary GLB format)
+- **Position**: Fixed positioning in right viewport area (700×850px)
+- **Scale**: 3.5x magnification for spectacular display
+- **Background**: Completely transparent overlay on Black Myth Wukong theme
+- **Responsive**: Adaptive sizing across multiple breakpoints
+
+### Three.js Implementation
+```javascript
+// ES6 Module Loading (Proven Reliable Method)
+const THREE = await import('https://unpkg.com/three@0.155.0/build/three.module.js');
+const { GLTFLoader } = await import('https://unpkg.com/three@0.155.0/examples/jsm/loaders/GLTFLoader.js');
+const { OrbitControls } = await import('https://unpkg.com/three@0.155.0/examples/jsm/controls/OrbitControls.js');
+
+// WebGL Renderer with Alpha Channel
+const renderer = new THREE.WebGLRenderer({ 
+  canvas: canvas, 
+  alpha: true, 
+  antialias: true,
+  premultipliedAlpha: false,
+  preserveDrawingBuffer: true
+});
+renderer.setClearColor(0x000000, 0); // Completely transparent background
+```
+
+### Interactive Controls System
+- **Drag-to-Rotate**: Left mouse drag for camera orbit around dragon
+- **Zoom Control**: Mouse wheel for smooth zoom in/out (4-25 distance range)
+- **Smooth Damping**: Enhanced camera movements with dampingFactor: 0.05
+- **Auto-Rotation**: Gentle rotation and floating animation when not interacting
+- **Touch Support**: Mobile-compatible OrbitControls for cross-device interaction
+
+### Lighting & Visual Effects
+```javascript
+// Multi-Light Setup for Dramatic Dragon Visualization
+const ambientLight = new THREE.AmbientLight(0x404040, 0.8);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+const pointLight = new THREE.PointLight(0xff6600, 1.0, 100);
+
+// Enhanced Material Properties
+dragon.traverse((child) => {
+  if (child.isMesh && child.material) {
+    child.material.emissive = new THREE.Color(0x221100);
+    child.material.emissiveIntensity = 0.2;
+    child.castShadow = true;
+    child.receiveShadow = true;
+  }
+});
+```
+
+### Dragon Viewer CSS Architecture
+```css
+.dragon-viewer {
+  position: fixed;
+  top: 5%;
+  right: 1vw;
+  width: 700px;
+  height: 850px;
+  z-index: 50;
+  border-radius: 20px;
+  background: transparent; /* Complete transparency for background overlay */
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1600px) { width: 600px; height: 750px; }
+@media (max-width: 1400px) { width: 500px; height: 650px; }
+@media (max-width: 1200px) { width: 400px; height: 520px; }
+@media (max-width: 768px) { display: none; } /* Mobile optimization */
+```
+
+### Server Binary File Support
+```javascript
+// Enhanced server.js for GLB file serving
+if (isBinaryFile) {
+  res.setHeader('Content-Type', getMimeType(ext));
+  res.setHeader('Content-Length', data.length);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.end(data); // Binary data handling
+}
+
+// MIME Type Support
+'.glb': 'model/gltf-binary',
+'.png': 'image/png',
+'.mp3': 'audio/mpeg'
+```
+
+### Dragon Testing Infrastructure
+- **`dragon_tests/` Directory**: Comprehensive testing environment
+- **Multiple Test Files**: Various approaches to GLTFLoader testing
+- **Documentation**: Complete implementation guide and troubleshooting
+- **Proven Methods**: ES6 modules confirmed reliable vs CDN failures
+- **File Verification**: Tools to confirm dragon.glb accessibility
 
 
 

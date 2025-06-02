@@ -21,6 +21,7 @@ From lowest to highest value:
 - **AI Players**: Basic AI that can play valid combinations
 - **Game Flow**: Turn management, win conditions, card playing
 - **Visual Interface**: Card rendering, selection, computer card backs
+- **3D Dragon Display**: Interactive 15.6MB dragon.glb model with OrbitControls
 
 ## Key Game Logic Methods in [game.js](mdc:game.js)
 - `createDeck()` - Creates 54-card deck with proper Fight the Landlord ranking
@@ -30,10 +31,18 @@ From lowest to highest value:
 - `canBeatLastPlay()` - Determines if cards can beat previous play (line 974)
 - `playCards()` / `aiPlay()` - Human and AI turn logic
 
+## 3D Dragon Integration in [main.js](mdc:main.js)
+- `initializeDragonViewerDirect()` - ES6 module-based Three.js dragon loader
+- `OrbitControls` - Interactive drag-to-rotate and zoom functionality
+- Transparent WebGL rendering for seamless background overlay
+- Responsive dragon viewer sizing across multiple breakpoints
+- Auto-rotation and floating animation effects
+
 ## Image Asset System
 Card images use specific naming convention in `initializeCardImages()`:
 - Format: `{suit}_{rank}.png` (e.g., `spade_a.png`, `heart_10.png`)
 - Special: `jr.png` (Small Joker), `jb.png` (Big Joker)
 - Mapping handled in `getCardImageKey()` method
+- **3D Model**: `dragon.glb` (15.6MB) loaded via GLTFLoader
 
 

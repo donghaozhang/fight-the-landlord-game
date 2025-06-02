@@ -6,105 +6,131 @@ alwaysApply: true
 # Fight the Landlord Game - Project Structure
 
 ## Core Files
-- [index.html](mdc:index.html) - Main HTML structure with game board layout
+- [index.html](mdc:index.html) - Main HTML structure with game board layout and 3D dragon viewer
 - [game.js](mdc:game.js) - Main game logic class `DouDiZhuGame` with all game mechanics
-- [main.js](mdc:main.js) - Entry point that initializes the game
-- [server.js](mdc:server.js) - Node.js server that serves files (handles PNG images for cards)
+- [main.js](mdc:main.js) - Entry point with game initialization and dragon viewer integration
+- [server.js](mdc:server.js) - Node.js server with binary file support for GLB models and image serving
+- [dragon-viewer.js](mdc:dragon-viewer.js) - 3D dragon model viewer class (legacy fallback)
 - [task.md](mdc:task.md) - Complete game requirements and rules specification
 - [README.md](mdc:README.md) - Comprehensive project documentation
 
 ## Modular CSS Architecture
 - [style.css](mdc:style.css) - Main CSS file (imports all modules, 9 lines)
-- [variables.css](mdc:variables.css) - CSS custom properties, color system, base styles (92 lines)
-- [layout.css](mdc:layout.css) - Main layout containers, header, game grid system (152 lines)
-- [players.css](mdc:players.css) - Player containers, role styling, landlord/peasant themes (221 lines)
-- [cards.css](mdc:cards.css) - Card styles, overlapping effects, hover animations (320 lines)
-- [ui-components.css](mdc:ui-components.css) - Buttons, modals, messages, interactive controls (215 lines)
-- [responsive.css](mdc:responsive.css) - Mobile-first responsive design with 5 breakpoints (365 lines)
+- [css/variables.css](mdc:css/variables.css) - CSS custom properties, color system, base styles (97 lines)
+- [css/layout.css](mdc:css/layout.css) - Main layout containers, header, game grid system, 3D dragon viewer (198 lines)
+- [css/players.css](mdc:css/players.css) - Player containers, role styling, landlord/peasant themes (408 lines)
+- [css/cards.css](mdc:css/cards.css) - Card styles, overlapping effects, hover animations (330 lines)
+- [css/ui-components.css](mdc:css/ui-components.css) - Buttons, modals, messages, interactive controls (222 lines)
+- [css/responsive.css](mdc:css/responsive.css) - Mobile-first responsive design with 5 breakpoints (393 lines)
 
 ## Asset Directories
-- `images/` - Contains card image files (PNG format) with short naming convention
+- `images/` - Contains card image files (PNG format) with short naming convention + 3D dragon model
   - Background: `wukong.jpg` for Black Myth Wukong theme
+  - Audio: `wukong.mp3` for background music
   - Cards: 54-card deck with naming like `sa.png` (spade ace), `ht.png` (hearts ten)
+  - 3D Model: `dragon.glb` (15.6MB) for interactive dragon display
+- `css/` - Modular CSS architecture with 6 organized files
 - `tests/` - Unit tests for game logic
+- `dragon_tests/` - Dragon.glb integration test files and comprehensive documentation
 - `archive/` - Backup files and development history
 
 ## Supporting Files
 - `package.json` - npm scripts and project metadata
 - `package-lock.json` - Dependency lock file
-- `.gitignore` - Repository configuration (excludes images to keep repo lightweight)
+- `.gitignore` - Repository configuration (includes images for complete functionality)
 
 ## Key Relationships
 
 ### CSS Module System
 - [style.css](mdc:style.css) imports all CSS modules in order:
-  1. [variables.css](mdc:variables.css) - Base system (colors, spacing, responsive variables)
-  2. [layout.css](mdc:layout.css) - Container and grid structure
-  3. [players.css](mdc:players.css) - Player-specific styling
-  4. [cards.css](mdc:cards.css) - Card interactions and effects
-  5. [ui-components.css](mdc:ui-components.css) - Interactive elements
-  6. [responsive.css](mdc:responsive.css) - Device-specific adaptations
+  1. [css/variables.css](mdc:css/variables.css) - Base system (colors, spacing, responsive variables)
+  2. [css/layout.css](mdc:css/layout.css) - Container and grid structure
+  3. [css/players.css](mdc:css/players.css) - Player-specific styling
+  4. [css/cards.css](mdc:css/cards.css) - Card interactions and effects
+  5. [css/ui-components.css](mdc:css/ui-components.css) - Interactive elements
+  6. [css/responsive.css](mdc:css/responsive.css) - Device-specific adaptations
 
 ### JavaScript Architecture
 - [game.js](mdc:game.js) exports `DouDiZhuGame` class imported by [main.js](mdc:main.js)
-- [index.html](mdc:index.html) references [main.js](mdc:main.js) as ES6 module
+- [index.html](mdc:index.html) references [main.js](mdc:main.js) as ES6 module with import maps for Three.js
+- [main.js](mdc:main.js) includes direct dragon viewer initialization using ES6 modules
 - Card images in `images/` are mapped in `initializeCardImages()` method in [game.js](mdc:game.js)
-- [server.js](mdc:server.js) must handle PNG files for card images to display properly
+- [server.js](mdc:server.js) handles binary GLB files and PNG images with proper MIME types
+
+### 3D Dragon Integration
+- **Dragon Model**: `dragon.glb` (15.6MB) loaded via GLTFLoader from Three.js
+- **ES6 Module Loading**: Reliable import from `https://unpkg.com/three@0.155.0/`
+- **Interactive Controls**: OrbitControls for drag-to-rotate, zoom, and pan functionality
+- **Transparent Rendering**: WebGLRenderer with alpha channel for background overlay
+- **Camera System**: Optimized positioning and controls for extra-large (700×850px) display
+- **Lighting Setup**: Ambient, directional, and point lights for dramatic dragon visualization
+- **Animation System**: Auto-rotation with floating effects and smooth damping
+- **Responsive Design**: Adaptive sizing across multiple breakpoints (1600px, 1400px, 1200px, 768px)
 
 ### Design System Integration
-- Color system defined in [variables.css](mdc:variables.css) with CSS custom properties
+- Color system defined in [css/variables.css](mdc:css/variables.css) with CSS custom properties
 - Tech-themed dark interface with Black Myth Wukong background
 - Responsive breakpoints: 320px, 481px, 769px, 1025px, 1400px
 - Z-index hierarchy: cards (15-40), UI elements (100+), critical text (800-1001)
 
 ## Entry Point Flow
 1. [index.html](mdc:index.html) loads [main.js](mdc:main.js) and [style.css](mdc:style.css)
-2. [style.css](mdc:style.css) imports all CSS modules in dependency order
+2. [style.css](mdc:style.css) imports all CSS modules in dependency order from `css/` folder
 3. [main.js](mdc:main.js) imports and instantiates `DouDiZhuGame` from [game.js](mdc:game.js)
-4. Game initializes with:
+4. [main.js](mdc:main.js) initializes 3D dragon viewer with ES6 module imports
+5. Game initializes with:
    - Card dealing and deck creation
    - Bidding phase with AI strategy
    - UI rendering with modular styling
+   - 3D dragon model loading and interactive controls
    - Responsive layout activation
+
+## Dragon Testing & Development
+- **`dragon_tests/` Directory**: Comprehensive testing environment for 3D integration
+- **Test Files**: Multiple HTML files testing different GLTFLoader approaches
+- **Documentation**: `README.md` with complete implementation guide and troubleshooting
+- **Proven Methods**: ES6 module approach confirmed working vs legacy CDN failures
+- **File Verification**: Tools to confirm dragon.glb accessibility and proper serving
 
 ## Module Responsibilities
 
-### [variables.css](mdc:variables.css)
+### [css/variables.css](mdc:css/variables.css)
 - CSS custom properties for colors, spacing, typography
 - Tech-themed color system (60-30-10 rule)
 - Responsive variable definitions
 - Base reset and body styling
 - Tech grid overlay effects
 
-### [layout.css](mdc:layout.css)
+### [css/layout.css](mdc:css/layout.css)
 - Game container and main grid structure
 - Header with game info and title
 - Center playing area layout
 - Landlord cards display area
-- Z-index management for layout elements
+- **3D Dragon Viewer**: Extra-large (700×850px) transparent positioning
+- Z-index management for layout elements and dragon display
 
-### [players.css](mdc:players.css)
+### [css/players.css](mdc:css/players.css)
 - Player container positioning and styling
 - Landlord vs peasant visual themes
 - Role badges and indicators
 - Player card container management
 - Role-specific animations (pulse-glow)
 
-### [cards.css](mdc:cards.css)
+### [css/cards.css](mdc:css/cards.css)
 - Individual card styling and interactions
 - Overlapping card system with mathematical positioning
 - Hover effects and selection states
 - Computer card back designs
 - Card animation and transition effects
 
-### [ui-components.css](mdc:ui-components.css)
+### [css/ui-components.css](mdc:css/ui-components.css)
 - Button styling with tech theme
 - Modal and message area design
 - Game controls layout
 - Music control button
 - Interactive element states and feedback
 
-### [responsive.css](mdc:responsive.css)
+### [css/responsive.css](mdc:css/responsive.css)
 - Mobile-first responsive design
 - 5 distinct breakpoints with specific optimizations
 - Touch-friendly interactions for mobile
@@ -112,10 +138,14 @@ alwaysApply: true
 - Accessibility considerations (reduced motion)
 
 ## Development Guidelines
-- Follow modular CSS structure when adding features
-- Test across all responsive breakpoints
-- Maintain tech-themed visual consistency  
+- Follow modular CSS structure in `css/` folder when adding features
+- Test across all responsive breakpoints including dragon viewer sizing
+- Maintain tech-themed visual consistency with transparent 3D integration
 - Update appropriate CSS module based on functionality
 - Use [task.md](mdc:task.md) for tracking development progress
 - Preserve card image mapping system for asset flexibility
+- **Dragon Development**: Use `dragon_tests/` for 3D feature testing before main integration
+- **Server Requirements**: Ensure binary file serving for GLB models with proper MIME types
+- **3D Performance**: Test dragon viewer across different devices and screen sizes
+- **ES6 Module Priority**: Use ES6 imports over CDN scripts for Three.js reliability
 

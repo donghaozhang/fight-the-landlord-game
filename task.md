@@ -194,13 +194,28 @@ This is a card game project with HTML, CSS, and JavaScript components, featuring
 - [x] Add proper text shadows for readability
 - [x] Ensure all text is visible against dark background
 
+### 27. ✅ Implement 3D Dragon.glb Model Integration with Interactive Controls
+- [x] Successfully integrate 15.6MB dragon.glb file into Fight the Landlord game
+- [x] Fix server.js to properly serve binary GLB files with correct MIME types and headers
+- [x] Implement ES6 module-based GLTFLoader for reliable 3D model loading
+- [x] Create transparent dragon viewer with complete background removal
+- [x] Implement interactive OrbitControls for drag-to-rotate functionality
+- [x] Add mouse wheel zoom and smooth camera damping
+- [x] Implement auto-rotation with floating animation effects
+- [x] Scale dragon viewer to extra large (700×850px) for spectacular display
+- [x] Position dragon at 3.5x scale for maximum visual impact
+- [x] Create responsive breakpoints for different screen sizes
+- [x] Organize dragon testing files into dedicated `dragon_tests/` folder
+- [x] Document dragon implementation process with comprehensive README
+
 ## File Structure & Architecture
 
 ### Core Game Files
-- **`index.html`**: Main game interface with semantic HTML structure
+- **`index.html`**: Main game interface with semantic HTML structure and 3D dragon viewer
 - **`game.js`**: Complete game logic class `DouDiZhuGame` with all mechanics
-- **`main.js`**: Entry point that initializes the game instance
-- **`server.js`**: Node.js Express server for development
+- **`main.js`**: Entry point with game initialization and dragon viewer integration
+- **`server.js`**: Node.js Express server with binary file support for GLB models
+- **`dragon-viewer.js`**: 3D dragon model viewer class (legacy fallback)
 
 ### Modular CSS System (css/ folder)
 - **`css/style.css`**: Main import file (9 lines) that loads all CSS modules
@@ -212,14 +227,16 @@ This is a card game project with HTML, CSS, and JavaScript components, featuring
 - **`css/responsive.css`**: Mobile-first responsive design with 5 breakpoints (393 lines)
 
 ### Image Assets
-- **`images/`**: Complete card deck (54 images) + background + audio
+- **`images/`**: Complete card deck (54 images) + background + audio + 3D dragon model
   - Card images: Short naming scheme (sa.png, ht.png, jr.png, jb.png, etc.)
   - Background: wukong.jpg for Black Myth Wukong theme
   - Audio: wukong.mp3 for background music
+  - 3D Model: dragon.glb (15.6MB) for interactive dragon display
 
 ### Supporting Files
 - **`package.json`**: npm scripts and metadata
 - **`tests/`**: Automated test suites
+- **`dragon_tests/`**: Dragon.glb integration test files and documentation
 - **`.gitignore`**: Repository configuration
 - **`README.md`**: Comprehensive project documentation
 - **`task.md`**: Development progress tracking (this file)
