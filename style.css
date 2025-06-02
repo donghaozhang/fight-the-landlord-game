@@ -320,6 +320,7 @@ body::before {
     padding: 15px 10px; /* Reduced padding to keep cards inside */
     width: 100%;
     box-sizing: border-box;
+    align-items: center;
 }
 
 /* Top player - constrain cards within container */
@@ -1136,17 +1137,17 @@ body::before {
     }
 }
 
-/* Player Bottom Card Layout - constrain cards within container */
+/* Player Bottom Card Layout - overlapping cards like real card hand */
 .player-bottom .player-cards {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start; /* Changed from space-evenly to flex-start for overlapping */
     align-items: flex-end;
     flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden; /* Prevent vertical overflow */
-    padding: 10px 8px; /* Reduced padding */
-    min-height: calc(var(--card-height) + 20px); /* Height based on card size */
-    gap: 0;
+    overflow-x: visible; /* Allow cards to extend beyond container */
+    overflow-y: hidden;
+    padding: 10px 8px;
+    min-height: calc(var(--card-height) + 20px);
+    gap: 0; /* Remove gap for overlapping effect */
     scrollbar-width: thin;
     scrollbar-color: var(--color-primary) transparent;
     margin: 0;
@@ -1154,132 +1155,155 @@ body::before {
     box-sizing: border-box;
 }
 
+/* Create overlapping effect for human player cards */
+.player-bottom .card {
+    flex-shrink: 0;
+    margin-left: clamp(-45px, -3.5vw, -35px); /* Strong overlapping effect */
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    transform-origin: bottom center;
+}
+
+.player-bottom .card:first-child {
+    margin-left: 0; /* First card has no overlap */
+}
+
 .player-bottom .card:hover {
-    transform: translateY(clamp(-8px, -1vh, -6px)) scale(1.2); /* Reduced scale and movement */
+    transform: translateY(clamp(-8px, -1vh, -6px)) scale(1.2);
     z-index: 100;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: clamp(-45px, -3.5vw, -35px); /* Maintain overlap on hover */
+    margin-right: clamp(-30px, -2.5vw, -20px); /* Space for scaling */
+}
+
+.player-bottom .card.selected {
+    transform: translateY(clamp(-8px, -1.5vh, -6px));
+    z-index: 50;
+    box-shadow: 0 0 15px var(--color-accent), 0 4px 20px rgba(245, 158, 11, 0.4);
+    border: 2px solid var(--color-accent);
+    margin-left: clamp(-45px, -3.5vw, -35px); /* Maintain overlap when selected */
 }
 
 .player-bottom .card.selected:hover {
-    transform: translateY(clamp(-10px, -1.5vh, -8px)) scale(1.3); /* Reduced scale */
+    transform: translateY(clamp(-10px, -1.5vh, -8px)) scale(1.3);
     z-index: 100;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: clamp(-45px, -3.5vw, -35px); /* Maintain overlap */
+    margin-right: clamp(-30px, -2.5vw, -20px); /* Space for scaling */
 }
 
-/* Enhanced spacing for different screen sizes - maintain even distribution */
-@media (min-width: 1200px) {
-    .player-bottom .card {
-        margin-left: 0; /* Let space-evenly handle distribution */
-    }
-    
-    .player-bottom .card:hover {
-        margin-left: 0; /* Keep spacing consistent on hover */
-        margin-right: 0; /* Keep spacing consistent on hover */
-    }
-    
-    .player-left .player-cards {
-        min-height: 250px; /* Slightly larger for bigger screens */
-        padding: var(--spacing-sm) 0;
-        justify-content: space-evenly; /* Maintain even distribution */
-    }
-    
-    .player-left .card-back-computer {
-        margin-top: 0; /* Let space-evenly handle distribution */
-    }
-    
-    .player-top .player-cards {
-        justify-content: space-evenly; /* Maintain even distribution */
-        padding-left: 15px; /* Consistent padding */
-        padding-right: 15px; /* Consistent padding */
-    }
-    
-    .player-top .card-back-computer {
-        margin-left: 0; /* Let space-evenly handle distribution */
-    }
-}
-
-@media (max-width: 768px) {
-    .player-bottom .card {
-        margin-left: 0; /* Let space-evenly handle distribution */
-    }
-    
-    .player-left .player-cards {
-        min-height: 150px; /* Smaller for mobile to reduce empty space */
-        padding: 4px 0;
-        justify-content: space-evenly; /* Maintain even distribution */
-    }
-    
-    .player-left .card-back-computer {
-        margin-top: 0; /* Let space-evenly handle distribution */
-    }
-    
-    .player-top .player-cards {
-        justify-content: space-evenly; /* Maintain even distribution */
-        padding-left: 15px; /* Consistent padding */
-        padding-right: 15px; /* Consistent padding */
-    }
-    
-    .player-top .card-back-computer {
-        margin-left: 0; /* Let space-evenly handle distribution */
-    }
-}
-
-/* Enhanced spacing for all player cards - distribute evenly across regions */
-.player-cards {
-    align-items: center;
-}
-
-/* Specific alignment for each player area - all use even distribution */
+/* Enhanced overlapping for computer players */
 .player-top .player-cards {
-    justify-content: space-evenly; /* Even distribution across width */
+    justify-content: flex-start; /* Changed from space-evenly */
+    position: relative;
+    padding: 15px 10px 20px 10px;
+    min-height: 120px;
+    overflow: visible; /* Allow cards to extend beyond container */
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.player-left .player-cards {
-    justify-content: space-evenly; /* Even distribution across height */
-}
-
-.player-bottom .player-cards {
-    justify-content: space-evenly; /* Even distribution across width */
-}
-
-/* Computer player card spacing - let flexbox handle distribution */
 .player-top .card-back-computer {
-    margin-left: 0; /* Let space-evenly handle distribution */
+    margin-left: clamp(-25px, -2vw, -15px); /* Overlapping effect for top player */
+}
+
+.player-top .card-back-computer:first-child {
+    margin-left: 0;
+}
+
+.player-top .card-back-computer:hover {
+    transform: translateY(-10px) scale(1.2) rotate(0deg) !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    z-index: 100 !important;
+    border-color: #3949ab;
+    margin-right: clamp(-25px, -2vw, -15px); /* Prevent shifting on hover */
+}
+
+/* Left player overlapping cards */
+.player-left .player-cards {
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 10px 15px;
+    min-height: 180px;
+    overflow: visible; /* Allow cards to extend beyond container */
+    width: 100%;
+    justify-content: flex-start; /* Changed from space-evenly */
+    gap: 0;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .player-left .card-back-computer {
-    margin-top: 0; /* Let space-evenly handle distribution */
+    margin-top: clamp(-40px, -3vh, -25px); /* Overlapping effect for left player */
 }
 
-/* Better spacing on ultra-wide screens - maintain even distribution */
-@media (min-width: 1400px) {
-    .player-bottom .card {
-        margin-left: 0; /* Let space-evenly handle distribution */
-    }
-    
-    .player-top .card-back-computer {
-        margin-left: 0; /* Let space-evenly handle distribution */
-    }
-    
-    .player-left .card-back-computer {
-        margin-top: 0; /* Let space-evenly handle distribution */
-    }
+.player-left .card-back-computer:first-child {
+    margin-top: 0;
 }
 
-/* Mobile spacing - maintain even distribution */
+.player-left .card-back-computer:hover {
+    transform: translateX(0px) scale(1.2) rotate(0deg) !important;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    z-index: 100 !important;
+    border-color: #3949ab;
+    margin-bottom: clamp(-40px, -3vh, -25px); /* Prevent shifting on hover */
+}
+
+/* Responsive adjustments for overlapping cards */
 @media (max-width: 480px) {
     .player-bottom .card {
-        margin-left: 0; /* Let space-evenly handle distribution */
+        margin-left: clamp(-20px, -4vw, -15px); /* Less overlap on small screens */
+    }
+    
+    .player-bottom .card:hover,
+    .player-bottom .card.selected:hover {
+        margin-right: clamp(-20px, -4vw, -15px);
     }
     
     .player-top .card-back-computer {
-        margin-left: 0; /* Let space-evenly handle distribution */
+        margin-left: clamp(-15px, -3vw, -10px);
     }
     
     .player-left .card-back-computer {
-        margin-top: 0; /* Let space-evenly handle distribution */
+        margin-top: clamp(-25px, -4vh, -15px);
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .player-bottom .card {
+        margin-left: clamp(-30px, -3.5vw, -20px);
+    }
+    
+    .player-bottom .card:hover,
+    .player-bottom .card.selected:hover {
+        margin-right: clamp(-30px, -3.5vw, -20px);
+    }
+    
+    .player-top .card-back-computer {
+        margin-left: clamp(-20px, -2.5vw, -15px);
+    }
+    
+    .player-left .card-back-computer {
+        margin-top: clamp(-35px, -3.5vh, -20px);
+    }
+}
+
+@media (min-width: 1025px) {
+    .player-bottom .card {
+        margin-left: clamp(-40px, -2.5vw, -30px); /* More overlap on larger screens */
+    }
+    
+    .player-bottom .card:hover,
+    .player-bottom .card.selected:hover {
+        margin-right: clamp(-40px, -2.5vw, -30px);
+    }
+    
+    .player-top .card-back-computer {
+        margin-left: clamp(-30px, -2vw, -20px);
+    }
+    
+    .player-left .card-back-computer {
+        margin-top: clamp(-45px, -3vh, -30px);
     }
 }
 
@@ -1355,29 +1379,10 @@ body::before {
     border-radius: 2px;
 }
 
-.player-bottom .card {
-    flex-shrink: 0;
-    margin-left: 0;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 1;
-}
-
-.player-bottom .card:first-child {
-    margin-left: 0;
-}
-
-.player-bottom .card.selected {
-    transform: translateY(clamp(-8px, -1.5vh, -6px));
-    z-index: 50;
-    box-shadow: 0 0 15px var(--color-accent), 0 4px 20px rgba(245, 158, 11, 0.4);
-    border: 2px solid var(--color-accent);
-}
-
-/* Add shared card behavior styling */
+/* Add shared card behavior styling - removed conflicting rules */
 .player-left .card-back-computer {
     margin-left: 0 !important;
-    margin-top: 0;
+    margin-top: clamp(-40px, -3vh, -25px); /* Overlapping effect for left player */
     position: relative;
     transform-origin: center center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1385,6 +1390,10 @@ body::before {
 
 .player-left .card-back-computer:first-child {
     margin-top: 0;
+}
+
+.player-top .card-back-computer {
+    margin-left: clamp(-25px, -2vw, -15px); /* Overlapping effect for top player */
 }
 
 .player-top .card-back-computer:first-child {
