@@ -318,11 +318,6 @@ export class DouDiZhuGame {
             const cardBackInner = document.createElement('div');
             cardBackInner.className = 'card-back-inner';
             
-            const pattern = document.createElement('div');
-            pattern.className = 'card-back-pattern';
-            pattern.innerHTML = '🃏';
-            
-            cardBackInner.appendChild(pattern);
             cardBack.appendChild(cardBackInner);
             
             // Let CSS flexbox space-evenly handle distribution - only add subtle visual effects
