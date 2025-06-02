@@ -1,8 +1,8 @@
 /* Main Layout and Container Styles */
 
 .game-container {
-    max-width: 95vw; /* Use almost full viewport width instead of fixed pixels */
-    margin: 0 auto;
+    max-width: 60vw; /* Reduced from 95vw to 60vw to fit on left side */
+    margin: 0 0 0 2vw; /* Changed from "0 auto" to left align with small left margin */
     padding: var(--spacing-xs);
     min-height: 100vh;
     display: flex;
@@ -78,10 +78,10 @@
 
 .players-area {
     display: grid;
-    grid-template-columns: minmax(140px, 180px) minmax(200px, 260px) 1fr; /* Further expanded left columns */
-    grid-template-rows: minmax(80px, 100px) 1fr minmax(260px, 320px); /* Further expanded bottom row */
+    grid-template-columns: minmax(120px, 160px) minmax(180px, 220px) 1fr; /* Reduced column sizes for left-side layout */
+    grid-template-rows: minmax(80px, 100px) 1fr minmax(240px, 300px); /* Slightly reduced bottom row height */
     gap: var(--spacing-xs);
-    min-height: clamp(650px, 85vh, 800px); /* Much larger minimum height */
+    min-height: clamp(600px, 80vh, 750px); /* Reduced minimum height for compact layout */
     margin-bottom: var(--spacing-xs);
     flex: 1;
     align-items: stretch;
