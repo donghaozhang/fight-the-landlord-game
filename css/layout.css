@@ -1,0 +1,162 @@
+/* Main Layout and Container Styles */
+
+.game-container {
+    max-width: 95vw; /* Use almost full viewport width instead of fixed pixels */
+    margin: 0 auto;
+    padding: var(--spacing-xs);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: rgba(10, 14, 39, 0.02); /* Much more transparent */
+    backdrop-filter: blur(0.2px);
+    -webkit-backdrop-filter: blur(0.2px);
+    position: relative;
+    z-index: 1; /* Low z-index base */
+}
+
+/* Enhanced header with highest z-index for critical text */
+.header {
+    text-align: center;
+    margin-bottom: var(--spacing-xs);
+    background: rgba(15, 23, 42, 0.8); /* Slightly stronger background */
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 8px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1000; /* Highest priority for header text */
+}
+
+.header h1 {
+    color: var(--color-accent);
+    font-size: clamp(1.2em, 3vw, 1.8em);
+    margin-bottom: 3px;
+    text-shadow: var(--text-shadow-strong);
+    font-weight: bold;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1001; /* Highest z-index for title */
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: var(--text-primary);
+    font-size: clamp(0.7em, 1.5vw, 0.9em);
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    text-shadow: var(--text-shadow-medium);
+    position: relative;
+    z-index: 1001; /* Highest z-index to prevent blocking */
+}
+
+.landlord-cards {
+    text-align: center;
+    margin-bottom: var(--spacing-xs);
+    flex-shrink: 0;
+    padding: var(--spacing-xs) 0;
+}
+
+.landlord-cards h3 {
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    font-size: clamp(0.8em, 1.8vw, 1em);
+    text-shadow: var(--text-shadow-strong);
+    font-weight: bold;
+}
+
+.card-deck {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    padding: 2px 0;
+}
+
+.players-area {
+    display: grid;
+    grid-template-columns: minmax(140px, 180px) minmax(200px, 260px) 1fr; /* Further expanded left columns */
+    grid-template-rows: minmax(80px, 100px) 1fr minmax(260px, 320px); /* Further expanded bottom row */
+    gap: var(--spacing-xs);
+    min-height: clamp(650px, 85vh, 800px); /* Much larger minimum height */
+    margin-bottom: var(--spacing-xs);
+    flex: 1;
+    align-items: stretch;
+}
+
+/* Enhanced Center Area with Proper Game Controls Alignment */
+.center-area {
+    grid-column: 3;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: rgba(15, 23, 42, 0.5); /* Stronger background for visibility */
+    border-radius: 8px;
+    padding: var(--spacing-sm);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    gap: var(--spacing-xs);
+    min-height: 150px;
+    align-self: stretch;
+}
+
+.center-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.05) 50%, transparent 70%);
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.played-cards {
+    background: rgba(15, 23, 42, 0.6); /* Stronger background for visibility */
+    border-radius: 8px;
+    padding: var(--spacing-xs);
+    min-height: clamp(120px, 18vh, 150px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Style for paragraph text inside played-cards to make it white */
+.played-cards p {
+    color: #ffffff; /* White text color */
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    margin: 0;
+    font-size: clamp(14px, 2.5vw, 16px);
+    text-align: center;
+}
+
+/* High priority for game status and message area */
+.game-status {
+    margin-top: var(--spacing-xs);
+    flex-shrink: 0;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 900; /* High priority for status text */
+}
+
+.hidden {
+    display: none !important;
+} 
