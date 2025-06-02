@@ -159,4 +159,43 @@
 
 .hidden {
     display: none !important;
+}
+
+/* 3D Dragon Viewer positioned in right region */
+.dragon-viewer {
+    position: fixed;
+    top: 20%;
+    right: 5vw;
+    width: 300px;
+    height: 400px;
+    z-index: 50;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#dragon-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 10px;
+}
+
+/* Responsive adjustments for dragon viewer */
+@media (max-width: 1200px) {
+    .dragon-viewer {
+        width: 200px;
+        height: 300px;
+        right: 2vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .dragon-viewer {
+        display: none; /* Hide on mobile to avoid cluttering */
+    }
 } 

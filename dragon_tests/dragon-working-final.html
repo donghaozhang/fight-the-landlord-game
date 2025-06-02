@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon GLB - Final Working Version</title>
+    <style>
+        body { 
+            background: #000; 
+            color: white; 
+            font-family: monospace; 
+            padding: 20px; 
+            margin: 0;
+        }
+        #container { 
+            width: 600px; 
+            height: 400px; 
+            margin: 20px auto; 
+            border: 2px solid #4f4; 
+            border-radius: 10px;
+            background: #111;
+        }
+        #status { 
+            background: #333; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+            text-align: center;
+        }
+        .success { color: #4f4; }
+        .loading { color: #4af; }
+    </style>
+</head>
+<body>
+    <h1>🐉 Your Dragon.GLB - FINAL TEST</h1>
+    <div id="status" class="loading">Loading Three.js and Dragon...</div>
+    <div id="container"></div>
+    
+    <!-- Use a working Three.js version with built-in GLTFLoader -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/"
+        }
+    }
+    </script>
+    
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        
+        const status = document.getElementById('status');
+        const container = document.getElementById('container');
+        
+        function updateStatus(message, className = 'loading') {
+            status.textContent = message;
+            status.className = className;
+            console.log(message);
+        }
+        
+        updateStatus('🔄 Initializing Three.js scene...');
+        
+        // Create scene
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, 600/400, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(600, 400);
+        renderer.setClearColor(0x001122);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+        
+        // Add lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        directionalLight.castShadow = true;
+        scene.add(directionalLight);
+        
+        const pointLight = new THREE.PointLight(0xff6600, 0.8, 100);
+        pointLight.position.set(0, 0, 3);
+        scene.add(pointLight);
+        
+        camera.position.set(0, 0, 5);
+        
+        updateStatus('✅ Scene ready! Loading your dragon.glb...');
+        
+        // Load the dragon.glb
+        const loader = new GLTFLoader();
+        
+        loader.load(
+            './images/dragon.glb',
+            function(gltf) {
+                updateStatus('🎉 SUCCESS! Your dragon.glb is now rendering!', 'success');
+                
+                const dragon = gltf.scene;
+                dragon.scale.set(2, 2, 2);
+                dragon.position.set(0, -1, 0);
+                
+                // Enable shadows and add glow
+                dragon.traverse((child) => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        
+                        if (child.material) {
+                            child.material.emissive = new THREE.Color(0x221100);
+                            child.material.emissiveIntensity = 0.2;
+                        }
+                    }
+                });
+                
+                scene.add(dragon);
+                
+                // Animate the dragon
+                function animate() {
+                    requestAnimationFrame(animate);
+                    
+                    dragon.rotation.y += 0.005;
+                    dragon.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
+                    dragon.position.y = Math.sin(Date.now() * 0.002) * 0.2 - 1;
+                    
+                    renderer.render(scene, camera);
+                }
+                animate();
+                
+                console.log('🐉 Your dragon.glb is successfully loaded and animating!');
+                console.log('GLB Details:', gltf);
+                console.log('Scene:', gltf.scene);
+                console.log('Animations:', gltf.animations);
+            },
+            function(progress) {
+                const percent = Math.round((progress.loaded / progress.total) * 100);
+                updateStatus(`🔄 Loading dragon.glb: ${percent}% (${progress.loaded}/${progress.total} bytes)`);
+            },
+            function(error) {
+                updateStatus('❌ Error loading dragon.glb: ' + error.message, 'error');
+                console.error('Dragon load error:', error);
+            }
+        );
+        
+        // Fallback renderer
+        function render() {
+            renderer.render(scene, camera);
+        }
+        render();
+    </script>
+</body>
+</html> 

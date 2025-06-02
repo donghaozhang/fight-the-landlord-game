@@ -6,57 +6,63 @@ const PORT = process.env.PORT || 8080;
 
 function createServer() {
   return http.createServer((req, res) => {
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
-    const ext = path.extname(filePath);
-    let contentType = 'text/html';
-
-    switch (ext) {
-      case '.js':
-        contentType = 'text/javascript';
-        break;
-      case '.css':
-        contentType = 'text/css';
-        break;
-      case '.json':
-        contentType = 'application/json';
-        break;
-      case '.png':
-        contentType = 'image/png';
-        break;
-      case '.jpg':
-      case '.jpeg':
-        contentType = 'image/jpeg';
-        break;
-      case '.gif':
-        contentType = 'image/gif';
-        break;
-      case '.svg':
-        contentType = 'image/svg+xml';
-        break;
-      case '.mp3':
-        contentType = 'audio/mpeg';
-        break;
-      case '.wav':
-        contentType = 'audio/wav';
-        break;
-      case '.ogg':
-        contentType = 'audio/ogg';
-        break;
+    let filePath = '.' + req.url;
+    if (filePath === './') {
+      filePath = './index.html';
     }
 
-    fs.readFile(filePath, (err, content) => {
-      if (err) {
-        res.writeHead(404);
-        res.end('Not Found');
-      } else {
-        res.writeHead(200, { 'Content-Type': contentType });
-        
-        // Handle binary files (images and audio) vs text files differently
-        if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif' || 
-            ext === '.mp3' || ext === '.wav' || ext === '.ogg') {
-          res.end(content); // Binary data, no encoding needed
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = {
+      '.html': 'text/html',
+      '.js': 'text/javascript',
+      '.css': 'text/css',
+      '.json': 'application/json',
+      '.png': 'image/png',
+      '.jpg': 'image/jpg',
+      '.gif': 'image/gif',
+      '.svg': 'image/svg+xml',
+      '.wav': 'audio/wav',
+      '.mp3': 'audio/mpeg',
+      '.mp4': 'video/mp4',
+      '.woff': 'application/font-woff',
+      '.ttf': 'application/font-ttf',
+      '.eot': 'application/vnd.ms-fontobject',
+      '.otf': 'application/font-otf',
+      '.wasm': 'application/wasm',
+      '.glb': 'model/gltf-binary',
+      '.gltf': 'model/gltf+json'
+    };
+
+    const contentType = mimeTypes[extname] || 'application/octet-stream';
+
+    fs.readFile(filePath, (error, content) => {
+      if (error) {
+        if (error.code === 'ENOENT') {
+          fs.readFile('./404.html', (error, content) => {
+            res.writeHead(404, { 'Content-Type': 'text/html' });
+            res.end(content, 'utf-8');
+          });
         } else {
-          res.end(content, 'utf-8'); // Text data with UTF-8 encoding
+          res.writeHead(500);
+          res.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
+        }
+      } else {
+        // Set proper headers including content-length
+        const headers = {
+          'Content-Type': contentType,
+          'Content-Length': content.length,
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        };
+        
+        res.writeHead(200, headers);
+        
+        // For binary files (like GLB), don't specify encoding
+        if (extname === '.glb' || extname === '.gltf' || extname === '.png' || extname === '.jpg' || extname === '.mp3' || extname === '.mp4') {
+          res.end(content); // Binary data
+        } else {
+          res.end(content, 'utf-8'); // Text data
         }
       }
     });
@@ -69,6 +75,7 @@ function startServer(port = PORT, callback) {
   return server.listen(port, () => {
     if (callback) callback();
     console.log(`Server running on http://localhost:${port}`);
+    console.log('3D dragon model support enabled for GLB files');
   });
 }
 

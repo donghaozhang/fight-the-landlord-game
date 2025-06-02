@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon Viewer Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0e27;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        
+        .dragon-viewer {
+            width: 400px;
+            height: 400px;
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #dragon-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+        
+        .status {
+            text-align: center;
+            margin: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dragon Viewer Test</h1>
+    <div class="status" id="status">Initializing...</div>
+    
+    <div id="dragon-viewer" class="dragon-viewer">
+        <canvas id="dragon-canvas"></canvas>
+    </div>
+
+    <!-- Three.js and GLTFLoader -->
+    <script src="https://unpkg.com/three@0.155.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
+    
+    <!-- Dragon Viewer Script -->
+    <script src="dragon-viewer.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusElement = document.getElementById('status');
+            
+            try {
+                statusElement.textContent = 'Loading Dragon Viewer...';
+                const dragonViewer = new DragonViewer();
+                statusElement.textContent = 'Dragon Viewer initialized successfully! Dragon should be visible above.';
+                statusElement.style.color = '#4ade80';
+            } catch (error) {
+                statusElement.textContent = 'Error: ' + error.message;
+                statusElement.style.color = '#ef4444';
+                console.error('Dragon Viewer Error:', error);
+            }
+        });
+    </script>
+</body>
+</html> 

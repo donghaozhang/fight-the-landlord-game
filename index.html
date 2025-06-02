@@ -98,6 +98,27 @@
         </div>
     </div>
 
+    <!-- 3D Dragon Model Container -->
+    <div id="dragon-viewer" class="dragon-viewer">
+        <canvas id="dragon-canvas"></canvas>
+    </div>
+
+    <!-- ES6 Module Import Map for Three.js (WORKING METHOD) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/"
+        }
+    }
+    </script>
+    
+    <!-- Legacy Three.js fallback for compatibility -->
+    <script src="https://unpkg.com/three@0.155.0/build/three.min.js"></script>
+    
+    <!-- Dragon Viewer Script (Updated with ES6 modules support) -->
+    <script src="dragon-viewer.js"></script>
+
     <script type="module" src="main.js"></script>
 </body>
 </html>

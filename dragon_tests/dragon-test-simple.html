@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon GLB Test</title>
+    <style>
+        body { background: #000; color: white; font-family: monospace; padding: 20px; }
+        #container { width: 400px; height: 400px; margin: 20px 0; border: 1px solid white; }
+        #status { background: #333; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { color: #4f4; }
+        .error { color: #f44; }
+    </style>
+</head>
+<body>
+    <h1>Dragon GLB Loading Test</h1>
+    <div id="status">Testing...</div>
+    <div id="container"></div>
+    
+    <script src="https://unpkg.com/three@0.155.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const status = document.getElementById('status');
+            const container = document.getElementById('container');
+            
+            function updateStatus(message, isError = false) {
+                status.innerHTML = message;
+                status.className = isError ? 'error' : 'success';
+                console.log(message);
+            }
+            
+            // Test 1: Check Three.js
+            if (typeof THREE === 'undefined') {
+                updateStatus('❌ Three.js not loaded', true);
+                return;
+            } else {
+                updateStatus('✅ Three.js loaded');
+            }
+            
+            // Test 2: Check GLTFLoader
+            if (typeof THREE.GLTFLoader === 'undefined') {
+                updateStatus('❌ GLTFLoader not available - testing file access instead', true);
+                
+                // Fallback: Test if dragon.glb file is accessible
+                updateStatus('🔄 Testing if dragon.glb file exists...');
+                fetch('./images/dragon.glb', { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            updateStatus('✅ dragon.glb file exists and is accessible! (GLTFLoader issue, not file issue)');
+                            updateStatus('📝 File size: ' + response.headers.get('content-length') + ' bytes');
+                        } else {
+                            updateStatus('❌ dragon.glb file not accessible (HTTP ' + response.status + ')', true);
+                        }
+                    })
+                    .catch(error => {
+                        updateStatus('❌ Could not access dragon.glb file: ' + error.message, true);
+                    });
+                return;
+            } else {
+                updateStatus('✅ GLTFLoader available');
+            }
+            
+            // Test 3: Try to load dragon.glb
+            const loader = new THREE.GLTFLoader();
+            updateStatus('🔄 Attempting to load dragon.glb...');
+            
+            loader.load(
+                './images/dragon.glb',
+                function(gltf) {
+                    updateStatus('✅ SUCCESS: dragon.glb loaded! Your GLB file is working!');
+                    console.log('GLB Object:', gltf);
+                    console.log('Scene:', gltf.scene);
+                    console.log('Animations:', gltf.animations);
+                    
+                    // Quick render test
+                    const scene = new THREE.Scene();
+                    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+                    const renderer = new THREE.WebGLRenderer();
+                    renderer.setSize(400, 400);
+                    container.appendChild(renderer.domElement);
+                    
+                    scene.add(gltf.scene);
+                    camera.position.z = 5;
+                    
+                    const light = new THREE.AmbientLight(0x404040, 2);
+                    scene.add(light);
+                    
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        gltf.scene.rotation.y += 0.01;
+                        renderer.render(scene, camera);
+                    }
+                    animate();
+                },
+                function(progress) {
+                    const percent = Math.round((progress.loaded / progress.total) * 100);
+                    updateStatus(`🔄 Loading: ${percent}% (${progress.loaded}/${progress.total} bytes)`);
+                },
+                function(error) {
+                    updateStatus('❌ FAILED: dragon.glb could not load!', true);
+                    console.error('Load error:', error);
+                    console.log('This confirms dragon.glb is NOT being used - fallback dragon would be shown instead');
+                }
+            );
+        });
+    </script>
+</body>
+</html>
+ 
