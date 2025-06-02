@@ -91,7 +91,10 @@
 .card-back-computer {
     width: var(--card-width);
     height: var(--card-height);
-    background: linear-gradient(145deg, var(--color-primary) 0%, var(--color-secondary) 50%, var(--color-tech-cyan) 100%);
+    background-image: url('../images/card_back.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border: 2px solid var(--color-primary);
     border-radius: 10px;
     position: relative;
@@ -112,6 +115,7 @@
     bottom: 0;
     background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
     animation: shimmer 2s infinite;
+    z-index: 2; /* Above the background image but below role overlays */
 }
 
 .card-back-computer:hover {
@@ -123,9 +127,20 @@
 
 /* Landlord card backs */
 .player.landlord .card-back-computer {
-    background: linear-gradient(135deg, #ffb74d 0%, #ff9800 100%);
     border: 2px solid #ffb74d;
     box-shadow: 0 2px 12px rgba(255, 183, 77, 0.3);
+}
+
+.player.landlord .card-back-computer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 183, 77, 0.3) 0%, rgba(255, 152, 0, 0.3) 100%);
+    border-radius: 8px;
+    z-index: 3; /* Above shimmer effect */
 }
 
 .player.landlord .card-back-computer:hover {
@@ -135,9 +150,20 @@
 
 /* Peasant card backs */
 .player.peasant .card-back-computer {
-    background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
     border: 2px solid #64b5f6;
     box-shadow: 0 2px 12px rgba(100, 181, 246, 0.3);
+}
+
+.player.peasant .card-back-computer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(100, 181, 246, 0.3) 0%, rgba(25, 118, 210, 0.3) 100%);
+    border-radius: 8px;
+    z-index: 3; /* Above shimmer effect */
 }
 
 .player.peasant .card-back-computer:hover {
