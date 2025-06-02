@@ -1,0 +1,215 @@
+/* UI Components - Buttons, Modals, Messages */
+
+/* Game controls with moderate z-index */
+.game-controls {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-top: auto; /* Push controls to bottom of center area */
+    flex-wrap: wrap;
+    justify-content: flex-end; /* Align to right like player cards */
+    align-items: center;
+    padding: var(--spacing-xs) 0;
+    padding-right: 0; /* Consistent right edge alignment */
+    width: 100%;
+    position: relative;
+    z-index: 100; /* Moderate z-index below text elements */
+}
+
+.btn {
+    padding: clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px);
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--text-on-primary);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: clamp(12px, 2vw, 14px);
+    min-width: clamp(70px, 12vw, 90px);
+    min-height: 40px;
+    box-shadow: var(--shadow-primary);
+    border: 1px solid transparent;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+    text-shadow: var(--text-shadow-subtle); /* Enhanced text visibility */
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-tech-cyan) 100%);
+    box-shadow: var(--shadow-neon);
+    border-color: var(--color-tech-cyan);
+    text-shadow: var(--text-shadow-medium);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, var(--color-primary-pressed) 0%, var(--color-primary) 100%);
+}
+
+.btn:disabled {
+    background: var(--color-disabled-bg);
+    color: var(--color-disabled-text);
+    cursor: not-allowed;
+    opacity: 0.4;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* Message area with enhanced visibility */
+#message-area {
+    background: rgba(15, 23, 42, 0.8); /* Stronger background for better visibility */
+    border-radius: 8px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    text-align: center;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin: 0 auto;
+    max-width: 100%;
+    position: relative;
+    z-index: 901; /* High z-index for message text */
+}
+
+#message-area p {
+    font-weight: bold;
+    color: var(--text-primary);
+    font-size: clamp(14px, 2.5vw, 16px);
+    text-align: center;
+    margin: 0;
+    line-height: 1.4;
+    text-shadow: var(--text-shadow-strong); /* Enhanced text visibility */
+    position: relative;
+    z-index: 902; /* Highest z-index for critical message text */
+}
+
+/* Role-specific message styling */
+#message-area.landlord-turn {
+    background: linear-gradient(135deg, rgba(255, 243, 224, 0.9) 0%, rgba(255, 224, 178, 0.9) 100%);
+    border-color: #ff9800;
+    box-shadow: 0 2px 16px rgba(255, 152, 0, 0.2);
+}
+
+#message-area.landlord-turn p {
+    color: #e65100;
+    text-shadow: var(--text-shadow-subtle);
+}
+
+#message-area.peasant-turn {
+    background: linear-gradient(135deg, rgba(225, 245, 254, 0.9) 0%, rgba(179, 229, 252, 0.9) 100%);
+    border-color: #03a9f4;
+    box-shadow: 0 2px 16px rgba(3, 169, 244, 0.2);
+}
+
+#message-area.peasant-turn p {
+    color: #0d47a1;
+    text-shadow: var(--text-shadow-subtle);
+}
+
+/* Modal styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 39, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    background: var(--container-bg);
+    padding: var(--spacing-md);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--shadow-elevated);
+    max-width: 350px;
+    width: 90%;
+    border: 2px solid var(--container-border);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    position: relative;
+}
+
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.05) 50%, transparent 70%);
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.modal-content h2 {
+    color: var(--color-accent);
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    text-shadow: var(--glow-accent);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Music Control Button - Moved to avoid blocking any text */
+.music-control {
+    position: fixed;
+    top: 120px; /* Moved much further down to avoid blocking header text */
+    right: 30px; /* Moved slightly left to avoid edge conflicts */
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--text-on-primary);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-primary);
+    border: 2px solid var(--color-tech-cyan);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 50; /* Lower z-index to prevent blocking any text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.music-control:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-neon);
+    background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-tech-cyan) 100%);
+}
+
+.music-control:active {
+    transform: scale(0.95);
+}
+
+.music-control.muted {
+    background: linear-gradient(135deg, var(--color-disabled-bg) 0%, #475569 100%);
+    color: var(--color-disabled-text);
+    opacity: 0.6;
+}
+
+.music-control.muted:hover {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    transform: scale(1.05);
+} 
