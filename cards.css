@@ -182,19 +182,19 @@
     animation: gentle-glow 2s ease-in-out infinite alternate;
 }
 
-/* Player Bottom Card Layout - overlapping cards like real card hand */
+/* Player Bottom Card Layout - centered with horizontal scrolling */
 .player-bottom .player-cards {
     display: flex;
-    justify-content: flex-start; /* Changed from space-evenly to flex-start for overlapping */
+    justify-content: center; /* Center the cards */
     align-items: flex-end;
     flex-wrap: nowrap;
-    overflow-x: hidden; /* Changed from visible to hidden to keep cards within bounds */
+    overflow-x: auto; /* Enable horizontal scrolling */
     overflow-y: hidden;
-    padding: 10px 8px;
-    min-height: calc(var(--card-height) + 20px);
+    padding: 10px 8px; /* Add padding for scrollbar space */
+    min-height: calc(var(--card-height) + 30px); /* Extra height for scrollbar */
     gap: 0; /* Remove gap for overlapping effect */
     scrollbar-width: thin;
-    scrollbar-color: var(--color-primary) transparent;
+    scrollbar-color: var(--color-accent) rgba(0, 0, 0, 0.3);
     margin: 0;
     width: 100%;
     max-width: 100%; /* Use full width available */
@@ -203,14 +203,15 @@
     z-index: 15; /* Moderate z-index for card container */
 }
 
-/* Create overlapping effect for human player cards */
+/* Create light overlapping effect for human player cards - ensuring all cards visible */
 .player-bottom .card {
     flex-shrink: 0;
-    margin-left: clamp(-75px, -6vw, -65px); /* Much stronger overlapping for better screen fit */
+    margin-left: clamp(-5px, -0.5vw, -3px); /* Minimal overlap to ensure no cards are blocked */
     transition: all 0.3s ease;
     position: relative;
     z-index: 20; /* Low z-index for overlapping */
     transform-origin: bottom center;
+    min-width: var(--card-width); /* Ensure minimum card width */
 }
 
 .player-bottom .card:first-child {
@@ -227,10 +228,10 @@
 }
 
 .player-bottom .card:hover {
-    transform: translateY(clamp(-8px, -1vh, -6px)) scale(1.1); /* Further reduced scale */
+    transform: translateY(clamp(-8px, -1vh, -6px)) scale(1.1); /* Controlled scale */
     z-index: 35; /* Below text elements but high for interaction */
-    margin-left: clamp(-75px, -6vw, -65px); /* Maintain stronger overlap on hover */
-    margin-right: clamp(-15px, -1.5vw, -10px); /* Reduced margin for better fit */
+    margin-left: clamp(-5px, -0.5vw, -3px); /* Maintain minimal overlap on hover */
+    margin-right: clamp(-2px, -0.2vw, -1px); /* Tiny margin for spacing */
 }
 
 .player-bottom .card.selected {
@@ -238,14 +239,14 @@
     z-index: 30; /* Below text elements */
     box-shadow: 0 0 15px var(--color-accent), 0 4px 20px rgba(245, 158, 11, 0.4);
     border: 2px solid var(--color-accent);
-    margin-left: clamp(-75px, -6vw, -65px); /* Maintain stronger overlap when selected */
+    margin-left: clamp(-5px, -0.5vw, -3px); /* Maintain minimal overlap when selected */
 }
 
 .player-bottom .card.selected:hover {
-    transform: translateY(clamp(-10px, -1.5vh, -8px)) scale(1.15); /* Further reduced scale */
+    transform: translateY(clamp(-10px, -1.5vh, -8px)) scale(1.15); /* Controlled scale */
     z-index: 40; /* Below critical text but high for interaction */
-    margin-left: clamp(-75px, -6vw, -65px); /* Maintain stronger overlap */
-    margin-right: clamp(-15px, -1.5vw, -10px); /* Reduced margin for better fit */
+    margin-left: clamp(-5px, -0.5vw, -3px); /* Maintain minimal overlap */
+    margin-right: clamp(-2px, -0.2vw, -1px); /* Tiny margin for spacing */
 }
 
 /* Top player computer cards with low z-index */
@@ -290,18 +291,27 @@
     margin-bottom: clamp(-40px, -3vh, -25px); /* Prevent shifting on hover */
 }
 
-/* Scrollbar styling */
+/* Enhanced scrollbar styling for bottom player cards */
 .player-bottom .player-cards::-webkit-scrollbar {
-    height: 4px;
+    height: 8px; /* Taller scrollbar for better visibility */
 }
 
 .player-bottom .player-cards::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    margin: 0 8px; /* Add margin to track */
 }
 
 .player-bottom .player-cards::-webkit-scrollbar-thumb {
-    background: var(--color-primary);
-    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.player-bottom .player-cards::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #ffb74d, var(--color-accent));
+    box-shadow: 0 2px 5px rgba(245, 158, 11, 0.4);
 }
 
 /* Card animations */
