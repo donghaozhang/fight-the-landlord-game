@@ -79,12 +79,13 @@
     grid-row: 2;
     writing-mode: vertical-rl;
     align-self: stretch;
-    padding: var(--spacing-xs);
+    padding: var(--spacing-md); /* Further increased padding */
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
     min-height: 100%;
+    min-width: 140px; /* Further increased minimum width */
 }
 
 /* New back frame position for Computer 1 */
@@ -92,14 +93,14 @@
     grid-column: 2;
     grid-row: 2;
     align-self: stretch;
-    padding: var(--spacing-xs);
+    padding: var(--spacing-md); /* Further increased padding */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100%;
-    min-width: 140px; /* Ensure minimum width for text */
-    max-width: 180px; /* Prevent excessive width */
+    min-width: 180px; /* Further increased from 160px */
+    max-width: 260px; /* Further increased from 220px */
     background: rgba(15, 23, 42, 0.4);
     border-radius: 8px;
     border: 1px solid rgba(100, 181, 246, 0.4);
@@ -109,7 +110,7 @@
     box-sizing: border-box;
 }
 
-/* Enhanced Bottom Player Layout */
+/* Enhanced Bottom Player Layout - Maximum Expansion */
 .player-bottom {
     grid-column: 2 / 4;
     grid-row: 3;
@@ -118,8 +119,8 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
-    min-height: 180px; /* Increased to accommodate cards */
-    padding: var(--spacing-sm);
+    min-height: 260px; /* Further increased from 220px */
+    padding: var(--spacing-lg); /* Maximum padding for largest area */
     background: rgba(15, 23, 42, 0.6); /* Stronger background for visibility */
     border-radius: 8px;
     border: 1px solid rgba(59, 130, 246, 0.4);
@@ -287,8 +288,8 @@
 .peasant::after {
     content: '🌾 PEASANT';
     position: absolute;
-    top: -15px;
-    right: -15px;
+    top: -10px;
+    right: -10px;
     background: linear-gradient(135deg, var(--color-success) 0%, var(--color-neon-green) 100%);
     color: var(--text-on-primary);
     padding: 6px 12px;
@@ -309,8 +310,8 @@
 .farmer::after {
     content: '🌾 FARMER';
     position: absolute;
-    top: -15px;
-    right: -15px;
+    top: -5px;
+    right: 5px;
     background: linear-gradient(135deg, var(--color-success) 0%, var(--color-neon-green) 100%);
     color: var(--text-on-primary);
     padding: 6px 12px;
