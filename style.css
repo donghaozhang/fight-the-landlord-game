@@ -100,19 +100,24 @@ body::before {
     background: rgba(10, 14, 39, 0.02); /* Much more transparent */
     backdrop-filter: blur(0.2px);
     -webkit-backdrop-filter: blur(0.2px);
+    position: relative;
+    z-index: 1; /* Low z-index base */
 }
 
+/* Enhanced header with highest z-index for critical text */
 .header {
     text-align: center;
     margin-bottom: var(--spacing-xs);
-    background: rgba(15, 23, 42, 0.7); /* Stronger background for text visibility */
+    background: rgba(15, 23, 42, 0.8); /* Slightly stronger background */
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: 8px;
     box-shadow: var(--shadow-card);
     border: 1px solid rgba(59, 130, 246, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     flex-shrink: 0;
+    position: relative;
+    z-index: 1000; /* Highest priority for header text */
 }
 
 .header h1 {
@@ -122,6 +127,8 @@ body::before {
     text-shadow: var(--text-shadow-strong);
     font-weight: bold;
     letter-spacing: 1px;
+    position: relative;
+    z-index: 1001; /* Highest z-index for title */
 }
 
 .game-info {
@@ -133,6 +140,8 @@ body::before {
     flex-wrap: wrap;
     gap: var(--spacing-xs);
     text-shadow: var(--text-shadow-medium);
+    position: relative;
+    z-index: 1001; /* Highest z-index to prevent blocking */
 }
 
 .landlord-cards {
@@ -270,7 +279,9 @@ body::before {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     box-shadow: var(--shadow-card);
-    overflow: hidden; /* Prevent cards from spilling outside */
+    overflow: visible; /* Changed to visible to prevent clipping */
+    position: relative;
+    z-index: 10; /* Moderate z-index */
 }
 
 /* Enhanced Center Area with Proper Game Controls Alignment */
@@ -310,14 +321,19 @@ body::before {
     display: none;
 }
 
+/* Player name and card count with high visibility */
 .player-name {
     color: var(--color-primary);
     text-shadow: var(--text-shadow-medium);
+    position: relative;
+    z-index: 800; /* High priority for player names */
 }
 
 .card-count {
     color: var(--text-primary);
     text-shadow: var(--text-shadow-subtle);
+    position: relative;
+    z-index: 800; /* High priority for card counts */
 }
 
 /* Base player cards container - constrain cards within bounds */
@@ -395,7 +411,7 @@ body::before {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: 1;
+    z-index: 20; /* Low z-index to stay below all text */
     transform-origin: center center;
     box-shadow: var(--shadow-card);
     backdrop-filter: blur(10px);
@@ -408,7 +424,7 @@ body::before {
 .card:hover {
     transform: translateY(-8px) scale(1.2); /* Updated to match main hover effect */
     box-shadow: var(--shadow-neon);
-    z-index: 10;
+    z-index: 30; /* Still below text elements */
     border-color: var(--color-tech-cyan);
     glow: var(--glow-primary);
 }
@@ -417,14 +433,14 @@ body::before {
     transform: translateY(-10px) scale(1.1);
     border-color: var(--color-accent);
     box-shadow: var(--glow-accent);
-    z-index: 5;
+    z-index: 25; /* Below text elements */
     background: linear-gradient(135deg, var(--container-bg) 0%, rgba(245, 158, 11, 0.1) 100%);
 }
 
 .card.selected:hover {
     transform: translateY(-10px) scale(1.3); /* Reduced from 1.5 to 1.3 */
     box-shadow: 0 20px 40px rgba(245, 158, 11, 0.6);
-    z-index: 15;
+    z-index: 35; /* Below text elements but high for interaction */
 }
 
 .card.red {
@@ -473,6 +489,7 @@ body::before {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow-primary);
     transform-origin: center center;
+    z-index: 15; /* Low z-index to stay below text */
 }
 
 .card-back-computer::before {
@@ -519,6 +536,7 @@ body::before {
     box-shadow: var(--shadow-neon);
     border-color: var(--color-tech-cyan);
     transform: scale(1.3);
+    z-index: 25; /* Still below text elements even on hover */
 }
 
 .card-back-inner {
@@ -584,7 +602,7 @@ body::before {
     box-sizing: border-box;
 }
 
-/* Enhanced Game Controls Layout - Also align to right for consistency */
+/* Game controls with moderate z-index */
 .game-controls {
     display: flex;
     gap: var(--spacing-xs);
@@ -595,6 +613,8 @@ body::before {
     padding: var(--spacing-xs) 0;
     padding-right: 0; /* Consistent right edge alignment */
     width: 100%;
+    position: relative;
+    z-index: 100; /* Moderate z-index below text elements */
 }
 
 .btn {
@@ -641,24 +661,28 @@ body::before {
     text-shadow: none;
 }
 
-/* Enhanced Game Status Layout */
+/* High priority for game status and message area */
 .game-status {
     margin-top: var(--spacing-xs);
     flex-shrink: 0;
     width: 100%;
     text-align: center;
+    position: relative;
+    z-index: 900; /* High priority for status text */
 }
 
 #message-area {
-    background: rgba(15, 23, 42, 0.7); /* Stronger background for text visibility */
+    background: rgba(15, 23, 42, 0.8); /* Stronger background for better visibility */
     border-radius: 8px;
     padding: var(--spacing-xs) var(--spacing-sm);
     text-align: center;
     border: 1px solid rgba(59, 130, 246, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     margin: 0 auto;
     max-width: 100%;
+    position: relative;
+    z-index: 901; /* High z-index for message text */
 }
 
 #message-area p {
@@ -668,7 +692,9 @@ body::before {
     text-align: center;
     margin: 0;
     line-height: 1.4;
-    text-shadow: var(--text-shadow-medium); /* Enhanced text visibility */
+    text-shadow: var(--text-shadow-strong); /* Enhanced text visibility */
+    position: relative;
+    z-index: 902; /* Highest z-index for critical message text */
 }
 
 /* Role-specific message styling */
@@ -1178,7 +1204,10 @@ body::before {
     scrollbar-color: var(--color-primary) transparent;
     margin: 0;
     width: 100%;
+    max-width: calc(100% - 20px); /* Prevent extending too far right */
     box-sizing: border-box;
+    position: relative;
+    z-index: 15; /* Moderate z-index for card container */
 }
 
 /* Create overlapping effect for human player cards */
@@ -1187,24 +1216,33 @@ body::before {
     margin-left: clamp(-45px, -3.5vw, -35px); /* Strong overlapping effect */
     transition: all 0.3s ease;
     position: relative;
-    z-index: 1;
+    z-index: 20; /* Low z-index for overlapping */
     transform-origin: bottom center;
 }
 
 .player-bottom .card:first-child {
     margin-left: 0; /* First card has no overlap */
+    z-index: 20; /* Consistent low z-index */
+}
+
+.player-bottom .card:nth-child(odd) {
+    z-index: 21; /* Slight variation for natural stacking */
+}
+
+.player-bottom .card:nth-child(even) {
+    z-index: 22; /* Slight variation for natural stacking */
 }
 
 .player-bottom .card:hover {
     transform: translateY(clamp(-8px, -1vh, -6px)) scale(1.2);
-    z-index: 100;
+    z-index: 35; /* Below text elements but high for interaction */
     margin-left: clamp(-45px, -3.5vw, -35px); /* Maintain overlap on hover */
     margin-right: clamp(-30px, -2.5vw, -20px); /* Space for scaling */
 }
 
 .player-bottom .card.selected {
     transform: translateY(clamp(-8px, -1.5vh, -6px));
-    z-index: 50;
+    z-index: 30; /* Below text elements */
     box-shadow: 0 0 15px var(--color-accent), 0 4px 20px rgba(245, 158, 11, 0.4);
     border: 2px solid var(--color-accent);
     margin-left: clamp(-45px, -3.5vw, -35px); /* Maintain overlap when selected */
@@ -1212,132 +1250,58 @@ body::before {
 
 .player-bottom .card.selected:hover {
     transform: translateY(clamp(-10px, -1.5vh, -8px)) scale(1.3);
-    z-index: 100;
+    z-index: 40; /* Below critical text but high for interaction */
     margin-left: clamp(-45px, -3.5vw, -35px); /* Maintain overlap */
     margin-right: clamp(-30px, -2.5vw, -20px); /* Space for scaling */
 }
 
-/* Enhanced overlapping for computer players */
-.player-top .player-cards {
-    justify-content: flex-start; /* Changed from space-evenly */
-    position: relative;
-    padding: 15px 10px 20px 10px;
-    min-height: 120px;
-    overflow: visible; /* Allow cards to extend beyond container */
-    width: 100%;
-    box-sizing: border-box;
-}
-
+/* Top player computer cards with low z-index */
 .player-top .card-back-computer {
     margin-left: clamp(-25px, -2vw, -15px); /* Overlapping effect for top player */
+    z-index: 15; /* Low z-index to avoid blocking text */
 }
 
 .player-top .card-back-computer:first-child {
     margin-left: 0;
+    z-index: 15;
 }
 
 .player-top .card-back-computer:hover {
     transform: translateY(-10px) scale(1.2) rotate(0deg) !important;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    z-index: 100 !important;
+    z-index: 25 !important; /* Below critical text elements */
     border-color: #3949ab;
     margin-right: clamp(-25px, -2vw, -15px); /* Prevent shifting on hover */
 }
 
-/* Left player overlapping cards */
-.player-left .player-cards {
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    padding: 10px 15px;
-    min-height: 180px;
-    overflow: visible; /* Allow cards to extend beyond container */
-    width: 100%;
-    justify-content: flex-start; /* Changed from space-evenly */
-    gap: 0;
-    height: 100%;
-    box-sizing: border-box;
-}
-
+/* Left player computer cards with low z-index */
 .player-left .card-back-computer {
+    margin-left: 0 !important;
     margin-top: clamp(-40px, -3vh, -25px); /* Overlapping effect for left player */
+    position: relative;
+    transform-origin: center center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 15; /* Low z-index to avoid blocking text */
 }
 
 .player-left .card-back-computer:first-child {
     margin-top: 0;
+    z-index: 15;
 }
 
 .player-left .card-back-computer:hover {
     transform: translateX(0px) scale(1.2) rotate(0deg) !important;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-    z-index: 100 !important;
+    z-index: 25 !important; /* Below critical text elements */
     border-color: #3949ab;
     margin-bottom: clamp(-40px, -3vh, -25px); /* Prevent shifting on hover */
 }
 
-/* Responsive adjustments for overlapping cards */
-@media (max-width: 480px) {
-    .player-bottom .card {
-        margin-left: clamp(-20px, -4vw, -15px); /* Less overlap on small screens */
-    }
-    
-    .player-bottom .card:hover,
-    .player-bottom .card.selected:hover {
-        margin-right: clamp(-20px, -4vw, -15px);
-    }
-    
-    .player-top .card-back-computer {
-        margin-left: clamp(-15px, -3vw, -10px);
-    }
-    
-    .player-left .card-back-computer {
-        margin-top: clamp(-25px, -4vh, -15px);
-    }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-    .player-bottom .card {
-        margin-left: clamp(-30px, -3.5vw, -20px);
-    }
-    
-    .player-bottom .card:hover,
-    .player-bottom .card.selected:hover {
-        margin-right: clamp(-30px, -3.5vw, -20px);
-    }
-    
-    .player-top .card-back-computer {
-        margin-left: clamp(-20px, -2.5vw, -15px);
-    }
-    
-    .player-left .card-back-computer {
-        margin-top: clamp(-35px, -3.5vh, -20px);
-    }
-}
-
-@media (min-width: 1025px) {
-    .player-bottom .card {
-        margin-left: clamp(-40px, -2.5vw, -30px); /* More overlap on larger screens */
-    }
-    
-    .player-bottom .card:hover,
-    .player-bottom .card.selected:hover {
-        margin-right: clamp(-40px, -2.5vw, -30px);
-    }
-    
-    .player-top .card-back-computer {
-        margin-left: clamp(-30px, -2vw, -20px);
-    }
-    
-    .player-left .card-back-computer {
-        margin-top: clamp(-45px, -3vh, -30px);
-    }
-}
-
-/* Music Control Button */
+/* Music Control Button - Moved to avoid blocking any text */
 .music-control {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 120px; /* Moved much further down to avoid blocking header text */
+    right: 30px; /* Moved slightly left to avoid edge conflicts */
     width: 50px;
     height: 50px;
     border: none;
@@ -1351,7 +1315,7 @@ body::before {
     border: 2px solid var(--color-tech-cyan);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 1000;
+    z-index: 50; /* Lower z-index to prevent blocking any text */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1383,8 +1347,8 @@ body::before {
 /* Mobile adjustments for music control */
 @media (max-width: 768px) {
     .music-control {
-        top: 15px;
-        right: 15px;
+        top: 100px; /* Adjusted for mobile to avoid blocking text */
+        right: 20px;
         width: 40px;
         height: 40px;
         font-size: 16px;
