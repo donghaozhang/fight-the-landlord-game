@@ -1,0 +1,408 @@
+/* Player Container and Layout Styles */
+
+.player {
+    background: rgba(15, 23, 42, 0.6); /* Stronger background for visibility */
+    border-radius: 8px;
+    padding: var(--spacing-xs);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow: visible; /* Changed from hidden to visible to show badges */
+    position: relative; /* Ensure proper stacking context */
+}
+
+.player:hover {
+    border-color: rgba(59, 130, 246, 0.7);
+    box-shadow: var(--shadow-primary);
+}
+
+/* Landlord player styling */
+.player.landlord {
+    background: linear-gradient(135deg, rgba(255, 248, 225, 0.9) 0%, rgba(255, 236, 179, 0.9) 100%);
+    border: 2px solid #ffc107;
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+}
+
+.player.landlord .player-name {
+    color: #e65100;
+    font-weight: 700;
+    text-shadow: var(--text-shadow-subtle);
+}
+
+.player.landlord .card-count {
+    color: #d84315;
+    background: rgba(255, 193, 7, 0.2);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-shadow: var(--text-shadow-subtle);
+}
+
+/* Peasant player styling */
+.player.peasant {
+    background: linear-gradient(135deg, rgba(227, 242, 253, 0.9) 0%, rgba(187, 222, 251, 0.9) 100%);
+    border: 2px solid #2196f3;
+    box-shadow: 0 4px 20px rgba(33, 150, 243, 0.3);
+}
+
+.player.peasant .player-name {
+    color: #0d47a1;
+    font-weight: 700;
+    text-shadow: var(--text-shadow-subtle);
+}
+
+.player.peasant .card-count {
+    color: #1565c0;
+    background: rgba(33, 150, 243, 0.2);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-shadow: var(--text-shadow-subtle);
+}
+
+/* Player positioning */
+.player-top {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+    margin-top: 20px; /* Move Computer 2 down to avoid overlap with developer tools */
+}
+
+.player-left {
+    grid-column: 1;
+    grid-row: 2;
+    writing-mode: vertical-rl;
+    align-self: stretch;
+    padding: var(--spacing-md); /* Further increased padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 100%;
+    min-width: 140px; /* Further increased minimum width */
+}
+
+/* New back frame position for Computer 1 */
+.player-back-frame-1 {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: stretch;
+    padding: var(--spacing-md); /* Further increased padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    min-width: 180px; /* Further increased from 160px */
+    max-width: 260px; /* Further increased from 220px */
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 8px;
+    border: 1px solid rgba(100, 181, 246, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    overflow: hidden; /* Ensure content stays within bounds */
+    box-sizing: border-box;
+}
+
+/* Enhanced Bottom Player Layout - Maximum Expansion */
+.player-bottom {
+    grid-column: 2 / 4;
+    grid-row: 3;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    min-height: 260px; /* Further increased from 220px */
+    padding: var(--spacing-lg); /* Maximum padding for largest area */
+    background: rgba(15, 23, 42, 0.6); /* Stronger background for visibility */
+    border-radius: 8px;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-card);
+    overflow: visible; /* Changed to visible to prevent clipping */
+    position: relative;
+    z-index: 10; /* Moderate z-index */
+}
+
+/* Player info and card counts */
+.player-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(26, 35, 126, 0.6);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(100, 181, 246, 0.3);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 1000; /* Very high z-index to ensure visibility above all elements */
+    position: relative;
+}
+
+.player-name {
+    font-weight: bold;
+    color: var(--color-text-primary);
+    font-size: clamp(12px, 2.5vw, 16px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 1001; /* Highest z-index for critical text */
+    margin-right: 15px; /* Add space between player name and card count */
+    position: relative;
+}
+
+.card-count {
+    font-size: clamp(11px, 2.2vw, 14px);
+    color: var(--color-accent);
+    background: rgba(245, 158, 11, 0.2);
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--color-accent);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+    min-width: 65px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    z-index: 1001; /* Highest z-index for critical text */
+    position: relative;
+}
+
+/* Specific styling for left player (Computer 1) to display in 2 lines and fit text in container */
+.player-back-frame-1 .player-info {
+    display: flex;
+    flex-direction: column; /* Change to vertical layout */
+    align-items: center; /* Center align items */
+    justify-content: center;
+    padding: 6px 8px;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(26, 35, 126, 0.6);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(100, 181, 246, 0.3);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    position: relative;
+    gap: 4px; /* Small gap between name and card count */
+    overflow: visible; /* Allow content to be visible */
+}
+
+.player-back-frame-1 .player-name {
+    font-size: clamp(10px, 2vw, 14px);
+    margin-right: 0; /* Remove right margin for vertical layout */
+    white-space: nowrap;
+    font-weight: bold;
+    color: #ffffff; /* Changed from var(--color-text-primary) to explicit white */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 1001;
+    position: relative;
+    text-align: center; /* Center align text */
+    flex-shrink: 0; /* Don't shrink the name */
+}
+
+.player-back-frame-1 .card-count {
+    font-size: clamp(9px, 1.8vw, 12px);
+    padding: 3px 6px;
+    border-radius: 10px;
+    min-width: 50px;
+    color: var(--color-accent);
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid var(--color-accent);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    z-index: 1001;
+    position: relative;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Landlord-specific card count styling */
+.player.landlord .card-count {
+    background: rgba(255, 183, 77, 0.3);
+    border-color: #ffb74d;
+    color: #ffb74d;
+    box-shadow: 0 2px 4px rgba(255, 183, 77, 0.4);
+}
+
+/* Peasant-specific card count styling */
+.player.peasant .card-count, .player.farmer .card-count {
+    background: rgba(100, 181, 246, 0.3);
+    border-color: #64b5f6;
+    color: #64b5f6;
+    box-shadow: 0 2px 4px rgba(100, 181, 246, 0.4);
+}
+
+/* Base player cards container - constrain cards within bounds */
+.player-cards {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0px;
+    justify-content: space-evenly;
+    min-height: 100px;
+    overflow: hidden; /* Prevent overflow */
+    position: relative;
+    padding: 15px 10px; /* Reduced padding to keep cards inside */
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+/* Top player - constrain cards within container */
+.player-top .player-cards {
+    justify-content: space-evenly;
+    position: relative;
+    padding: 15px 10px 20px 10px; /* Reduced padding */
+    min-height: 120px; /* Reduced height */
+    overflow: hidden; /* Prevent overflow */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Left player - constrain cards within container */
+.player-left .player-cards {
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 10px 15px; /* Reduced padding */
+    min-height: 180px; /* Reduced height */
+    overflow: hidden; /* Prevent overflow */
+    width: 100%;
+    justify-content: space-evenly;
+    gap: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Role badges */
+.landlord {
+    position: relative;
+}
+
+.landlord::after {
+    content: '👑 LANDLORD';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+    color: var(--bg-gradient-start);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 2px solid var(--color-accent);
+    box-shadow: var(--glow-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: pulse-glow 2s infinite;
+    z-index: 1002; /* Highest z-index to always appear on top */
+}
+
+.peasant {
+    position: relative;
+}
+
+.peasant::after {
+    content: '🌾 PEASANT';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-neon-green) 100%);
+    color: var(--text-on-primary);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 2px solid var(--color-success);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1002; /* Highest z-index to always appear on top */
+}
+
+.farmer {
+    position: relative;
+}
+
+.farmer::after {
+    content: '🌾 FARMER';
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-neon-green) 100%);
+    color: var(--text-on-primary);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 2px solid var(--color-success);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1002; /* Highest z-index to always appear on top */
+}
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        box-shadow: var(--glow-accent);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 25px rgba(245, 158, 11, 0.8);
+        transform: scale(1.05);
+    }
+}
+
+/* Specific styling for top player (Computer 2) to display in 2 lines */
+.player-top .player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background: rgba(26, 35, 126, 0.6);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(100, 181, 246, 0.3);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    position: relative;
+    gap: 4px; /* Small gap between name and card count */
+}
+
+.player-top .player-name {
+    font-weight: bold;
+    color: var(--color-text-primary);
+    font-size: clamp(12px, 2.5vw, 16px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 1001;
+    margin-right: 0; /* Remove right margin for vertical layout */
+    position: relative;
+    text-align: center;
+}
+
+.player-top .card-count {
+    font-size: clamp(11px, 2.2vw, 14px);
+    color: var(--color-accent);
+    background: rgba(245, 158, 11, 0.2);
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--color-accent);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+    min-width: 65px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    z-index: 1001;
+    position: relative;
+} 
