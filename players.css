@@ -13,7 +13,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    overflow: hidden; /* Prevent cards from spilling outside */
+    overflow: visible; /* Changed from hidden to visible to show badges */
     position: relative; /* Ensure proper stacking context */
 }
 
@@ -71,6 +71,7 @@
     grid-column: 3;
     grid-row: 1;
     align-self: start;
+    margin-top: 20px; /* Move Computer 2 down to avoid overlap with developer tools */
 }
 
 .player-left {
@@ -138,7 +139,7 @@
     border: 1px solid rgba(100, 181, 246, 0.3);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
-    z-index: 100; /* High z-index to ensure visibility */
+    z-index: 1000; /* Very high z-index to ensure visibility above all elements */
     position: relative;
 }
 
@@ -147,8 +148,9 @@
     color: var(--color-text-primary);
     font-size: clamp(12px, 2.5vw, 16px);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-    z-index: 101;
+    z-index: 1001; /* Highest z-index for critical text */
     margin-right: 15px; /* Add space between player name and card count */
+    position: relative;
 }
 
 .card-count {
@@ -163,7 +165,8 @@
     min-width: 65px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
-    z-index: 101;
+    z-index: 1001; /* Highest z-index for critical text */
+    position: relative;
 }
 
 /* Landlord-specific card count styling */
@@ -244,6 +247,33 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     animation: pulse-glow 2s infinite;
+    z-index: 1002; /* Highest z-index to always appear on top */
+}
+
+.peasant {
+    position: relative;
+}
+
+.peasant::after {
+    content: '🌾 PEASANT';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-neon-green) 100%);
+    color: var(--text-on-primary);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 2px solid var(--color-success);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1002; /* Highest z-index to always appear on top */
+}
+
+.farmer {
+    position: relative;
 }
 
 .farmer::after {
@@ -261,6 +291,7 @@
     box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    z-index: 1002; /* Highest z-index to always appear on top */
 }
 
 @keyframes pulse-glow {
