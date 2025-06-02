@@ -34,18 +34,15 @@
     box-shadow: var(--shadow-neon);
     z-index: 30; /* Still below text elements */
     border-color: var(--color-tech-cyan);
-    glow: var(--glow-primary);
 }
 
 .card.selected {
     border-color: var(--color-accent);
-    box-shadow: var(--glow-accent);
     z-index: 25; /* Below text elements */
-    background: linear-gradient(135deg, var(--container-bg) 0%, rgba(245, 158, 11, 0.1) 100%);
 }
 
 .card.selected:hover {
-    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.6);
+    border-color: var(--color-accent);
     z-index: 35; /* Below text elements but high for interaction */
 }
 
@@ -203,7 +200,7 @@
     flex-wrap: nowrap;
     overflow-x: auto; /* Enable horizontal scrolling */
     overflow-y: visible; /* Changed from hidden to visible to prevent clipping selected cards */
-    padding: 20px 20px 40px 20px; /* Increased padding on all sides to ensure full card visibility */
+    padding: 20px 40px 40px 40px; /* Increased left padding from 20px to 40px to prevent first card clipping */
     min-height: calc(var(--card-height) + 80px); /* Further increased height for selected cards */
     gap: 0; /* Remove gap for overlapping effect */
     scrollbar-width: thin;
@@ -228,7 +225,7 @@
 }
 
 .player-bottom .card:first-child {
-    margin-left: 5px; /* Small positive margin to ensure first card is always visible */
+    margin-left: 15px !important; /* Increased from 5px to 15px and added !important to prevent override */
     z-index: 20; /* Consistent low z-index */
 }
 
@@ -246,17 +243,26 @@
     margin-right: clamp(-5px, -0.5vw, -3px); /* Small margin for spacing when hovering */
 }
 
+/* Ensure first child maintains its margin even when hovered */
+.player-bottom .card:first-child:hover {
+    margin-left: 15px !important; /* Maintain first card visibility on hover */
+}
+
 .player-bottom .card.selected {
     z-index: 30; /* Below text elements */
-    box-shadow: 0 0 15px var(--color-accent), 0 4px 20px rgba(245, 158, 11, 0.4);
     border: 2px solid var(--color-accent);
     margin-left: clamp(-20px, -1.8vw, -15px); /* Maintain consistent reduced overlap when selected */
 }
 
+/* Ensure first child maintains its margin even when selected */
+.player-bottom .card:first-child.selected {
+    margin-left: 15px !important; /* Maintain first card visibility when selected */
+}
+
 .player-bottom .card.selected:hover {
     z-index: 40; /* Below critical text but high for interaction */
+    border-color: var(--color-accent); /* 保持一致的边框颜色 */
     margin-left: clamp(-20px, -1.8vw, -15px); /* Maintain consistent reduced overlap */
-    margin-right: clamp(-5px, -0.5vw, -3px); /* Small margin for spacing when hovering */
 }
 
 /* Top player computer cards with compact overlap */
