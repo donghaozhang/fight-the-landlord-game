@@ -60,7 +60,7 @@
 body {
     font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
     background: 
-        linear-gradient(rgba(10, 14, 39, 0.3), rgba(26, 29, 58, 0.4)),
+        linear-gradient(rgba(10, 14, 39, 0.1), rgba(26, 29, 58, 0.15)),
         url('./images/wukong.jpg') center/cover no-repeat fixed;
     min-height: 100vh;
     color: var(--text-primary);
@@ -78,8 +78,8 @@ body::before {
     width: 100%;
     height: 100%;
     background-image: 
-        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(59, 130, 246, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.01) 1px, transparent 1px);
     background-size: clamp(30px, 5vw, 50px) clamp(30px, 5vw, 50px);
     pointer-events: none;
     z-index: -1;
@@ -92,21 +92,21 @@ body::before {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: rgba(10, 14, 39, 0.05); /* Much more transparent */
-    backdrop-filter: blur(0.5px);
-    -webkit-backdrop-filter: blur(0.5px);
+    background: rgba(10, 14, 39, 0.02); /* Much more transparent */
+    backdrop-filter: blur(0.2px);
+    -webkit-backdrop-filter: blur(0.2px);
 }
 
 .header {
     text-align: center;
     margin-bottom: var(--spacing-xs);
-    background: rgba(15, 23, 42, 0.6); /* More transparent */
+    background: rgba(15, 23, 42, 0.3); /* More transparent */
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: 8px;
     box-shadow: var(--shadow-card);
-    border: 1px solid var(--container-border);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     flex-shrink: 0;
 }
 
@@ -163,12 +163,12 @@ body::before {
 }
 
 .player {
-    background: rgba(15, 23, 42, 0.5); /* More transparent */
+    background: rgba(15, 23, 42, 0.25); /* More transparent */
     border-radius: 8px;
     padding: var(--spacing-xs);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--container-border);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
     box-shadow: var(--shadow-card);
     transition: all 0.3s ease;
     display: flex;
@@ -254,11 +254,11 @@ body::before {
     align-items: flex-start;
     min-height: 180px; /* Increased to accommodate cards */
     padding: var(--spacing-sm);
-    background: rgba(15, 23, 42, 0.4); /* More transparent */
+    background: rgba(15, 23, 42, 0.2); /* More transparent */
     border-radius: 8px;
-    border: 1px solid var(--container-border);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     box-shadow: var(--shadow-card);
     overflow: hidden; /* Prevent cards from spilling outside */
 }
@@ -271,14 +271,14 @@ body::before {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background: rgba(15, 23, 42, 0.4); /* More transparent */
+    background: rgba(15, 23, 42, 0.2); /* More transparent */
     border-radius: 8px;
     padding: var(--spacing-sm);
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--container-border);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     gap: var(--spacing-xs);
     min-height: 150px;
     align-self: stretch;
@@ -555,7 +555,7 @@ body::before {
 }
 
 .played-cards {
-    background: rgba(15, 23, 42, 0.3); /* More transparent */
+    background: rgba(15, 23, 42, 0.15); /* More transparent */
     border-radius: 8px;
     padding: var(--spacing-xs);
     min-height: clamp(120px, 18vh, 150px);
@@ -563,9 +563,9 @@ body::before {
     justify-content: center;
     align-items: center;
     gap: 3px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     flex-wrap: wrap;
     width: 100%;
     box-sizing: border-box;
@@ -634,13 +634,13 @@ body::before {
 }
 
 #message-area {
-    background: rgba(15, 23, 42, 0.4); /* More transparent */
+    background: rgba(15, 23, 42, 0.2); /* More transparent */
     border-radius: 8px;
     padding: var(--spacing-xs) var(--spacing-sm);
     text-align: center;
-    border: 1px solid var(--container-border);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     margin: 0 auto;
     max-width: 100%;
 }
