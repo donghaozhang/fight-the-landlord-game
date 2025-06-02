@@ -1,0 +1,97 @@
+/* CSS Variables for Tech-Themed Color System */
+:root {
+  /* Background (60% - Dark tech atmosphere) */
+  --bg-gradient-start: #0a0e27;
+  --bg-gradient-end:   #1a1d3a;
+  --container-bg:      rgba(15, 23, 42, 0.9);
+  --container-border:  rgba(59, 130, 246, 0.3);
+
+  /* Primary & Secondary (30% - Tech blue/cyan) */
+  --color-primary:      #3b82f6;
+  --color-primary-hover:#2563eb;
+  --color-primary-pressed:#1d4ed8;
+  --color-secondary:    #06b6d4;
+  --color-tech-cyan:    #00d9ff;
+
+  /* Accent (10% - Neon highlights) */
+  --color-accent:       #f59e0b;
+  --color-accent-hover: #d97706;
+  --color-neon-green:   #10b981;
+  --color-neon-purple:  #8b5cf6;
+
+  /* Text Colors - Enhanced contrast for visibility */
+  --text-primary:   #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-muted:     #94a3b8;
+  --text-on-primary: #ffffff;
+
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-error:   #ef4444;
+  --color-warning: #f59e0b;
+  --color-disabled-bg: rgba(30, 41, 59, 0.5);
+  --color-disabled-text: #475569;
+
+  /* Tech Effects & Shadows */
+  --shadow-primary: 0 4px 20px rgba(59, 130, 246, 0.3);
+  --shadow-elevated: 0 8px 32px rgba(59, 130, 246, 0.4);
+  --shadow-neon: 0 0 20px rgba(0, 217, 255, 0.5);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --glow-primary: 0 0 10px rgba(59, 130, 246, 0.6);
+  --glow-accent: 0 0 15px rgba(245, 158, 11, 0.6);
+  
+  /* Text shadows for readability */
+  --text-shadow-strong: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.6);
+  --text-shadow-medium: 1px 1px 3px rgba(0, 0, 0, 0.7), 0 0 6px rgba(0, 0, 0, 0.4);
+  --text-shadow-subtle: 1px 1px 2px rgba(0, 0, 0, 0.6);
+
+  /* Responsive variables - Reduced card sizes for more compact layout */
+  --card-width: clamp(70px, 9vw, 90px);   /* Reduced from 90px-120px to 70px-90px */
+  --card-height: clamp(98px, 12.6vw, 126px); /* Reduced proportionally to maintain aspect ratio */
+  --font-size-base: clamp(14px, 2.5vw, 16px);
+  --font-size-h1: clamp(1.8em, 4vw, 2.8em);
+  --spacing-xs: clamp(5px, 1vw, 10px);
+  --spacing-sm: clamp(10px, 2vw, 15px);
+  --spacing-md: clamp(15px, 3vw, 20px);
+  --spacing-lg: clamp(20px, 4vw, 30px);
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+    background-image: url('../images/wukong.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--color-text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+}
+
+/* Tech grid overlay effect - more subtle to complement Wukong background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.01) 1px, transparent 1px);
+    background-size: clamp(30px, 5vw, 50px) clamp(30px, 5vw, 50px);
+    pointer-events: none;
+    z-index: -1;
+} 
