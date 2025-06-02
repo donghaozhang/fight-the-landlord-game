@@ -79,15 +79,15 @@
     }
     
     .player-bottom .card {
-        margin-left: clamp(-8px, -1vw, -4px);
+        margin-left: clamp(-65px, -6vw, -50px); /* Strong overlap for mobile */
     }
     
     .player-top .card-back-computer {
-        margin-left: clamp(-8px, -1vw, -4px);
+        margin-left: clamp(-25px, -3vw, -18px); /* Increased overlap for mobile */
     }
     
     .player-left .card-back-computer {
-        margin-top: clamp(-15px, -2vh, -10px);
+        margin-top: clamp(-30px, -4vh, -22px); /* Increased overlap for mobile */
     }
     
     .music-control {
@@ -127,6 +127,18 @@
     
     .player-bottom {
         padding: var(--spacing-xs); /* Match center-area padding */
+    }
+
+    .player-bottom .card {
+        margin-left: clamp(-55px, -5.5vw, -40px); /* Strong overlap for mobile+ */
+    }
+    
+    .player-top .card-back-computer {
+        margin-left: clamp(-22px, -2.5vw, -15px); /* Increased overlap for mobile+ */
+    }
+    
+    .player-left .card-back-computer {
+        margin-top: clamp(-28px, -3vh, -20px); /* Increased overlap for mobile+ */
     }
 
     .played-cards {
@@ -180,6 +192,18 @@
     
     .player-bottom {
         padding: 8px; /* Match center-area padding */
+    }
+
+    .player-bottom .card {
+        margin-left: clamp(-65px, -5.5vw, -50px); /* Strong overlap for tablet */
+    }
+    
+    .player-top .card-back-computer {
+        margin-left: clamp(-28px, -3vw, -22px); /* Increased overlap for tablet */
+    }
+    
+    .player-left .card-back-computer {
+        margin-top: clamp(-35px, -3.5vh, -28px); /* Increased overlap for tablet */
     }
 
     .header {
@@ -236,11 +260,15 @@
     }
     
     .player-bottom .card {
-        margin-left: clamp(-8px, -0.8vw, -4px);
+        margin-left: clamp(-70px, -5.5vw, -55px); /* Strong overlap for 1920x1080 and larger screens */
+    }
+    
+    .player-top .card-back-computer {
+        margin-left: clamp(-35px, -4vw, -28px); /* Strong overlap for large screens */
     }
     
     .player-left .card-back-computer {
-        margin-top: clamp(-25px, -2vh, -18px);
+        margin-top: clamp(-55px, -4.5vh, -45px); /* Strong overlap for large screens */
     }
 
     .header {
@@ -292,15 +320,15 @@
     }
     
     .player-bottom .card {
-        margin-left: clamp(-6px, -0.5vw, -3px);
+        margin-left: clamp(-70px, -5.5vw, -55px); /* Strong overlap for 1920x1080 and ultra-wide */
     }
     
     .player-top .card-back-computer {
-        margin-left: clamp(-10px, -0.8vw, -5px);
+        margin-left: clamp(-35px, -4vw, -28px); /* Strong overlap for large screens */
     }
     
     .player-left .card-back-computer {
-        margin-top: clamp(-20px, -1.5vh, -15px);
+        margin-top: clamp(-55px, -4.5vh, -45px); /* Strong overlap for large screens */
     }
 }
 

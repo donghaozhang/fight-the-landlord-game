@@ -108,24 +108,59 @@
     z-index: 10; /* Moderate z-index */
 }
 
-/* Player info and names */
+/* Player info and card counts */
 .player-info {
-    display: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(26, 35, 126, 0.6);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(100, 181, 246, 0.3);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 100; /* High z-index to ensure visibility */
+    position: relative;
 }
 
-/* Player name and card count with high visibility */
 .player-name {
-    color: var(--color-primary);
-    text-shadow: var(--text-shadow-medium);
-    position: relative;
-    z-index: 800; /* High priority for player names */
+    font-weight: bold;
+    color: var(--color-text-primary);
+    font-size: clamp(12px, 2.5vw, 16px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 101;
 }
 
 .card-count {
-    color: var(--text-primary);
-    text-shadow: var(--text-shadow-subtle);
-    position: relative;
-    z-index: 800; /* High priority for card counts */
+    font-size: clamp(11px, 2.2vw, 14px);
+    color: var(--color-accent);
+    background: rgba(245, 158, 11, 0.2);
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--color-accent);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+    min-width: 65px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    z-index: 101;
+}
+
+/* Landlord-specific card count styling */
+.player.landlord .card-count {
+    background: rgba(255, 183, 77, 0.3);
+    border-color: #ffb74d;
+    color: #ffb74d;
+    box-shadow: 0 2px 4px rgba(255, 183, 77, 0.4);
+}
+
+/* Peasant-specific card count styling */
+.player.peasant .card-count, .player.farmer .card-count {
+    background: rgba(100, 181, 246, 0.3);
+    border-color: #64b5f6;
+    color: #64b5f6;
+    box-shadow: 0 2px 4px rgba(100, 181, 246, 0.4);
 }
 
 /* Base player cards container - constrain cards within bounds */

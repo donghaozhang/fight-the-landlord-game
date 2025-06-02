@@ -1,7 +1,7 @@
 # Card Game Project Tasks
 
 ## Project Overview
-This is a card game project with HTML, CSS, and JavaScript components.
+This is a card game project with HTML, CSS, and JavaScript components, featuring a modular CSS architecture and Black Myth Wukong themed visuals.
 
 ## Current Tasks
 
@@ -281,7 +281,59 @@ This is a card game project with HTML, CSS, and JavaScript components.
   - Compressed border radius values for cleaner, tighter appearance
   - Streamlined all spacing variables for maximum space efficiency
 
-### 21. 🔄 Display all player cards instead of "+X more cards" indicator
+### 21. ✅ Implement Black Myth Wukong themed background with enhanced visibility
+- [x] Integrate Wukong background image into tech-themed interface
+- [x] Implement subtle overlay system to maintain readability
+- [x] Balance visual appeal with text visibility requirements
+- [x] Optimize background image opacity and contrast
+- [x] Ensure all UI elements remain clearly visible over background
+- [x] **FEATURES IMPLEMENTED**:
+  - Added Black Myth Wukong background image with fixed positioning
+  - Implemented subtle dark overlay (rgba(10, 14, 39, 0.1)) to preserve image visibility
+  - Reduced tech grid overlay opacity to 0.01 for minimal interference
+  - Enhanced text shadows throughout for better readability over complex backgrounds
+  - Adjusted container background opacity (0.5-0.6) for balanced visibility
+  - Maintained tech-themed visual consistency while showcasing Wukong artwork
+  - Optimized z-index hierarchy to prevent any UI blocking
+
+### 22. ✅ Implement overlapping card system for realistic card hands
+- [x] Create natural overlapping effect for all player card displays
+- [x] Implement mathematical positioning for optimal card spacing
+- [x] Maintain proper hover effects while cards are overlapped
+- [x] Ensure card selection works seamlessly with overlapping
+- [x] Fix any UI elements blocking game text or information
+- [x] **FEATURES IMPLEMENTED**:
+  - Bottom player: Strong overlapping with clamp(-45px, -3.5vw, -35px) margins
+  - Top player: Moderate overlapping with clamp(-25px, -2vw, -15px) margins  
+  - Left player: Vertical overlapping with clamp(-40px, -3vh, -25px) margins
+  - Changed layout from space-evenly to flex-start for natural card arrangement
+  - Enhanced hover effects that maintain overlap while providing interaction feedback
+  - Systematic z-index management: cards (15-40), UI elements (100+), critical text (800-1001)
+  - Fixed text visibility issues with stronger backgrounds and enhanced text shadows
+  - Moved music control button to avoid blocking any header or game information
+
+### 23. ✅ Implement modular CSS architecture for maintainability
+- [x] Split large monolithic style.css into logical, manageable modules
+- [x] Create systematic organization based on functionality and responsibility
+- [x] Implement CSS import system for clean module loading
+- [x] Ensure no functionality loss during modularization
+- [x] Optimize for better maintainability and future development
+- [x] **MODULES CREATED**:
+  - **`variables.css`** (81 lines): CSS custom properties, color system, base styles, responsive variables
+  - **`layout.css`** (152 lines): Main layout containers, header, game-container, grid system
+  - **`players.css`** (221 lines): Player containers, role styling, positioning, landlord/peasant themes
+  - **`cards.css`** (320 lines): Card styles, overlapping effects, animations, hover interactions
+  - **`ui-components.css`** (215 lines): Buttons, modals, messages, controls, interactive elements
+  - **`responsive.css`** (365 lines): Media queries, mobile/tablet/desktop breakpoints, accessibility
+- [x] **BENEFITS ACHIEVED**:
+  - Reduced original 1391-line file to 6 focused modules
+  - Improved maintainability with logical separation of concerns
+  - Enhanced developer experience with clear module responsibilities
+  - Better CSS loading and caching strategies
+  - Simplified debugging and feature development
+  - Maintained complete functionality while dramatically improving code organization
+
+### 24. 🔄 Display all player cards instead of "+X more cards" indicator
 - [ ] Remove card display limit and show complete hands
 - [ ] Implement dynamic spacing for variable card counts (3-20 cards)
 - [ ] Optimize card arrangement algorithms for full visibility
@@ -305,11 +357,11 @@ This is a card game project with HTML, CSS, and JavaScript components.
      - Ensure mobile devices can handle 20 cards without horizontal scrolling
      - Adjust card sizes on smaller screens if necessary
   5. **Remove unused CSS**:
-     - Delete `.more-cards-indicator` and related styles from style.css
+     - Delete `.more-cards-indicator` and related styles from cards.css
 - [ ] **TECHNICAL DETAILS**:
   - Current limit: `const maxDisplayCards = Math.min(cardCount, 15);` in game.js line 310
   - More cards indicator: Created when `cardCount > maxDisplayCards` at game.js line 425-428
-  - CSS class: `.more-cards-indicator` styling in style.css lines 555-588
+  - CSS class: `.more-cards-indicator` styling in cards.css lines 555-588
   - Need to adjust overlap calculations to accommodate 3-20 cards dynamically
   - Vertical player (left): optimize margin-top spacing for card stacking
   - Horizontal player (top): optimize margin-left spacing for card spreading
@@ -321,18 +373,64 @@ This is a card game project with HTML, CSS, and JavaScript components.
   - Proper spacing that scales with number of cards
   - Enhanced game transparency - players can see actual card counts visually
 
-## File Structure
+### 25. 🔄 Enhanced score system with multipliers
+- [ ] Implement score calculation based on bidding points (1x, 2x, 3x multipliers)
+- [ ] Add bomb usage bonuses to scoring system
+- [ ] Create role performance tracking (landlord vs peasants)
+- [ ] Add score history and statistics tracking
+- [ ] Display current game score and round results
+
+### 26. 🔄 Advanced card combinations (airplane with wings)
+- [ ] Implement airplane with wings (consecutive triples with attachments)
+- [ ] Add complex sequence variations
+- [ ] Update `isValidCardCombination()` in game.js for new combinations
+- [ ] Enhance AI logic to recognize and play advanced combinations
+
+## File Structure & Architecture
+
+### Core Game Files
+- **`index.html`**: Main game interface with semantic HTML structure
+- **`game.js`**: Complete game logic class `DouDiZhuGame` with all mechanics
+- **`main.js`**: Entry point that initializes the game instance
+- **`server.js`**: Node.js Express server for development
+
+### Modular CSS System
+- **`style.css`**: Main import file (6 lines) that loads all CSS modules
+- **`variables.css`**: CSS custom properties, color system, responsive variables
+- **`layout.css`**: Main layout containers, header, game grid system
+- **`players.css`**: Player positioning, role styling, landlord/peasant themes  
+- **`cards.css`**: Card styling, overlapping effects, hover animations
+- **`ui-components.css`**: Buttons, modals, messages, interactive controls
+- **`responsive.css`**: Mobile-first responsive design with 5 breakpoints
+
+### Supporting Files
+- **`package.json`**: npm scripts and metadata
+- **`tests/`**: Automated test suites
+- **`.gitignore`**: Repository configuration
+- **`README.md`**: Comprehensive project documentation
+- **`task.md`**: Development progress tracking (this file)
+
+## Current Development Priorities
+
+### Immediate Next Steps
+1. **Display Full Card Hands** (Task 24): Remove 15-card limit, show all 3-20 cards
+2. **Enhanced Score System** (Task 25): Implement multipliers and bonus calculations
+3. **Advanced Combinations** (Task 26): Add airplane with wings and complex sequences
+
+### Code Quality Focus
+- Maintain modular CSS architecture when adding new features
+- Test all changes across responsive breakpoints (320px-1400px+)
+- Preserve tech-themed visual consistency
+- Ensure accessibility standards (WCAG guidelines)
+
+### Architecture Benefits
+- **Modular CSS**: 6-file system improves maintainability and development speed
+- **Tech Theme**: Dark interface with Wukong background creates unique visual identity
+- **Responsive Design**: Mobile-first approach ensures compatibility across all devices
+- **Clean Separation**: CSS modules, JavaScript classes, and HTML structure are well-organized
 
 ## Upcoming GitHub Features
 - 🔗 **Repository Ready**: .gitignore setup to exclude large image files
 - 📄 **JSON Mapping**: Complete image name mapping for external hosting
 - 📖 **Documentation**: Professional README.md for repository
 - 🚀 **Deployment Ready**: Code-only repository with image references
-
-## Upcoming Card System Features
-- 🃏 **Complete Short Names**: Systematic renaming of all 113 remaining images
-- 📋 **JSON-Driven Mapping**: Use images.json as reference for card assignments
-- 🔄 **Bulk Renaming**: PowerShell automation for efficient processing
-- 🎯 **54-Card Standard**: Full deck with proper card hierarchy (52 + 2 jokers)
-- 🧩 **Smart Assignment**: Long descriptive names mapped to appropriate card positions
-- ⚡ **Optimized Loading**: Faster image references with short naming system

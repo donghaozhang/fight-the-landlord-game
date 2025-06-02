@@ -10,22 +10,112 @@ alwaysApply: true
 - [game.js](mdc:game.js) - Main game logic class `DouDiZhuGame` with all game mechanics
 - [main.js](mdc:main.js) - Entry point that initializes the game
 - [server.js](mdc:server.js) - Node.js server that serves files (handles PNG images for cards)
-- [style.css](mdc:style.css) - Game styling and visual effects
 - [task.md](mdc:task.md) - Complete game requirements and rules specification
+- [README.md](mdc:README.md) - Comprehensive project documentation
+
+## Modular CSS Architecture
+- [style.css](mdc:style.css) - Main CSS file (imports all modules, 9 lines)
+- [variables.css](mdc:variables.css) - CSS custom properties, color system, base styles (92 lines)
+- [layout.css](mdc:layout.css) - Main layout containers, header, game grid system (152 lines)
+- [players.css](mdc:players.css) - Player containers, role styling, landlord/peasant themes (221 lines)
+- [cards.css](mdc:cards.css) - Card styles, overlapping effects, hover animations (320 lines)
+- [ui-components.css](mdc:ui-components.css) - Buttons, modals, messages, interactive controls (215 lines)
+- [responsive.css](mdc:responsive.css) - Mobile-first responsive design with 5 breakpoints (365 lines)
 
 ## Asset Directories
-- `images/` - Contains card image files (PNG format) with specific naming convention
+- `images/` - Contains card image files (PNG format) with short naming convention
+  - Background: `wukong.jpg` for Black Myth Wukong theme
+  - Cards: 54-card deck with naming like `sa.png` (spade ace), `ht.png` (hearts ten)
 - `tests/` - Unit tests for game logic
-- `archive/` - Backup files
+- `archive/` - Backup files and development history
+
+## Supporting Files
+- `package.json` - npm scripts and project metadata
+- `package-lock.json` - Dependency lock file
+- `.gitignore` - Repository configuration (excludes images to keep repo lightweight)
 
 ## Key Relationships
+
+### CSS Module System
+- [style.css](mdc:style.css) imports all CSS modules in order:
+  1. [variables.css](mdc:variables.css) - Base system (colors, spacing, responsive variables)
+  2. [layout.css](mdc:layout.css) - Container and grid structure
+  3. [players.css](mdc:players.css) - Player-specific styling
+  4. [cards.css](mdc:cards.css) - Card interactions and effects
+  5. [ui-components.css](mdc:ui-components.css) - Interactive elements
+  6. [responsive.css](mdc:responsive.css) - Device-specific adaptations
+
+### JavaScript Architecture
 - [game.js](mdc:game.js) exports `DouDiZhuGame` class imported by [main.js](mdc:main.js)
 - [index.html](mdc:index.html) references [main.js](mdc:main.js) as ES6 module
 - Card images in `images/` are mapped in `initializeCardImages()` method in [game.js](mdc:game.js)
 - [server.js](mdc:server.js) must handle PNG files for card images to display properly
 
+### Design System Integration
+- Color system defined in [variables.css](mdc:variables.css) with CSS custom properties
+- Tech-themed dark interface with Black Myth Wukong background
+- Responsive breakpoints: 320px, 481px, 769px, 1025px, 1400px
+- Z-index hierarchy: cards (15-40), UI elements (100+), critical text (800-1001)
+
 ## Entry Point Flow
-1. [index.html](mdc:index.html) loads [main.js](mdc:main.js)
-2. [main.js](mdc:main.js) imports and instantiates `DouDiZhuGame` from [game.js](mdc:game.js)
-3. Game initializes with card dealing, landlord assignment, and UI rendering
+1. [index.html](mdc:index.html) loads [main.js](mdc:main.js) and [style.css](mdc:style.css)
+2. [style.css](mdc:style.css) imports all CSS modules in dependency order
+3. [main.js](mdc:main.js) imports and instantiates `DouDiZhuGame` from [game.js](mdc:game.js)
+4. Game initializes with:
+   - Card dealing and deck creation
+   - Bidding phase with AI strategy
+   - UI rendering with modular styling
+   - Responsive layout activation
+
+## Module Responsibilities
+
+### [variables.css](mdc:variables.css)
+- CSS custom properties for colors, spacing, typography
+- Tech-themed color system (60-30-10 rule)
+- Responsive variable definitions
+- Base reset and body styling
+- Tech grid overlay effects
+
+### [layout.css](mdc:layout.css)
+- Game container and main grid structure
+- Header with game info and title
+- Center playing area layout
+- Landlord cards display area
+- Z-index management for layout elements
+
+### [players.css](mdc:players.css)
+- Player container positioning and styling
+- Landlord vs peasant visual themes
+- Role badges and indicators
+- Player card container management
+- Role-specific animations (pulse-glow)
+
+### [cards.css](mdc:cards.css)
+- Individual card styling and interactions
+- Overlapping card system with mathematical positioning
+- Hover effects and selection states
+- Computer card back designs
+- Card animation and transition effects
+
+### [ui-components.css](mdc:ui-components.css)
+- Button styling with tech theme
+- Modal and message area design
+- Game controls layout
+- Music control button
+- Interactive element states and feedback
+
+### [responsive.css](mdc:responsive.css)
+- Mobile-first responsive design
+- 5 distinct breakpoints with specific optimizations
+- Touch-friendly interactions for mobile
+- Landscape orientation support
+- Accessibility considerations (reduced motion)
+
+## Development Guidelines
+- Follow modular CSS structure when adding features
+- Test across all responsive breakpoints
+- Maintain tech-themed visual consistency  
+- Update appropriate CSS module based on functionality
+- Use [task.md](mdc:task.md) for tracking development progress
+- Preserve card image mapping system for asset flexibility
 
