@@ -68,10 +68,17 @@
     border: 1px solid rgba(59, 130, 246, 0.4);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    margin: 0 auto;
-    max-width: 100%;
     position: relative;
     z-index: 901; /* High z-index for message text */
+    
+    /* Align to Player 1 (bottom player) position */
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 300px;
+    width: fit-content;
+    /* Position it toward the bottom area where Player 1 is located */
+    margin-left: 60%;
 }
 
 #message-area p {
