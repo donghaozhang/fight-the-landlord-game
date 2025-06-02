@@ -3,7 +3,7 @@ export class DouDiZhuGame {
     constructor() {
         this.deck = [];
         this.players = [
-            { name: 'Player 1', cards: [], isHuman: true, role: null },
+            { name: 'Player 1 ', cards: [], isHuman: true, role: null },
             { name: 'Computer 1', cards: [], isHuman: false, role: null },
             { name: 'Computer 2', cards: [], isHuman: false, role: null }
         ];

@@ -206,7 +206,7 @@
 /* Create light overlapping effect for human player cards - ensuring all cards visible */
 .player-bottom .card {
     flex-shrink: 0;
-    margin-left: clamp(-5px, -0.5vw, -3px); /* Minimal overlap to ensure no cards are blocked */
+    margin-left: clamp(-15px, -1.2vw, -10px); /* Balanced overlap to ensure cards remain visible */
     transition: all 0.3s ease;
     position: relative;
     z-index: 20; /* Low z-index for overlapping */
@@ -230,8 +230,8 @@
 .player-bottom .card:hover {
     transform: translateY(clamp(-8px, -1vh, -6px)) scale(1.1); /* Controlled scale */
     z-index: 35; /* Below text elements but high for interaction */
-    margin-left: clamp(-5px, -0.5vw, -3px); /* Maintain minimal overlap on hover */
-    margin-right: clamp(-2px, -0.2vw, -1px); /* Tiny margin for spacing */
+    margin-left: clamp(-15px, -1.2vw, -10px); /* Maintain consistent overlap on hover */
+    margin-right: clamp(-3px, -0.3vw, -2px); /* Small margin for spacing when hovering */
 }
 
 .player-bottom .card.selected {
@@ -239,14 +239,14 @@
     z-index: 30; /* Below text elements */
     box-shadow: 0 0 15px var(--color-accent), 0 4px 20px rgba(245, 158, 11, 0.4);
     border: 2px solid var(--color-accent);
-    margin-left: clamp(-5px, -0.5vw, -3px); /* Maintain minimal overlap when selected */
+    margin-left: clamp(-15px, -1.2vw, -10px); /* Maintain consistent overlap when selected */
 }
 
 .player-bottom .card.selected:hover {
     transform: translateY(clamp(-10px, -1.5vh, -8px)) scale(1.15); /* Controlled scale */
     z-index: 40; /* Below critical text but high for interaction */
-    margin-left: clamp(-5px, -0.5vw, -3px); /* Maintain minimal overlap */
-    margin-right: clamp(-2px, -0.2vw, -1px); /* Tiny margin for spacing */
+    margin-left: clamp(-15px, -1.2vw, -10px); /* Maintain consistent overlap */
+    margin-right: clamp(-3px, -0.3vw, -2px); /* Small margin for spacing when hovering */
 }
 
 /* Top player computer cards with low z-index */
