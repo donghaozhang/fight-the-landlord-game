@@ -192,7 +192,7 @@
     border: 2px solid var(--color-tech-cyan);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 50; /* Lower z-index to prevent blocking any text */
+    z-index: 1010; /* High z-index to ensure it's above dragon viewer and all other elements */
     display: flex;
     align-items: center;
     justify-content: center;
