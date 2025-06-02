@@ -174,30 +174,56 @@
     position: relative;
 }
 
-/* Specific styling for left player (Computer 1) to fit text in container */
+/* Specific styling for left player (Computer 1) to display in 2 lines and fit text in container */
 .player-back-frame-1 .player-info {
-    padding: 6px 8px; /* Reduced padding to allow more text space */
-    width: 100%; /* Ensure full width usage */
+    display: flex;
+    flex-direction: column; /* Change to vertical layout */
+    align-items: center; /* Center align items */
+    justify-content: center;
+    padding: 6px 8px;
+    width: 100%;
     box-sizing: border-box;
-    overflow: hidden; /* Prevent text overflow */
+    background: rgba(26, 35, 126, 0.6);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(100, 181, 246, 0.3);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    position: relative;
+    gap: 4px; /* Small gap between name and card count */
+    overflow: visible; /* Allow content to be visible */
 }
 
 .player-back-frame-1 .player-name {
-    font-size: clamp(10px, 2vw, 14px); /* Reduced font size to fit better */
-    margin-right: 8px; /* Reduced margin for more compact layout */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis if text is too long */
-    flex-shrink: 1; /* Allow shrinking if needed */
+    font-size: clamp(10px, 2vw, 14px);
+    margin-right: 0; /* Remove right margin for vertical layout */
+    white-space: nowrap;
+    font-weight: bold;
+    color: var(--color-text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 1001;
+    position: relative;
+    text-align: center; /* Center align text */
+    flex-shrink: 0; /* Don't shrink the name */
 }
 
 .player-back-frame-1 .card-count {
-    font-size: clamp(9px, 1.8vw, 12px); /* Reduced font size to fit better */
-    padding: 3px 6px; /* Reduced padding for more compact layout */
+    font-size: clamp(9px, 1.8vw, 12px);
+    padding: 3px 6px;
     border-radius: 10px;
-    min-width: 50px; /* Reduced min-width */
-    white-space: nowrap; /* Prevent text wrapping */
-    flex-shrink: 0; /* Don't shrink the card count */
+    min-width: 50px;
+    color: var(--color-accent);
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid var(--color-accent);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    z-index: 1001;
+    position: relative;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 /* Landlord-specific card count styling */
@@ -334,4 +360,49 @@
         box-shadow: 0 0 25px rgba(245, 158, 11, 0.8);
         transform: scale(1.05);
     }
+}
+
+/* Specific styling for top player (Computer 2) to display in 2 lines */
+.player-top .player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background: rgba(26, 35, 126, 0.6);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(100, 181, 246, 0.3);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    position: relative;
+    gap: 4px; /* Small gap between name and card count */
+}
+
+.player-top .player-name {
+    font-weight: bold;
+    color: var(--color-text-primary);
+    font-size: clamp(12px, 2.5vw, 16px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 1001;
+    margin-right: 0; /* Remove right margin for vertical layout */
+    position: relative;
+    text-align: center;
+}
+
+.player-top .card-count {
+    font-size: clamp(11px, 2.2vw, 14px);
+    color: var(--color-accent);
+    background: rgba(245, 158, 11, 0.2);
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--color-accent);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+    min-width: 65px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    z-index: 1001;
+    position: relative;
 } 
