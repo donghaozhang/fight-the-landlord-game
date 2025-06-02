@@ -242,14 +242,14 @@
     box-shadow: 0 2px 4px rgba(100, 181, 246, 0.4);
 }
 
-/* Base player cards container - constrain cards within bounds */
+/* Base player cards container - allow overflow for selected card effects */
 .player-cards {
     display: flex;
     flex-wrap: nowrap;
     gap: 0px;
     justify-content: space-evenly;
     min-height: 100px;
-    overflow: hidden; /* Prevent overflow */
+    overflow: visible; /* Changed from hidden to visible to prevent clipping selected cards */
     position: relative;
     padding: 15px 10px; /* Reduced padding to keep cards inside */
     width: 100%;
@@ -263,7 +263,7 @@
     position: relative;
     padding: 15px 10px 20px 10px; /* Reduced padding */
     min-height: 120px; /* Reduced height */
-    overflow: hidden; /* Prevent overflow */
+    overflow: hidden; /* Keep hidden for top player to maintain compact layout */
     width: 100%;
     box-sizing: border-box;
 }
@@ -275,7 +275,7 @@
     position: relative;
     padding: 10px 15px; /* Reduced padding */
     min-height: 180px; /* Reduced height */
-    overflow: hidden; /* Prevent overflow */
+    overflow: hidden; /* Keep hidden for left player to maintain compact layout */
     width: 100%;
     justify-content: space-evenly;
     gap: 0;
