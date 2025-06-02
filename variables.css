@@ -45,9 +45,9 @@
   --text-shadow-medium: 1px 1px 3px rgba(0, 0, 0, 0.7), 0 0 6px rgba(0, 0, 0, 0.4);
   --text-shadow-subtle: 1px 1px 2px rgba(0, 0, 0, 0.6);
 
-  /* Responsive variables */
-  --card-width: clamp(90px, 12vw, 120px);
-  --card-height: clamp(126px, 16.8vw, 168px);
+  /* Responsive variables - Reduced card sizes for more compact layout */
+  --card-width: clamp(70px, 9vw, 90px);   /* Reduced from 90px-120px to 70px-90px */
+  --card-height: clamp(98px, 12.6vw, 126px); /* Reduced proportionally to maintain aspect ratio */
   --font-size-base: clamp(14px, 2.5vw, 16px);
   --font-size-h1: clamp(1.8em, 4vw, 2.8em);
   --spacing-xs: clamp(5px, 1vw, 10px);
