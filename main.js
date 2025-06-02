@@ -81,35 +81,44 @@ async function initializeDragonViewerDirect() {
         // Create scene (same as working test)
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: canvas, 
+            alpha: true, 
+            antialias: true,
+            premultipliedAlpha: false,
+            preserveDrawingBuffer: true
+        });
         
+        // 设置完全透明的背景
+        renderer.setClearColor(0x000000, 0); // 黑色背景，透明度为0
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
-        // Add lighting (same as working test)
-        const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+        // Add lighting (enhanced for larger view)
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.8); // 增强环境光
         scene.add(ambientLight);
         
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2); // 增强方向光
         directionalLight.position.set(5, 5, 5);
         directionalLight.castShadow = true;
         scene.add(directionalLight);
         
-        const pointLight = new THREE.PointLight(0xff6600, 0.8, 100);
+        const pointLight = new THREE.PointLight(0xff6600, 1.0, 100); // 增强点光源
         pointLight.position.set(0, 0, 3);
         scene.add(pointLight);
         
-        camera.position.set(0, 0, 5);
+        // 为超大的dragon viewer调整相机位置
+        camera.position.set(0, 2, 7); // 进一步后退并抬高，展现全貌
         
         // Add OrbitControls for drag-to-rotate functionality
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; // Smooth camera movements
         controls.dampingFactor = 0.05;
         controls.screenSpacePanning = false;
-        controls.minDistance = 2; // Minimum zoom distance
-        controls.maxDistance = 15; // Maximum zoom distance
+        controls.minDistance = 4; // 适应超大尺寸的最小距离
+        controls.maxDistance = 25; // 进一步增加最大距离
         controls.maxPolarAngle = Math.PI / 2; // Limit vertical rotation
         controls.target.set(0, 0, 0); // Look at center of scene
         
@@ -126,8 +135,8 @@ async function initializeDragonViewerDirect() {
                 console.log('🎉 SUCCESS! Your dragon.glb is now rendering in the main game!');
                 
                 const dragon = gltf.scene;
-                dragon.scale.set(2, 2, 2);
-                dragon.position.set(0, -1, 0);
+                dragon.scale.set(3.5, 3.5, 3.5); // 进一步增大龙的尺寸到3.5，更加壮观
+                dragon.position.set(0, -2, 0); // 稍微再下移，适应超大区域
                 
                 // Enable shadows and add glow
                 dragon.traverse((child) => {

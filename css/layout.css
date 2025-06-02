@@ -7,9 +7,10 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: rgba(10, 14, 39, 0.02); /* Much more transparent */
-    backdrop-filter: blur(0.2px);
-    -webkit-backdrop-filter: blur(0.2px);
+    background: transparent; /* 完全透明背景 */
+    /* 移除所有磨砂效果 */
+    /* backdrop-filter: blur(0.2px); */
+    /* -webkit-backdrop-filter: blur(0.2px); */
     position: relative;
     z-index: 1; /* Low z-index base */
 }
@@ -161,35 +162,48 @@
     display: none !important;
 }
 
-/* 3D Dragon Viewer positioned in right region */
+/* 3D Dragon Viewer positioned in right region - EXTRA LARGE */
 .dragon-viewer {
     position: fixed;
-    top: 20%;
-    right: 5vw;
-    width: 300px;
-    height: 400px;
+    top: 5%; /* 从更高位置开始，几乎占满整个右侧 */
+    right: 1vw; /* 更靠近右边缘 */
+    width: 700px; /* 从500px增加到700px */
+    height: 850px; /* 从650px增加到850px */
     z-index: 50;
-    border-radius: 10px;
+    border-radius: 20px; /* 更大的圆角 */
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
 }
 
 #dragon-canvas {
     width: 100%;
     height: 100%;
     display: block;
-    border-radius: 10px;
+    border-radius: 20px;
+    background: transparent;
 }
 
 /* Responsive adjustments for dragon viewer */
+@media (max-width: 1600px) {
+    .dragon-viewer {
+        width: 600px; /* 大屏幕尺寸 */
+        height: 750px;
+        right: 1vw;
+    }
+}
+
+@media (max-width: 1400px) {
+    .dragon-viewer {
+        width: 500px; /* 中等屏幕尺寸 */
+        height: 650px;
+        right: 1vw;
+    }
+}
+
 @media (max-width: 1200px) {
     .dragon-viewer {
-        width: 200px;
-        height: 300px;
+        width: 400px; /* 较小屏幕 */
+        height: 520px;
         right: 2vw;
     }
 }
