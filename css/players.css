@@ -117,9 +117,9 @@
     align-self: end;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center; /* Changed from flex-end to center to prevent clipping */
     align-items: flex-start;
-    min-height: 260px; /* Further increased from 220px */
+    min-height: 320px; /* Increased from 260px to accommodate cards better */
     padding: var(--spacing-lg); /* Maximum padding for largest area */
     background: rgba(15, 23, 42, 0.6); /* Stronger background for visibility */
     border-radius: 8px;
