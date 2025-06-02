@@ -1,5 +1,4 @@
 # Image folders - exclude large binary files
-images/
 images_backup/
 archive/
 # Temporary files
