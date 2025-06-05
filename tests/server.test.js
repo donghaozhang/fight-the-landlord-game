@@ -42,6 +42,14 @@ test('serves style.css with correct content type', async () => {
   });
 });
 
+test('serves wukong.jpg with correct content type', async () => {
+  await withServer(async port => {
+    const { status, headers } = await fetchText(port, '/images/wukong.jpg');
+    assert.strictEqual(status, 200);
+    assert.strictEqual(headers.get('content-type'), 'image/jpeg');
+  });
+});
+
 test('returns 404 for missing file', async () => {
   await withServer(async port => {
     const { status } = await fetchText(port, '/nope.txt');
