@@ -34,3 +34,7 @@ This project implements the Fight the Landlord card game using Node.js and vanil
 
 The `setup.sh` script automatically checks the installed Node version and will exit if it is below the required major version.
 
+## Testing Requirements
+
+After implementing any code changes, run `npm test` and ensure the full test suite passes before committing. This repository expects tests to succeed at each step of development.
+
