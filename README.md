@@ -48,13 +48,15 @@ Examples: `ht.png` (Hearts 10), `cq.png` (Clubs Queen), `sa.png` (Spades Ace)
 ### Quick Start
 1. Clone this repository
 2. Install [Node.js](https://nodejs.org/) if you don't have it
-3. Run `npm start` to launch the local development server
-4. Open `http://localhost:8080` in your browser to play the game
+3. Run `./setup.sh` to install dependencies and execute the automated tests
+4. Run `npm start` to launch the local development server
+5. Open `http://localhost:8080` in your browser to play the game
 
 ### For Development
 ```bash
 git clone https://github.com/donghaozhang/fight-the-landlord-game.git
 cd fight-the-landlord-game
+./setup.sh
 npm start
 ```
 
