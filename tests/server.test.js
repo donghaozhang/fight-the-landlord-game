@@ -44,7 +44,8 @@ test('serves style.css with correct content type', async () => {
 
 test('returns 404 for missing file', async () => {
   await withServer(async port => {
-    const { status } = await fetchText(port, '/nope.txt');
+    const { status, text } = await fetchText(port, '/nope.txt');
     assert.strictEqual(status, 404);
+    assert.ok(text.length > 0);
   });
 });
