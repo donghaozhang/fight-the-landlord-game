@@ -149,3 +149,94 @@ test('canBeatLastPlay compares plays correctly', async () => {
   assert.strictEqual(game.canBeatLastPlay(bomb), true);
 });
 
+// Test sortCards ordering
+ test('sortCards orders cards by value', async () => {
+   const game = await createGame();
+   const cards = [
+     makeCard(game, 'A', '♠'),
+     makeCard(game, '3', '♥'),
+     makeCard(game, 'K', '♦')
+   ];
+   game.sortCards(cards);
+   const ranks = cards.map(c => c.rank);
+   assert.deepStrictEqual(ranks, ['3', 'K', 'A']);
+ });
+
+ // Test isRocket
+ test('isRocket identifies both jokers', async () => {
+   const game = await createGame();
+   const rocket = [makeCard(game, 'Small Joker'), makeCard(game, 'Big Joker')];
+   assert.strictEqual(game.isRocket(rocket), true);
+   const notRocket = [makeCard(game, 'Small Joker'), makeCard(game, '5', '♠')];
+   assert.strictEqual(game.isRocket(notRocket), false);
+ });
+
+ // Test three with single and pair
+ test('three-with-single and three-with-pair detection', async () => {
+   const game = await createGame();
+   const tSingle = [
+     makeCard(game, '5', '♠'),
+     makeCard(game, '5', '♥'),
+     makeCard(game, '5', '♦'),
+     makeCard(game, '9', '♣')
+   ];
+   assert.deepStrictEqual(game.isThreeWithSingle(tSingle), {
+     type: 'three_single',
+     rank: game.getCardValue('5')
+   });
+   const tPair = [
+     makeCard(game, '9', '♠'),
+     makeCard(game, '9', '♥'),
+     makeCard(game, '9', '♦'),
+     makeCard(game, '6', '♠'),
+     makeCard(game, '6', '♥')
+   ];
+   assert.deepStrictEqual(game.isThreeWithPair(tPair), {
+     type: 'three_pair',
+     rank: game.getCardValue('9')
+   });
+ });
+
+ // Test sequence helpers
+ test('sequence, pair sequence and triplet sequence', async () => {
+   const game = await createGame();
+   const seq = ['3','4','5','6','7'].map(r => makeCard(game, r));
+   assert.deepStrictEqual(game.isSequence(seq, 1), {
+     type: 'sequence',
+     rank: game.getCardValue('7'),
+     length: 5
+   });
+   const pairSeq = [
+     makeCard(game, '4', '♠'), makeCard(game, '4', '♥'),
+     makeCard(game, '5', '♠'), makeCard(game, '5', '♦'),
+     makeCard(game, '6', '♠'), makeCard(game, '6', '♦')
+   ];
+   assert.deepStrictEqual(game.isPairSequence(pairSeq), {
+     type: 'pair_sequence',
+     rank: game.getCardValue('6'),
+     length: 3
+   });
+   const tripletSeq = [
+     makeCard(game, '7', '♠'), makeCard(game, '7', '♥'), makeCard(game, '7', '♦'),
+     makeCard(game, '8', '♠'), makeCard(game, '8', '♥'), makeCard(game, '8', '♦')
+   ];
+   assert.deepStrictEqual(game.isTripletSequence(tripletSeq), {
+     type: 'triplet_sequence',
+     rank: game.getCardValue('8'),
+     length: 2
+   });
+ });
+
+ // Test getCardCounts
+ test('getCardCounts tallies values correctly', async () => {
+   const game = await createGame();
+   const cards = [
+     makeCard(game, 'A', '♠'),
+     makeCard(game, 'A', '♥'),
+     makeCard(game, 'K', '♦')
+   ];
+   const counts = game.getCardCounts(cards);
+   assert.strictEqual(counts[game.getCardValue('A')], 2);
+   assert.strictEqual(counts[game.getCardValue('K')], 1);
+ });
+
