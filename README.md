@@ -128,7 +128,7 @@ The styling system is built with a clean, maintainable modular structure:
 - **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6+)
 - **Styling**: CSS Grid, Flexbox, CSS Custom Properties, Backdrop Filters
 - **Images**: PNG format, optimized for web, external hosting ready
-- **Server**: Node.js Express for development
+- **Server**: Node.js HTTP server for development
 - **No Dependencies**: Pure web technologies, no build process required
 
 ### Browser Compatibility
