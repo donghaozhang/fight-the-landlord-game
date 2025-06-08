@@ -240,3 +240,42 @@ test('canBeatLastPlay compares plays correctly', async () => {
    assert.strictEqual(counts[game.getCardValue('K')], 1);
  });
 
+// Test getCardImageKey mapping
+ test('getCardImageKey returns correct keys', async () => {
+   const game = await createGame();
+   const spadeA = makeCard(game, 'A', '♠');
+   const heart10 = makeCard(game, '10', '♥');
+   const bigJoker = makeCard(game, 'Big Joker');
+   assert.strictEqual(game.getCardImageKey(spadeA), 'spade_a');
+   assert.strictEqual(game.getCardImageKey(heart10), 'heart_10');
+   assert.strictEqual(game.getCardImageKey(bigJoker), 'joker_big');
+ });
+
+ // Test assignLandlord basic behavior
+ test('assignLandlord sets roles and deals cards', async () => {
+   const game = await createGame();
+   game.updateMessage = () => {};
+   game.landlordCards = [
+     makeCard(game, '3', '♠'),
+     makeCard(game, '4', '♠'),
+     makeCard(game, '5', '♠')
+   ];
+   game.players.forEach(p => { p.cards = []; });
+   game.assignLandlord();
+   assert.strictEqual(game.landlord, 0);
+   assert.strictEqual(game.players[0].role, 'landlord');
+   assert.strictEqual(game.players[1].role, 'peasant');
+   assert.strictEqual(game.players[0].cards.length, 3);
+   assert.strictEqual(game.landlordCards.length, 0);
+   assert.strictEqual(game.currentPlayer, 0);
+ });
+
+ // Test isComplexCombination always returns false
+ test('isComplexCombination currently returns false', async () => {
+   const game = await createGame();
+   const cards = [
+     makeCard(game, '3', '♠'), makeCard(game, '3', '♥'), makeCard(game, '3', '♦'),
+     makeCard(game, '4', '♠'), makeCard(game, '4', '♥'), makeCard(game, '4', '♦')
+   ];
+   assert.strictEqual(game.isComplexCombination(cards), false);
+ });
